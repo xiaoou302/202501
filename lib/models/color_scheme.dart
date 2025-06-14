@@ -12,7 +12,7 @@ class CustomColorScheme {
   final List<String>? tags; // Optional tags for categorization
 
   CustomColorScheme({
-    required this.hue,
+    required this.hue, //sdfdsfsdfsdfefs
     required this.saturation,
     required this.lightness,
     this.name = '',
