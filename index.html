@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxanvoryx - 高端实用应用</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cosmic-black': '#000000',
+                        'deep-space': '#0a0a1f',
+                        'nebula-purple': '#2a0a3a',
+                        'electric-blue': '#00e5ff',
+                        'hologram-purple': '#b967ff',
+                    },
+                    fontFamily: {
+                        'geist': ['Geist Mono', 'monospace'],
+                        'harmony': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --iphone-width: 390px;
+            --iphone-height: 844px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a0630 0%, #0a0a1f 100%);
+            font-family: 'harmony', sans-serif;
+            color: #e0e0ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        
+        .iphone-frame {
+            width: var(--iphone-width);
+            height: var(--iphone-height);
+            border-radius: 40px;
+            background: linear-gradient(145deg, #0d0d1d, #0b0b16);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+                        0 0 0 12px #1a1a2e,
+                        0 0 0 14px #2a0a3a;
+            overflow: hidden;
+            position: relative;
+            margin: 1.5rem 0;
+        }
+        
+        .status-bar {
+            background: rgba(10, 10, 31, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(224, 224, 255, 0.8);
+            position: relative;
+            z-index: 20;
+        }
+        
+        .app-content {
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            position: relative;
+            background: linear-gradient(160deg, rgba(10, 10, 31, 0.9) 0%, rgba(42, 10, 58, 0.85) 100%);
+        }
+        
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            height: 80px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(96, 67, 255, 0.15);
+            z-index: 30;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .nav-item.active {
+            opacity: 1;
+            background: rgba(96, 67, 255, 0.15);
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            color: #b967ff;
+        }
+        
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .card {
+            background: rgba(20, 15, 45, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(96, 67, 255, 0.15);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(185, 103, 255, 0.2);
+        }
+        
+        .glow-effect {
+            position: relative;
+        }
+        
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.3), 
+                        inset 0 0 30px rgba(185, 103, 255, 0.2);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b967ff 0%, #00e5ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: 25px;
+            bottom: 100px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
+                        0 0 15px rgba(185, 103, 255, 0.5),
+                        0 0 25px rgba(0, 229, 255, 0.4);
+            z-index: 25;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 15px rgba(185, 103, 255, 0.5), 0 0 25px rgba(0, 229, 255, 0.4); }
+            50% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 25px rgba(185, 103, 255, 0.7), 0 0 35px rgba(0, 229, 255, 0.6); }
+            100% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 15px rgba(185, 103, 255, 0.5), 0 0 25px rgba(0, 229, 255, 0.4); }
+        }
+        
+        .radial-progress {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: conic-gradient(#00e5ff 0% 35%, #b967ff 35% 75%, #ff4d94 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+        }
+        
+        .radial-inner {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0d0d1d, #0b0b16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'geist', monospace;
+        }
+        
+        .orbital-circle {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 1px dashed rgba(96, 67, 255, 0.4);
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .coupon-satellite {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1f1f4b, #3a1a5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform-origin: center;
+            border: 1px solid rgba(96, 67, 255, 0.3);
+        }
+        
+        .hsl-control {
+            background: linear-gradient(135deg, #1f1f4b, #3a1a5e);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid rgba(96, 67, 255, 0.3);
+        }
+        
+        .color-sphere {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff4d94, #b967ff, #00e5ff);
+            box-shadow: 0 0 30px rgba(185, 103, 255, 0.4),
+                        inset 0 0 20px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: rgba(224, 224, 255, 0.7);
+            box-shadow: 0 0 5px rgba(224, 224, 255, 0.8);
+        }
+        
+        .hologram-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background: rgba(20, 15, 45, 0.6);
+            border: 1px solid rgba(96, 67, 255, 0.3);
+            cursor: pointer;
+        }
+        
+        .hologram-toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b967ff, #00e5ff);
+            transition: all 0.3s ease;
+        }
+        
+        .hologram-toggle.active::before {
+            left: 33px;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #00e5ff, #b967ff);
+            border-radius: 2px;
+        }
+        
+        .drink-item {
+            background: rgba(30, 25, 55, 0.5);
+            border-radius: 18px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            border: 1px solid rgba(96, 67, 255, 0.15);
+        }
+        
+        .caffeine-level {
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #00e5ff, #b967ff, #ff4d94);
+            margin-top: 8px;
+        }
+        
+        .expiry-badge {
+            background: rgba(255, 77, 148, 0.15);
+            color: #ff7eb3;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-3xl font-bold mb-2 text-center text-electric-blue">Luxanvoryx</h1>
+    <p class="text-hologram-purple text-center mb-8">咖啡因追踪 · 优惠券管理 · 配色生成</p>
+
+    <!-- 咖啡因追踪界面 -->
+    <div class="iphone-frame">
+        <div class="status-bar">
+            <div>9:41</div>
+            <div class="flex space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+        
+        <!-- 粒子背景 -->
+        <div id="particles-1"></div>
+        
+        <div class="app-content px-5 py-6 overflow-hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="section-title">咖啡因代谢</h2>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-chart-line text-electric-blue"></i>
+                    <i class="fas fa-cog text-hologram-purple"></i>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mb-8">
+                <div class="radial-progress">
+                    <div class="radial-inner">
+                        <div class="text-xl font-bold">代谢中</div>
+                        <div class="text-4xl font-bold mt-2">63%</div>
+                        <div class="text-sm mt-3 text-center px-4">预计完全代谢时间<br><span class="font-bold">02:45 AM</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card glow-effect p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">今日摄入</h3>
+                    <div class="text-electric-blue font-bold">342mg</div>
+                </div>
+                <div class="caffeine-level" style="width: 70%"></div>
+                <div class="flex justify-between text-xs mt-2">
+                    <div>安全范围</div>
+                    <div>400mg</div>
+                </div>
+            </div>
+            
+            <h3 class="font-bold text-lg mb-4">饮品记录</h3>
+            <div class="space-y-3 max-h-40 overflow-y-auto pr-2">
+                <div class="drink-item">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-electric-blue to-hologram-purple flex items-center justify-center mr-3">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-medium">美式咖啡</div>
+                        <div class="text-xs opacity-80">10:30 AM · 240ml</div>
+                    </div>
+                    <div class="font-bold text-electric-blue">95mg</div>
+                </div>
+                <div class="drink-item">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-hologram-purple to-amber-400 flex items-center justify-center mr-3">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-medium">红茶</div>
+                        <div class="text-xs opacity-80">02:15 PM · 300ml</div>
+                    </div>
+                    <div class="font-bold text-hologram-purple">50mg</div>
+                </div>
+                <div class="drink-item">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center mr-3">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-medium">能量饮料</div>
+                        <div class="text-xs opacity-80">04:45 PM · 250ml</div>
+                    </div>
+                    <div class="font-bold text-amber-400">80mg</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-item active">
+                <div class="nav-icon"><i class="fas fa-mug-hot"></i></div>
+                <div class="nav-label">咖啡因</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-ticket"></i></div>
+                <div class="nav-label">优惠券</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-palette"></i></div>
+                <div class="nav-label">颜色</div>
+            </div>
+        </div>
+        
+        <div class="fab">
+            <i class="fas fa-plus text-white text-xl"></i>
+        </div>
+    </div>
+
+    <!-- 优惠券管理界面 -->
+    <div class="iphone-frame">
+        <div class="status-bar">
+            <div>9:41</div>
+            <div class="flex space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+        
+        <!-- 粒子背景 -->
+        <div id="particles-2"></div>
+        
+        <div class="app-content px-5 py-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="section-title">优惠券银河</h2>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-electric-blue to-hologram-purple flex items-center justify-center">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            
+            <div class="orbital-circle mb-8">
+                <div class="coupon-satellite" style="top: 30px; left: 30px;">
+                    <i class="fas fa-utensils text-amber-300"></i>
+                </div>
+                <div class="coupon-satellite" style="top: 120px; left: 190px;">
+                    <i class="fas fa-bag-shopping text-purple-300"></i>
+                </div>
+                <div class="coupon-satellite" style="top: 190px; left: 60px;">
+                    <i class="fas fa-plane text-blue-300"></i>
+                </div>
+                <div class="coupon-satellite" style="top: 70px; left: 120px;">
+                    <i class="fas fa-coffee text-amber-500"></i>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-4 mb-6">
+                <div class="px-4 py-2 rounded-full bg-gradient-to-r from-electric-blue/20 to-hologram-purple/20 border border-electric-blue/30 text-center">
+                    <div class="font-bold">餐饮</div>
+                    <div class="text-xs">12张优惠券</div>
+                </div>
+                <div class="px-4 py-2 rounded-full bg-gradient-to-r from-hologram-purple/20 to-amber-400/20 border border-hologram-purple/30 text-center">
+                    <div class="font-bold">购物</div>
+                    <div class="text-xs">8张优惠券</div>
+                </div>
+                <div class="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400/20 to-electric-blue/20 border border-amber-400/30 text-center">
+                    <div class="font-bold">旅行</div>
+                    <div class="text-xs">5张优惠券</div>
+                </div>
+            </div>
+            
+            <h3 class="font-bold text-lg mb-4">即将到期</h3>
+            <div class="space-y-3">
+                <div class="card p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold">星巴克咖啡</div>
+                            <div class="text-sm opacity-80 mt-1">买一送一 · 任意饮品</div>
+                        </div>
+                        <div class="expiry-badge">2天后到期</div>
+                    </div>
+                </div>
+                <div class="card p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold">耐克旗舰店</div>
+                            <div class="text-sm opacity-80 mt-1">运动鞋类85折优惠</div>
+                        </div>
+                        <div class="expiry-badge">1天后到期</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-mug-hot"></i></div>
+                <div class="nav-label">咖啡因</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-icon"><i class="fas fa-ticket"></i></div>
+                <div class="nav-label">优惠券</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-palette"></i></div>
+                <div class="nav-label">颜色</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 配色生成器界面 -->
+    <div class="iphone-frame">
+        <div class="status-bar">
+            <div>9:41</div>
+            <div class="flex space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+        
+        <!-- 粒子背景 -->
+        <div id="particles-3"></div>
+        
+        <div class="app-content px-5 py-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="section-title">星云配色</h2>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-history text-electric-blue"></i>
+                    <i class="fas fa-download text-hologram-purple"></i>
+                </div>
+            </div>
+            
+            <div class="color-sphere mb-8"></div>
+            
+            <div class="card glow-effect p-5 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="font-bold">HSL 值</div>
+                    <div class="flex items-center space-x-2">
+                        <div class="text-xs bg-electric-blue/10 text-electric-blue px-2 py-1 rounded">H: 285°</div>
+                        <div class="text-xs bg-hologram-purple/10 text-hologram-purple px-2 py-1 rounded">S: 80%</div>
+                        <div class="text-xs bg-amber-400/10 text-amber-400 px-2 py-1 rounded">L: 50%</div>
+                    </div>
+                </div>
+                
+                <div class="hsl-control mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <i class="fas fa-circle text-electric-blue mr-2"></i>
+                            <span>色相</span>
+                        </div>
+                        <span class="font-geist">285°</span>
+                    </div>
+                    <input type="range" min="0" max="360" value="285" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-electric-blue">
+                </div>
+                
+                <div class="hsl-control mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <i class="fas fa-circle text-hologram-purple mr-2"></i>
+                            <span>饱和度</span>
+                        </div>
+                        <span class="font-geist">80%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="80" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-hologram-purple">
+                </div>
+                
+                <div class="hsl-control">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <i class="fas fa-circle text-amber-400 mr-2"></i>
+                            <span>亮度</span>
+                        </div>
+                        <span class="font-geist">50%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-amber-400">
+                </div>
+            </div>
+            
+            <div class="flex justify-between mb-4">
+                <h3 class="font-bold text-lg">配色方案</h3>
+                <div class="flex items-center space-x-2">
+                    <div class="text-xs bg-gradient-to-r from-electric-blue to-hologram-purple px-3 py-1 rounded-full">随机生成</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-5 gap-2">
+                <div class="h-16 rounded-xl bg-gradient-to-br from-deep-space to-electric-blue"></div>
+                <div class="h-16 rounded-xl bg-gradient-to-br from-electric-blue to-hologram-purple"></div>
+                <div class="h-16 rounded-xl bg-hologram-purple"></div>
+                <div class="h-16 rounded-xl bg-gradient-to-br from-hologram-purple to-amber-400"></div>
+                <div class="h-16 rounded-xl bg-gradient-to-br from-amber-400 to-rose-500"></div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-mug-hot"></i></div>
+                <div class="nav-label">咖啡因</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fas fa-ticket"></i></div>
+                <div class="nav-label">优惠券</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-icon"><i class="fas fa-palette"></i></div>
+                <div class="nav-label">颜色</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建粒子背景
+        function createParticles(containerId, count = 50) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机动画
+                const duration = Math.random() * 10 + 5;
+                particle.style.animation = `pulse ${duration}s infinite`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 为每个手机界面创建粒子背景
+        createParticles('particles-1');
+        createParticles('particles-2');
+        createParticles('particles-3');
+        
+        // 添加交互效果
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.closest('.iphone-frame').querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // 切换开关效果
+        document.querySelectorAll('.hologram-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
