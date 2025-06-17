@@ -1,0 +1,84 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Halyvernoxian App UI Design Guidelines
+
+## Color Scheme
+```dart
+// App theme colors
+final darkBlue = Color(0xFF0A1931);
+final deepPurple = Color(0xFF4A235A);
+final accentPurple = Color(0xFF6C3483);
+final lightPurple = Color(0xFF9B59B6);
+final darkBg = Color(0xFF050A14);
+```
+
+## UI Components
+
+### Cards
+Cards should have:
+- Rounded corners (20px radius)
+- Semi-transparent background (dark blue with opacity)
+- Subtle border with purple tint
+- Soft shadow effect
+- Backdrop filter blur for glass effect
+
+### Buttons
+Primary buttons should have:
+- Linear gradient background (deepPurple to accentPurple)
+- 16px border radius
+- Icon + text layout
+- Hover effect with slight elevation
+- Padding: 14px 24px
+
+### Navigation
+Bottom navigation bar should have:
+- 4 items: Love Diary, Luggage, Generator, Profile
+- Icon + text for each item
+- Active state with purple highlight
+- Semi-transparent background with blur effect
+
+### Status Bar
+Status bar should have:
+- Semi-transparent dark background
+- App name in center
+- Time on left
+- Status icons on right
+
+### Progress Indicators
+- Linear progress bars with gradient fill
+- 4px height, rounded corners
+
+### Text Styling
+- Font: System font (no custom fonts)
+- Headings: Bold weight, 24px for section titles
+- Gradient text effect for important numbers/statistics
+
+### Special Effects
+- Pulse animation for important elements
+- Subtle transitions between screens
+- Micro-interactions for buttons and toggles
+
+## Screen-Specific Guidelines
+
+### Love Diary Screen
+- Prominent day counter with gradient text
+- Timeline with vertical line and dot indicators
+- Memory cards with image previews
+
+### Luggage Screen
+- Trip cards with countdown badges
+- Checklist with clear checked/unchecked states
+- Progress bar for packing completion
+
+### Cartoon Generator Screen
+- Large preview area for generated images
+- Text input with suggestion chips
+- Grid layout for history items
+
+### Profile Screen
+- Circular profile area at top
+- Settings toggles with custom switch design
+- Statistics in card layout

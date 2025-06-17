@@ -1,0 +1,85 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Halyvernoxian App File Structure
+
+## Core Files
+```
+lib/
+├── main.dart              # App entry point
+├── app.dart               # Root widget and navigation
+├── theme.dart             # App theme definition
+└── routes.dart            # Route definitions
+```
+
+## Feature: Love Diary
+```
+lib/features/love_diary/
+├── screens/
+│   ├── love_diary_screen.dart     # Main love diary screen
+│   └── add_memory_screen.dart     # Add new memory form
+├── widgets/
+│   ├── love_counter.dart          # Days counter widget
+│   ├── milestone_card.dart        # Milestone card widget
+│   └── timeline_item.dart         # Timeline entry widget
+└── models/
+    ├── memory.dart                # Memory data model
+    └── milestone.dart             # Milestone data model
+```
+
+## Feature: Perfect Luggage
+```
+lib/features/luggage/
+├── screens/
+│   ├── luggage_screen.dart        # Main luggage screen
+│   └── add_trip_screen.dart       # Add new trip form
+├── widgets/
+│   ├── trip_card.dart             # Trip details card
+│   ├── packing_item.dart          # Packing list item
+│   └── progress_indicator.dart    # Packing progress bar
+└── models/
+    ├── trip.dart                  # Trip data model
+    └── packing_item.dart          # Packing item model
+```
+
+## Feature: Cartoon Generator
+```
+lib/features/generator/
+├── screens/
+│   └── generator_screen.dart      # Main generator screen
+├── widgets/
+│   ├── cartoon_preview.dart       # Generated image preview
+│   └── history_grid.dart          # History grid view
+├── models/
+│   └── cartoon.dart               # Cartoon data model
+└── services/
+    └── generator_service.dart     # Image generation service
+```
+
+## Feature: Profile
+```
+lib/features/profile/
+├── screens/
+│   └── profile_screen.dart        # Main profile screen
+├── widgets/
+│   ├── account_info.dart          # Account info widget
+│   └── settings_item.dart         # Settings toggle item
+└── models/
+    └── user_profile.dart          # User profile model
+```
+
+## Shared Components
+```
+lib/shared/
+├── widgets/                       # Shared widgets
+│   ├── app_card.dart              # Standard card widget
+│   ├── gradient_button.dart       # Gradient button widget
+│   └── nav_bar.dart               # Bottom navigation bar
+├── utils/                         # Utility functions
+│   ├── date_utils.dart            # Date formatting helpers
+│   └── constants.dart             # App constants
+└── services/
+    └── storage_service.dart       # SharedPreferences wrapper
+```
