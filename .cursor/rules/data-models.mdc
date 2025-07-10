@@ -1,0 +1,64 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Data Models
+
+## TaskModel
+```dart
+class TaskModel {
+  String id;
+  String title;
+  String? description;
+  DateTime dueDate;
+  TaskPriority priority; // Enum for quadrant classification
+  bool isCompleted;
+  
+  // Constructor and methods should be simple (no freezed)
+}
+
+enum TaskPriority {
+  urgentImportant,     // 紧急重要
+  importantNotUrgent,  // 重要不紧急
+  urgentNotImportant,  // 紧急不重要
+  notUrgentNotImportant // 不紧急不重要
+}
+```
+
+## IdeaModel
+```dart
+class IdeaModel {
+  String id;
+  String title;
+  String content;
+  List<String> tags; // e.g. ["科幻", "冒险"]
+  DateTime createdAt;
+  
+  // Constructor and methods should be simple (no freezed)
+}
+```
+
+## ComicModel
+```dart
+class ComicModel {
+  String id;
+  String title;
+  String plot;
+  ComicStyle style; // Enum: cyberpunk, fantasy, etc.
+  int panelCount; // 2-4 panels
+  List<String> imageUrls; // Generated comic images
+  
+  // Constructor and methods should be simple (no freezed)
+}
+
+enum ComicStyle {
+  cyberpunk,    // 赛博朋克
+  fantasy,      // 奇幻
+  sciFi,        // 科幻
+  modern,       // 现代
+  other         // 其他
+}
+```
+
+Remember to keep models simple and avoid complex patterns like freezed or part syntax.
