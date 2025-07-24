@@ -1,0 +1,30 @@
+# Azenquoria Design Guidelines
+
+## App Theme
+- Dark theme with primary colors: black, deep blue, and cognac orange
+- Use the following color palette:
+  - `azenq-dark`: '#0A0F1F' - Primary background
+  - `azenq-blue`: '#152642' - Secondary background
+  - `azenq-orange`: '#D97C29' - Primary accent
+  - `azenq-teal`: '#4FC1B9' - Secondary accent
+  - `azenq-text`: '#E0E0E0' - Text color
+  - `azenq-card`: '#1A2238' - Card background
+  - `azenq-purple`: '#9B5DE5' - Tertiary accent
+  - `azenq-pink`: '#F15BB5' - Accent color
+  - `azenq-yellow`: '#FEE440' - Accent color
+
+## UI Components
+- Cards should have rounded corners (20px radius)
+- Use gradient backgrounds for accent elements
+- Implement subtle animations for interactive elements
+- Ensure high contrast between text and backgrounds
+
+## Typography
+- Use system fonts (no external fonts)
+- Clear text hierarchy with appropriate font weights
+- Ensure readability on dark backgrounds
+
+## Icons
+- Use colorful icons in settings and feature screens
+- Icons should be simple and recognizable
+ 

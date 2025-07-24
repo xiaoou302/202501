@@ -1,0 +1,28 @@
+# Azenquoria Development Guidelines
+
+## State Management
+- Use `setState` for state management (no Provider/Riverpod initially)
+- Keep state management simple and localized to widgets when possible
+
+## Data Storage
+- Use `shared_preferences` for local data storage
+- No external databases or cloud storage required
+
+## Code Organization
+- Follow the folder structure defined in project-structure.mdc
+- Keep widget files focused on a single responsibility
+- Extract reusable widgets to the widgets directory
+
+## Package Restrictions
+- Do NOT use:
+  - `freezed` package or part syntax
+  - External fonts
+  - `cached_network_image`
+  - Asset images (no assets/images/ folder)
+
+## Feature Implementation Notes
+- No user account functionality required
+- All text should be in Chinese
+- QR code generation should work offline
+- Breathing exercises should have smooth animations
+ 
