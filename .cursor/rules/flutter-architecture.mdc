@@ -1,0 +1,37 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Flutter Architecture Guide
+
+## Project Structure
+This Flutter app follows a modular architecture with clear separation of concerns:
+
+- `lib/main.dart` is the entry point
+- `lib/core/` contains app-wide utilities and constants
+- `lib/features/` contains feature-specific modules
+- `lib/data/` contains models and data handling logic
+- `lib/presentation/` contains UI components and state management
+
+## Design Guidelines
+- Use the defined color palette in `core/constants/app_colors.dart`:
+  - Background: #0A0E1A (午夜蓝)
+  - Text/UI elements: #F0F0F0 (星尘白)
+  - Accent colors: #FF3B30 (炽热红), #00A9E0 (冷静蓝), #FFD60A (黄金光)
+- Follow the immersive, space-themed UI with glow effects and smooth animations
+- Implement responsive layouts for all screens
+
+## Development Rules
+- Use setState for state management (not Provider/Bloc)
+- Use shared_preferences for data persistence
+- No external fonts or local image assets
+- No cached_network_image
+- No account functionality
+- No freezed package or part syntax
+
+## Feature Modules
+- Market: Trading pairs with interactive charts
+- Signals: Sentiment analysis visualization
+- Insights: News timeline with event tracking
+- Settings: App configuration and information

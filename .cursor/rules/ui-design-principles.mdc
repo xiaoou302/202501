@@ -1,0 +1,36 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# UI Design Principles for Aura
+
+## Unique Visual Identity
+- Establish a cosmic, immersive design language with a space-themed interface
+- Use glow effects and subtle animations to create a premium, futuristic feel
+- Implement custom UI components rather than standard ones
+
+## Color Usage
+- Primary background: Deep midnight blue (#0A0E1A) for an immersive experience
+- Text and UI elements: Stardust white (#F0F0F0) for maximum readability
+- Accent colors with meaning:
+  - Fiery red (#FF3B30): Represents bullish trends, hawkish sentiment
+  - Cool blue (#00A9E0): Represents bearish trends, dovish sentiment
+  - Golden highlight (#FFD60A): Used for key elements and wealth indicators
+
+## Typography & Layout
+- Clean, readable typography with clear information hierarchy
+- Spacious layouts with proper alignment and consistent spacing
+- Card-based UI with subtle borders and backdrop blur effects
+
+## Animation & Interaction
+- Smooth transitions between screens and states
+- Micro-interactions for better feedback (button presses, loading states)
+- Custom scrolling effects and timeline animations
+- Interactive charts with hover/touch effects
+
+## Screen-Specific Design
+- Market: Card-based layout with prominent charts
+- Signals: Immersive visualization with particle effects
+- Insights: Timeline-based news feed with clear chronology
+- Settings: Organized list with colorful icons and clear categories

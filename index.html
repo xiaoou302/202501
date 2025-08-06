@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinAtlasApp Prototype (V3)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Styles for CoinAtlasApp */
+        body {
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            background-color: #1a1a1a; /* A slightly lighter black for contrast */
+        }
+
+        /* Define the color palette as CSS variables for easy use */
+        :root {
+            --bg-midnight-blue: #0A0E1A;
+            --text-stardust-white: #F0F0F0;
+            --accent-fiery-red: #FF3B30;
+            --accent-cool-blue: #00A9E0;
+            --accent-golden-highlight: #FFD60A;
+        }
+
+        /* Main app container simulating iPhone 15 Pro */
+        .mobile-shell {
+            width: 393px; /* iPhone 15 Pro width */
+            height: 852px; /* iPhone 15 Pro height */
+            background-color: var(--bg-midnight-blue);
+            border-radius: 50px; /* Rounded corners for the shell */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 10px #000;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-stardust-white);
+        }
+
+        /* iOS Status Bar */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* Bottom Navigation Bar (Tab Bar) */
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 84px;
+            background-color: rgba(10, 14, 26, 0.8); /* Semi-transparent background */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(240, 240, 240, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding-top: 10px;
+            z-index: 100;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #8A8A8E; /* Inactive color */
+            transition: color 0.3s ease;
+        }
+        
+        .tab-item.active {
+            color: var(--accent-golden-highlight);
+        }
+
+        .tab-item i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* Custom glow effect for charts and highlights */
+        .glow-effect-gold {
+            filter: drop-shadow(0 0 8px var(--accent-golden-highlight));
+        }
+        .glow-effect-red {
+            filter: drop-shadow(0 0 6px var(--accent-fiery-red));
+        }
+        .glow-effect-blue {
+            filter: drop-shadow(0 0 6px var(--accent-cool-blue));
+        }
+        
+        /* For the Nebula screen particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(15px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        
+        /* Custom scrollbar for better aesthetics */
+        .main-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        /* Timeline styles for Insights screen */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid rgba(240, 240, 240, 0.1);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--accent-cool-blue);
+            border: 2px solid var(--bg-midnight-blue);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <!-- Mobile Shell Container -->
+    <div class="mobile-shell">
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="flex items-center space-x-1">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- Main Content Area (Scrollable) -->
+        <div class="main-content h-full overflow-y-auto pt-14 pb-24">
+            
+            <!-- Screen 1: 市场 (Market) -->
+            <div id="market-screen" class="p-4 space-y-6">
+                <h1 class="text-3xl font-bold px-2">市场</h1>
+
+                <!-- Trading Rankings -->
+                <div>
+                    <h2 class="text-lg font-semibold px-2 mb-3">热门交易对</h2>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between bg-gray-900/40 p-3 rounded-xl">
+                            <div class="font-bold text-gray-400">1</div>
+                            <div class="font-semibold ml-3 flex-1">EUR / USD</div>
+                            <div class="text-green-400 flex items-center"><i class="fa-solid fa-arrow-trend-up mr-2"></i> +1.24%</div>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-900/40 p-3 rounded-xl">
+                            <div class="font-bold text-gray-400">2</div>
+                            <div class="font-semibold ml-3 flex-1">USD / JPY</div>
+                            <div class="text-red-400 flex items-center"><i class="fa-solid fa-arrow-trend-down mr-2"></i> -0.88%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Card 1: EUR/CNY -->
+                <div class="bg-gray-900/50 rounded-2xl p-4 backdrop-blur-sm border border-white/10 transition-transform duration-300 hover:scale-105 hover:border-golden-highlight/50 cursor-pointer">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-xl font-semibold">EUR / CNY</h2>
+                        <span class="text-lg font-medium text-red-400">-0.25%</span>
+                    </div>
+                    <div class="w-full h-20">
+                        <svg width="100%" height="100%" viewBox="0 0 300 80" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="red-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--accent-fiery-red); stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:var(--accent-fiery-red); stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0 45 Q 30 60, 60 40 T 120 50 T 180 30 T 240 55 T 300 45" stroke="var(--accent-fiery-red)" stroke-width="2.5" fill="url(#red-gradient)" class="glow-effect-red"/>
+                        </svg>
+                    </div>
+                    <div class="flex justify-between items-center text-sm mt-3">
+                        <div class="text-gray-400">买入: <span class="text-white font-medium">7.8812</span></div>
+                        <div class="text-gray-400">卖出: <span class="text-white font-medium">7.8805</span></div>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2 pt-2 border-t border-white/10">欧洲央行行长发表鸽派言论</p>
+                </div>
+                <!-- Market Card 2: USD/JPY -->
+                <div class="bg-gray-900/50 rounded-2xl p-4 backdrop-blur-sm border border-white/10 transition-transform duration-300 hover:scale-105 hover:border-golden-highlight/50 cursor-pointer">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-xl font-semibold">USD / JPY</h2>
+                        <span class="text-lg font-medium text-blue-400">+0.15%</span>
+                    </div>
+                    <div class="w-full h-20">
+                        <svg width="100%" height="100%" viewBox="0 0 300 80" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="blue-gradient-market" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--accent-cool-blue); stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:var(--accent-cool-blue); stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0 50 Q 30 30, 60 45 T 120 35 T 180 60 T 240 40 T 300 50" stroke="var(--accent-cool-blue)" stroke-width="2.5" fill="url(#blue-gradient-market)" class="glow-effect-blue"/>
+                        </svg>
+                    </div>
+                     <div class="flex justify-between items-center text-sm mt-3">
+                        <div class="text-gray-400">买入: <span class="text-white font-medium">148.55</span></div>
+                        <div class="text-gray-400">卖出: <span class="text-white font-medium">148.53</span></div>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2 pt-2 border-t border-white/10">关键就业数据发布，市场信号强劲</p>
+                </div>
+            </div>
+
+            <!-- Screen 2: 信号 (Sentiment Nebula) - UPDATED -->
+            <div id="signals-screen" class="p-4 space-y-6 mt-8">
+                 <h1 class="text-3xl font-bold px-2 mb-4">信号</h1>
+                 <!-- Bitcoin Card with Chart -->
+                 <div class="h-56 relative overflow-hidden bg-black/20 rounded-2xl border border-white/10 p-4 flex flex-col justify-between">
+                    <div class="absolute -right-8 -bottom-8 text-yellow-500/10">
+                         <i class="fa-brands fa-bitcoin text-[160px]"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold">比特币趋势</h2>
+                        <p class="text-sm text-yellow-400">情绪偏向乐观</p>
+                    </div>
+                    <div class="w-full h-24 z-10">
+                         <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+                           <defs>
+                                <linearGradient id="gold-gradient-signal" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--accent-golden-highlight); stop-opacity:0.4"/>
+                                    <stop offset="100%" style="stop-color:var(--accent-golden-highlight); stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0 80 Q 40 60, 80 70 T 160 50 T 240 30 T 300 20" stroke="var(--accent-golden-highlight)" stroke-width="3" fill="url(#gold-gradient-signal)" class="glow-effect-gold"/>
+                        </svg>
+                    </div>
+                 </div>
+                 <!-- Gold Card with Chart -->
+                 <div class="h-56 relative overflow-hidden bg-black/20 rounded-2xl border border-white/10 p-4 flex flex-col justify-between">
+                     <div class="absolute -right-8 -bottom-8 text-gray-500/10">
+                         <i class="fa-solid fa-cube text-[160px]"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold">黄金情绪</h2>
+                        <p class="text-sm text-blue-400">避险需求增加</p>
+                    </div>
+                    <div class="w-full h-24 z-10">
+                        <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="blue-gradient-signal" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--accent-cool-blue); stop-opacity:0.4"/>
+                                    <stop offset="100%" style="stop-color:var(--accent-cool-blue); stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0 70 Q 50 80, 100 60 T 200 65 T 300 40" stroke="var(--accent-cool-blue)" stroke-width="3" fill="url(#blue-gradient-signal)" class="glow-effect-blue"/>
+                        </svg>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Screen 3: 讯息 (Insights) -->
+            <div id="insights-screen" class="p-4 mt-8">
+                <h1 class="text-3xl font-bold px-2 mb-6">讯息</h1>
+                <div class="timeline ml-2">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item">
+                        <p class="text-sm text-gray-400 mb-1">2小时前</p>
+                        <h3 class="font-semibold text-lg">美联储暗示将维持当前利率</h3>
+                        <p class="text-gray-300 text-sm">会议纪要显示，多数官员认为通胀压力依然存在，短期内降息可能性不大。</p>
+                    </div>
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item">
+                         <p class="text-sm text-gray-400 mb-1">8小时前</p>
+                        <h3 class="font-semibold text-lg">日本央行干预汇市传闻再起</h3>
+                        <p class="text-gray-300 text-sm">日元兑美元汇率触及关键心理价位后，市场对官方干预的猜测升温。</p>
+                    </div>
+                     <!-- Timeline Item 3 -->
+                    <div class="timeline-item">
+                         <p class="text-sm text-gray-400 mb-1">昨天</p>
+                        <h3 class="font-semibold text-lg">OPEC+意外宣布维持减产计划</h3>
+                        <p class="text-gray-300 text-sm">此举可能在未来几个月内对全球能源价格和通胀预期产生影响。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 4: 设置 (Settings) -->
+            <div id="settings-screen" class="p-4 mt-8">
+                <h1 class="text-3xl font-bold px-2 mb-6">设置</h1>
+                
+                <!-- Support Card -->
+                <div class="bg-gray-900/50 rounded-2xl p-1 backdrop-blur-sm border border-white/10 mb-4">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded-t-2xl">
+                        <div class="w-8 h-8 rounded-lg bg-red-500/80 flex items-center justify-center mr-4"><i class="fa-solid fa-question text-white"></i></div>
+                        <span>常见问题与解答</span>
+                        <i class="fa-solid fa-chevron-right ml-auto text-gray-500"></i>
+                    </a>
+                    <div class="h-px bg-white/10 mx-4"></div>
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded-b-2xl">
+                        <div class="w-8 h-8 rounded-lg bg-yellow-500/80 flex items-center justify-center mr-4"><i class="fa-solid fa-book-open text-white"></i></div>
+                        <span>新手引导</span>
+                        <i class="fa-solid fa-chevron-right ml-auto text-gray-500"></i>
+                    </a>
+                </div>
+
+                <!-- Legal Card -->
+                <div class="bg-gray-900/50 rounded-2xl p-1 backdrop-blur-sm border border-white/10 mb-4">
+                     <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded-t-2xl">
+                        <div class="w-8 h-8 rounded-lg bg-gray-400/80 flex items-center justify-center mr-4"><i class="fa-solid fa-file-contract text-white"></i></div>
+                        <span>用户协议</span>
+                         <i class="fa-solid fa-chevron-right ml-auto text-gray-500"></i>
+                    </a>
+                    <div class="h-px bg-white/10 mx-4"></div>
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded-b-2xl">
+                        <div class="w-8 h-8 rounded-lg bg-blue-500/80 flex items-center justify-center mr-4"><i class="fa-solid fa-shield-halved text-white"></i></div>
+                        <span>隐私说明</span>
+                         <i class="fa-solid fa-chevron-right ml-auto text-gray-500"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Tab Bar -->
+        <div class="tab-bar">
+            <a href="#market-screen" class="tab-item active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>市场</span>
+            </a>
+            <a href="#signals-screen" class="tab-item">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span>信号</span>
+            </a>
+            <a href="#insights-screen" class="tab-item">
+                <i class="fa-solid fa-bolt"></i>
+                <span>讯息</span>
+            </a>
+            <a href="#settings-screen" class="tab-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>设置</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Simple script to handle active tab state and smooth scrolling
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabItems = document.querySelectorAll('.tab-item');
+            const mainContent = document.querySelector('.main-content');
+
+            tabItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    tabItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    const targetId = item.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        mainContent.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for header height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Update active tab on scroll
+            mainContent.addEventListener('scroll', () => {
+                let current = '';
+                const sections = document.querySelectorAll('[id$="-screen"]');
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100; 
+                    if (mainContent.scrollTop >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                tabItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
