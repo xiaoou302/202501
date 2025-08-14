@@ -1,0 +1,69 @@
+---
+globs: lib/screens/*.dart
+---
+# Screens Guide
+
+Screen files should follow these guidelines:
+
+1. Use `StatefulWidget` for screens that manage state
+2. Keep build methods clean by extracting sections into private methods
+3. Implement proper scrolling for content that may overflow
+4. Use consistent padding and layout across screens
+5. Implement proper state management with `setState`
+6. Follow a consistent navigation pattern
+7. Handle loading and error states appropriately
+8. Use the bottom navigation bar for main app sections
+
+Example screen structure:
+```dart
+class MissionHubScreen extends StatefulWidget {
+  const MissionHubScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MissionHubScreen> createState() => _MissionHubScreenState();
+}
+
+class _MissionHubScreenState extends State<MissionHubScreen> {
+  // State variables
+  
+  @override
+  void initState() {
+    super.initState();
+    // Initialize state
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF121212), // Primary background
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                _buildMissionInput(),
+                _buildDashboard(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildHeader() {
+    // Header implementation
+  }
+  
+  Widget _buildMissionInput() {
+    // Mission input implementation
+  }
+  
+  Widget _buildDashboard() {
+    // Dashboard implementation
+  }
+}
+```

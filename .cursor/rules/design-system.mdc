@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+# Design System
+
+Virelia uses a custom dark mode color palette:
+
+- Primary Background: #121212 (Deep Space Black)
+- Surface Background: #1E1E1E (Subtle Glow Gray)
+- Primary Text: #EAEAEA (Stardust White)
+- Secondary Text: #8A8A8E (Neutral Gray)
+- Brand Color: #007AFF (Serenity Blue)
+- Accent Color: #FF9500 (Vitality Orange)
+- Success Color: #34C759 (Evergreen Green)
+- Error Color: #FF3B30 (Crimson Red)
+
+These colors should be defined as constants in a theme file and used consistently throughout the app.

@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+# Project Structure
+
+The Virelia app follows a clean architecture with clear separation of concerns:
+
+- Screens are in the `lib/screens/` directory
+- Reusable components are in the `lib/components/` directory
+- Data models are in the `lib/models/` directory
+- Services for business logic are in the `lib/services/` directory
+
+The main entry point is `lib/main.dart`, which initializes the app with the dark mode theme.
