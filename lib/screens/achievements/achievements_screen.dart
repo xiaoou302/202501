@@ -18,6 +18,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
 
   @override
   void initState() {
+    //sssss
     super.initState();
     _loadAchievements();
   }
@@ -30,8 +31,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
 
     try {
       // Load achievements from storage
-      List<Achievement> achievements = await StorageService.instance
-          .loadAchievements();
+      List<Achievement> achievements =
+          await StorageService.instance.loadAchievements();
 
       // If no achievements are stored yet, get the default list
       if (achievements.isEmpty) {
@@ -112,8 +113,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
 
       // Check for newly unlocked achievements
       List<Achievement> newlyUnlocked = [];
-      List<Achievement> previousAchievements = await StorageService.instance
-          .loadAchievements();
+      List<Achievement> previousAchievements =
+          await StorageService.instance.loadAchievements();
 
       for (var achievement in achievements) {
         // Find the previous state of this achievement
@@ -198,12 +199,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                     : GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio:
-                                  0.7, // Reduced to give more vertical space
-                            ),
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio:
+                              0.7, // Reduced to give more vertical space
+                        ),
                         itemCount: _achievements.length,
                         itemBuilder: (context, index) {
                           final achievement = _achievements[index];
@@ -237,8 +238,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
               shape: BoxShape.circle,
               color: isUnlocked
                   ? (achievement.id == 'transmuter'
-                        ? AppColors.secondaryAccent
-                        : AppColors.primaryAccent)
+                      ? AppColors.secondaryAccent
+                      : AppColors.primaryAccent)
                   : Colors.transparent,
               border: isUnlocked
                   ? null
@@ -250,11 +251,10 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
               boxShadow: isUnlocked
                   ? [
                       BoxShadow(
-                        color:
-                            (achievement.id == 'transmuter'
-                                    ? AppColors.secondaryAccent
-                                    : AppColors.primaryAccent)
-                                .withOpacity(0.4),
+                        color: (achievement.id == 'transmuter'
+                                ? AppColors.secondaryAccent
+                                : AppColors.primaryAccent)
+                            .withOpacity(0.4),
                         blurRadius: 15,
                         spreadRadius: 1,
                       ),
@@ -266,8 +266,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 _getIconData(achievement.icon),
                 color: isUnlocked
                     ? (achievement.id == 'transmuter'
-                          ? Colors.white
-                          : AppColors.primaryDark)
+                        ? Colors.white
+                        : AppColors.primaryDark)
                     : Colors.grey.withOpacity(0.5),
                 size: 35, // Slightly smaller icon
               ),
@@ -344,11 +344,10 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                     : AppColors.primaryAccent,
                 boxShadow: [
                   BoxShadow(
-                    color:
-                        (achievement.id == 'transmuter'
-                                ? AppColors.secondaryAccent
-                                : AppColors.primaryAccent)
-                            .withOpacity(0.4),
+                    color: (achievement.id == 'transmuter'
+                            ? AppColors.secondaryAccent
+                            : AppColors.primaryAccent)
+                        .withOpacity(0.4),
                     blurRadius: 10,
                     spreadRadius: 1,
                   ),
