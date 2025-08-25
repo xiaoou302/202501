@@ -1,0 +1,74 @@
+---
+description: Guidelines for implementing storage and persistence in the app
+---
+# Storage Implementation Guidelines
+
+## Shared Preferences Usage
+Use SharedPreferences for storing simple data:
+- User settings (audio settings, colorblind mode)
+- Level unlock status
+- Achievement progress
+- High scores and statistics
+
+Example implementation pattern:
+```dart
+// Save data
+Future<void> saveSettings(bool musicEnabled, bool sfxEnabled) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('music_enabled', musicEnabled);
+  await prefs.setBool('sfx_enabled', sfxEnabled);
+}
+
+// Load data
+Future<Map<String, bool>> loadSettings() async {
+  final prefs = await SharedPreferences.getInstance();
+  return {
+    'music_enabled': prefs.getBool('music_enabled') ?? true,
+    'sfx_enabled': prefs.getBool('sfx_enabled') ?? true,
+  };
+}
+```
+
+## Data Keys
+Use consistent key naming conventions:
+- Settings: `setting_[name]`
+- Levels: `level_[id]_[property]`
+- Achievements: `achievement_[id]_[property]`
+- Statistics: `stats_[name]`
+
+## Game Save/Load
+For saving game state:
+1. Convert game state to JSON
+2. Store JSON string in SharedPreferences
+3. Load and parse JSON when resuming
+
+## Data Migration
+Include version number with saved data to support future migrations:
+```dart
+Future<void> saveGameState(Map<String, dynamic> gameState) async {
+  final prefs = await SharedPreferences.getInstance();
+  final dataWithVersion = {
+    'version': 1,
+    'data': gameState,
+  };
+  await prefs.setString('current_game', jsonEncode(dataWithVersion));
+}
+```
+
+## Error Handling
+Always handle potential errors when loading data:
+```dart
+Future<Map<String, dynamic>?> loadGameState() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString('current_game');
+    if (jsonString == null) return null;
+    
+    final data = jsonDecode(jsonString);
+    return data['data'];
+  } catch (e) {
+    print('Error loading game state: $e');
+    return null;
+  }
+}
+```

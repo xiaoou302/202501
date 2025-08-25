@@ -1,0 +1,44 @@
+---
+globs: *.dart
+---
+# Dart File Guidelines for ChroPlexiGnosis
+
+## File Structure
+Each Dart file should follow this general structure:
+1. License/copyright header (if applicable)
+2. Import statements (organized by category)
+3. Part declarations (if needed)
+4. Class/function documentation
+5. Class/function implementation
+
+## Import Organization
+Organize imports in the following order:
+1. Dart SDK imports
+2. Flutter framework imports
+3. Third-party package imports
+4. Local imports (using relative paths)
+
+Add a blank line between each category.
+
+## Documentation
+- Add documentation comments (`///`) for public APIs
+- Include parameter descriptions for methods
+- Document non-obvious behavior or complex algorithms
+
+## Error Handling
+- Use try/catch blocks for operations that might fail
+- Provide meaningful error messages
+- Consider using Result pattern for operations that can fail
+
+## Async Code
+- Use async/await for asynchronous operations
+- Properly handle Future completions
+- Add timeout handling for network operations
+
+## UI Code
+- Extract widget building into smaller methods
+- Use const constructors when possible
+- Avoid deep nesting of widgets (extract to methods)
+- Use named parameters for clarity
+
+Remember to follow the project's state management approach using setState initially.

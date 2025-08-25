@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChroPlexiGnosis - High-Fidelity Prototype</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 自定义全局样式 */
+        body {
+            background-color: #0A192F;
+            font-family: 'Inter', sans-serif;
+            color: #E6F1FF;
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* iPhone 15 Pro 模拟框架 */
+        .phone-frame {
+            width: 393px;
+            height: 852px;
+            background-color: #0A192F;
+            border-radius: 50px;
+            border: 10px solid #1a2a45;
+            box-shadow: 0 20px 50px rgba(0, 245, 212, 0.1), 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-screen {
+            flex-grow: 1;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            position: relative;
+        }
+        .phone-screen::-webkit-scrollbar { /* WebKit */
+            width: 0;
+            height: 0;
+        }
+        
+        /* 玻璃拟态效果 */
+        .glassmorphic {
+            background: rgba(26, 42, 69, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+        }
+
+        /* 赛博青色辉光效果 */
+        .cyan-glow {
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4), 0 0 5px rgba(0, 245, 212, 0.6);
+        }
+        
+        .cyan-glow-hard {
+             box-shadow: 0 0 25px rgba(0, 245, 212, 0.6), 0 0 10px rgba(0, 245, 212, 0.8);
+        }
+
+        /* 霓虹粉辉光效果 */
+        .pink-glow {
+            box-shadow: 0 0 15px rgba(255, 0, 247, 0.4), 0 0 5px rgba(255, 0, 247, 0.6);
+        }
+
+        /* 按钮脉冲动画 */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(0, 245, 212, 0.4), 0 0 5px rgba(0, 245, 212, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 245, 212, 0.8), 0 0 10px rgba(0, 245, 212, 1);
+            }
+        }
+        .animate-pulse-glow {
+            animation: pulse 2.5s infinite;
+        }
+
+        /* 六边形样式 */
+        .hexagon {
+            position: relative;
+            width: 80px;
+            height: 46.19px;
+            margin: 23.09px 0;
+        }
+        .hexagon-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .hexagon-outline {
+            width: 36px;
+            height: 40px;
+            filter: drop-shadow(0 0 3px #FF00F7);
+        }
+        .hexagon-outline svg{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8">
+
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-poppins font-bold text-[#00F5D4]">ChroPlexiGnosis</h1>
+        <p class="text-lg text-[#E6F1FF] mt-2">高保真应用原型 (v3 - UI Optimized)</p>
+    </div>
+
+    <!-- 主容器，平铺所有页面 -->
+    <div class="space-y-12">
+
+        <!-- =================================================================== -->
+        <!-- ========================== 1. 主屏幕 ============================ -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">1. 主屏幕 (Home Screen)</h2>
+            <div class="phone-frame">
+                <!-- 状态栏 -->
+                <div class="absolute top-0 left-0 right-0 h-11 px-8 flex justify-between items-center z-10">
+                    <span class="font-bold text-sm">9:41</span>
+                    <div class="absolute left-1/2 -translate-x-1/2 h-8 w-36 bg-black rounded-b-2xl"></div>
+                    <div class="flex items-center space-x-1">
+                        <i class="fa-solid fa-signal text-xs"></i>
+                        <i class="fa-solid fa-wifi text-xs"></i>
+                        <i class="fa-solid fa-battery-full text-sm"></i>
+                    </div>
+                </div>
+                
+                <!-- 屏幕内容 -->
+                <div class="phone-screen flex flex-col justify-center items-center p-6 pt-12 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop');">
+                    <div class="absolute inset-0 bg-[#0A192F] opacity-80"></div>
+                    <div class="relative z-10 w-full flex flex-col items-center text-center flex-grow">
+                        <div class="mt-12">
+                            <h1 class="font-poppins text-4xl font-bold text-[#00F5D4] tracking-wider" style="text-shadow: 0 0 10px #00F5D4;">ChroPlexiGnosis</h1>
+                            <p class="text-[#E6F1FF] opacity-80 mt-1">A Cerebral Matching Game</p>
+                        </div>
+                        
+                        <div class="flex-grow flex flex-col justify-center items-center w-full space-y-5">
+                            <button class="w-full text-lg font-poppins font-semibold p-4 rounded-2xl glassmorphic animate-pulse-glow transition-transform duration-200 hover:scale-105">
+                                CAMPAIGN
+                            </button>
+                            <button class="w-full text-lg font-poppins font-semibold p-4 rounded-2xl glassmorphic cyan-glow transition-transform duration-200 hover:scale-105">
+                                ENDLESS ECHO
+                            </button>
+                            <button class="w-full text-lg font-poppins font-semibold p-4 rounded-2xl glassmorphic cyan-glow transition-transform duration-200 hover:scale-105">
+                                CHRONOS RECORDS
+                            </button>
+                             <button class="w-full text-lg font-poppins font-semibold p-4 rounded-2xl glassmorphic cyan-glow transition-transform duration-200 hover:scale-105">
+                                GNOSTIC SEALS
+                            </button>
+                        </div>
+                        <div class="pb-4">
+                            <button class="text-2xl text-gray-500 hover:text-white transition-colors">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- ======================= 2. 关卡选择 (Campaign) ====================== -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">2. 关卡选择 (Level Select)</h2>
+            <div class="phone-frame">
+                <!-- 状态栏 -->
+                <div class="absolute top-0 left-0 right-0 h-11 px-8 flex justify-between items-center z-10">
+                    <span class="font-bold text-sm">9:42</span>
+                    <div class="absolute left-1/2 -translate-x-1/2 h-8 w-36 bg-black rounded-b-2xl"></div>
+                    <div class="flex items-center space-x-1">
+                        <i class="fa-solid fa-signal text-xs"></i>
+                        <i class="fa-solid fa-wifi text-xs"></i>
+                        <i class="fa-solid fa-battery-full text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 屏幕内容 -->
+                <div class="phone-screen p-6 pt-16">
+                    <div class="absolute top-6 left-6 text-2xl text-gray-400 hover:text-white cursor-pointer transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <h1 class="text-3xl font-poppins font-bold text-center mb-8">CAMPAIGN</h1>
+                    
+                    <div class="grid grid-cols-3 gap-x-8 gap-y-2 justify-items-center">
+                        <!-- Level 1: Unlocked -->
+                        <div class="hexagon">
+                            <div class="hexagon-inner bg-[#00F5D4] cyan-glow flex-col">
+                                <span class="font-bold text-2xl text-[#0A192F]">1</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-xs text-[#0A192F]"></i>
+                                    <i class="fas fa-star text-xs text-[#0A192F]"></i>
+                                    <i class="fas fa-star text-xs text-[#0A192F]"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Level 2: Unlocked -->
+                        <div class="hexagon">
+                            <div class="hexagon-inner bg-[#00F5D4] cyan-glow flex-col">
+                                <span class="font-bold text-2xl text-[#0A192F]">2</span>
+                                 <div class="flex">
+                                    <i class="fas fa-star text-xs text-[#0A192F]"></i>
+                                    <i class="fas fa-star text-xs text-[#0A192F]"></i>
+                                    <i class="far fa-star text-xs text-[#0A192F]"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Level 3: Current Level (Selected) -->
+                        <div class="hexagon scale-125 z-10">
+                            <div class="hexagon-inner bg-[#FF00F7] pink-glow flex-col">
+                                <span class="font-bold text-2xl text-white">3</span>
+                            </div>
+                        </div>
+
+                        <!-- Level 4: Locked -->
+                        <div class="hexagon">
+                            <div class="hexagon-inner border-2 border-gray-600">
+                                <i class="fas fa-lock text-gray-500 text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Level 5: Locked -->
+                        <div class="hexagon">
+                            <div class="hexagon-inner border-2 border-gray-600">
+                                <i class="fas fa-lock text-gray-500 text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Level 6: Locked -->
+                        <div class="hexagon">
+                            <div class="hexagon-inner border-2 border-gray-600">
+                                <i class="fas fa-lock text-gray-500 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Level Details Card -->
+                    <div class="mt-10 glassmorphic rounded-3xl p-6 text-center border-[#FF00F7] border-2 pink-glow">
+                        <h2 class="text-2xl font-poppins font-bold">Geometric Maze</h2>
+                        <p class="text-gray-300 mt-2">The board's voids force you to focus on creating high-difficulty "Plexi-Matches".</p>
+                        <div class="mt-4 text-lg">
+                            <p class="font-semibold">Objective:</p>
+                            <p class="text-[#00F5D4] text-xl font-bold">Achieve 5 Plexi-Matches</p>
+                        </div>
+                        <button class="w-full mt-6 bg-[#FF00F7] text-white font-bold py-3 rounded-xl pink-glow text-lg font-poppins transition-transform duration-200 hover:scale-105">
+                            START
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- ======================= 3. 核心游戏界面 (UI Optimized) ========================= -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">3. 核心游戏界面 (Optimized)</h2>
+            <div class="phone-frame">
+                <!-- 屏幕内容 (无状态栏，沉浸式) -->
+                <div class="phone-screen flex flex-col p-4 justify-between">
+                    <!-- [OPTIMIZED] 顶部信息栏 -->
+                    <div class="flex justify-between items-center px-2 pt-6">
+                        <div class="glassmorphic rounded-full p-3 w-12 h-12 flex items-center justify-center">
+                            <i class="fas fa-pause text-xl text-gray-300"></i>
+                        </div>
+                        <div class="text-center glassmorphic rounded-2xl px-4 py-2">
+                            <p class="text-sm text-[#00F5D4] font-semibold">Plexi-Matches</p>
+                            <p class="font-bold text-2xl font-poppins">2 / 5</p>
+                        </div>
+                        <div class="text-center glassmorphic rounded-2xl px-4 py-2 w-24">
+                            <p class="text-sm text-gray-300 font-semibold">Moves</p>
+                            <p class="font-bold text-4xl font-poppins text-yellow-300">12</p>
+                        </div>
+                    </div>
+
+                    <!-- [OPTIMIZED] 游戏棋盘区域 -->
+                    <div class="flex-grow flex items-center justify-center my-4">
+                        <div class="grid grid-cols-8 grid-rows-8 gap-1 bg-black/30 p-2 rounded-2xl aspect-square shadow-2xl" style="box-shadow: inset 0 0 15px rgba(0,0,0,0.5);">
+                            <!-- JS will populate this, this is a placeholder for layout -->
+                            <script>
+                                const optimized_board = [
+                                    ['rc','bs','yt','gs','pc',null,null,'rc'],
+                                    ['ys','yc','bt','bc','rs',null,null,'bs'],
+                                    ['pt','gs','pc','ys','yc','bt','bc','rs'],
+                                    ['bs','yt','gs','pc','rs','yc','bt','bc'],
+                                    ['yc','bt','bc','rs','pt','gs','pc','ys'],
+                                    ['gs','pc','ys','yc','bs','yt','gs','pc'],
+                                    [null,null,'rs','pt','gs','pc','ys','yc'],
+                                    [null,null,'yc','bs','yt','gs','pc','rs'],
+                                ];
+                                const optimized_colors = { r: 'bg-red-500', g: 'bg-green-500', b: 'bg-blue-500', y: 'bg-yellow-400', p: 'bg-purple-500' };
+                                const optimized_shapes = { c: 'fa-circle', s: 'fa-square', t: 'fa-triangle' };
+
+                                for(let r = 0; r < 8; r++) {
+                                    for(let c = 0; c < 8; c++) {
+                                        const unit = optimized_board[r][c];
+                                        let cellHtml = '';
+                                        if (unit) {
+                                            const color = optimized_colors[unit[0]];
+                                            const shape = optimized_shapes[unit[1]];
+                                            const isSelected = (r === 3 && c === 1);
+                                            const highlightClass = isSelected ? 'bg-white/20' : '';
+                                            const itemClass = isSelected ? 'scale-110 shadow-lg' : 'shadow-md';
+                                            cellHtml = `<div class="w-full h-full rounded-md flex items-center justify-center ${highlightClass} transition-all duration-150">
+                                                <div class="w-5/6 h-5/6 rounded-lg ${color} flex items-center justify-center text-white text-2xl ${itemClass} transition-transform duration-200">
+                                                    <i class="fas ${shape}"></i>
+                                                </div>
+                                            </div>`;
+                                        } else {
+                                            cellHtml = `<div class="w-full h-full"></div>`;
+                                        }
+                                        document.write(cellHtml);
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    
+                    <!-- [OPTIMIZED] 底部信息栏 -->
+                    <div class="flex justify-between items-center p-2 pb-6">
+                        <div class="text-left">
+                           <p class="text-sm text-gray-400">Score</p>
+                           <p class="font-bold text-3xl font-poppins">12,450</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <p class="text-sm font-bold text-[#FF00F7] mb-2">Transmute</p>
+                            <div class="flex space-x-3">
+                                <!-- Filled Slot -->
+                                <div class="w-12 h-12 rounded-full bg-[#FF00F7] pink-glow flex items-center justify-center text-2xl"><i class="fas fa-bolt"></i></div>
+                                <!-- Filled Slot -->
+                                <div class="w-12 h-12 rounded-full bg-[#FF00F7] pink-glow flex items-center justify-center text-2xl"><i class="fas fa-bolt"></i></div>
+                                <!-- Empty Slot -->
+                                <div class="hexagon-outline">
+                                    <svg viewBox="0 0 100 115.47">
+                                        <path stroke="#FF00F7" stroke-width="8" fill="none" d="M50 0 L100 28.87 L100 86.6 L50 115.47 L0 86.6 L0 28.87 Z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- =================================================================== -->
+        <!-- ===================== 4. 游戏结束界面 (胜利) ====================== -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">4. 游戏结束 (胜利)</h2>
+            <div class="phone-frame">
+                 <!-- 游戏界面背景 -->
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop'); filter: blur(4px) brightness(0.7);"></div>
+                <div class="absolute inset-0 bg-[#0A192F] opacity-60"></div>
+
+                <!-- 屏幕内容 -->
+                <div class="phone-screen flex flex-col justify-center items-center p-8">
+                    <div class="w-full glassmorphic rounded-3xl p-6 text-center border-2 border-[#00F5D4] cyan-glow-hard">
+                        <h1 class="text-5xl font-poppins font-bold text-[#00F5D4]" style="text-shadow: 0 0 10px #00F5D4;">VICTORY</h1>
+                        <p class="text-gray-300 mt-2">Level 3 Cleared!</p>
+                        
+                        <div class="mt-6 space-y-3 text-left">
+                            <div class="flex justify-between items-baseline">
+                                <span class="text-lg">Score:</span>
+                                <span class="text-2xl font-bold font-poppins">18,900</span>
+                            </div>
+                            <div class="flex justify-between items-baseline">
+                                <span class="text-lg">Plexi-Matches:</span>
+                                <span class="text-2xl font-bold font-poppins">6</span>
+                            </div>
+                            <div class="flex justify-between items-baseline">
+                                <span class="text-lg">Transmutes Used:</span>
+                                <span class="text-2xl font-bold font-poppins">2</span>
+                            </div>
+                             <div class="flex justify-between items-baseline">
+                                <span class="text-lg">Moves Left:</span>
+                                <span class="text-2xl font-bold font-poppins">3</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex space-x-4">
+                            <button class="w-full bg-gray-600/50 text-white font-bold py-3 rounded-xl text-lg font-poppins transition-colors hover:bg-gray-500/50">RETRY</button>
+                            <button class="w-full bg-[#00F5D4] text-[#0A192F] font-bold py-3 rounded-xl text-lg font-poppins cyan-glow transition-transform hover:scale-105">NEXT</button>
+                        </div>
+                         <button class="w-full mt-4 text-gray-300 font-semibold py-2 rounded-xl text-md font-poppins">
+                            <i class="fas fa-bars mr-2"></i>Main Menu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- ======================= 5. 数据记录界面 ========================= -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">5. 数据记录 (Chronos Records)</h2>
+            <div class="phone-frame">
+                <!-- 状态栏 -->
+                <div class="absolute top-0 left-0 right-0 h-11 px-8 flex justify-between items-center z-10">
+                    <span class="font-bold text-sm">9:45</span>
+                    <div class="absolute left-1/2 -translate-x-1/2 h-8 w-36 bg-black rounded-b-2xl"></div>
+                    <div class="flex items-center space-x-1"><i class="fa-solid fa-signal text-xs"></i><i class="fa-solid fa-wifi text-xs"></i><i class="fa-solid fa-battery-full text-sm"></i></div>
+                </div>
+
+                <!-- 屏幕内容 -->
+                <div class="phone-screen p-6 pt-16">
+                    <div class="absolute top-6 left-6 text-2xl text-gray-400 hover:text-white cursor-pointer transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <h1 class="text-3xl font-poppins font-bold text-center mb-8">CHRONOS RECORDS</h1>
+                    <div class="space-y-4">
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <p class="text-sm text-gray-400">Total Playtime</p>
+                            <p class="text-3xl font-bold font-poppins">18h 42m 15s</p>
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <p class="text-sm text-gray-400">Total Units Eliminated</p>
+                            <p class="text-3xl font-bold font-poppins">152,831</p>
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4 border border-[#FF00F7]/50">
+                            <p class="text-sm text-[#FF00F7]">Total Plexi-Matches</p>
+                            <p class="text-3xl font-bold font-poppins">3,109</p>
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <p class="text-sm text-gray-400">Longest Combo Chain</p>
+                            <p class="text-3xl font-bold font-poppins">12x</p>
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <p class="text-sm text-gray-400">Highest Score (Endless)</p>
+                            <p class="text-3xl font-bold font-poppins">1,284,500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- ======================= 6. 成就界面 ========================= -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">6. 成就 (Gnostic Seals)</h2>
+            <div class="phone-frame">
+                <!-- 状态栏 -->
+                <div class="absolute top-0 left-0 right-0 h-11 px-8 flex justify-between items-center z-10">
+                    <span class="font-bold text-sm">9:46</span>
+                    <div class="absolute left-1/2 -translate-x-1/2 h-8 w-36 bg-black rounded-b-2xl"></div>
+                    <div class="flex items-center space-x-1"><i class="fa-solid fa-signal text-xs"></i><i class="fa-solid fa-wifi text-xs"></i><i class="fa-solid fa-battery-full text-sm"></i></div>
+                </div>
+
+                <!-- 屏幕内容 -->
+                <div class="phone-screen p-6 pt-16">
+                    <div class="absolute top-6 left-6 text-2xl text-gray-400 hover:text-white cursor-pointer transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <h1 class="text-3xl font-poppins font-bold text-center mb-8">GNOSTIC SEALS</h1>
+                    <div class="grid grid-cols-3 gap-4">
+                        <!-- Unlocked Achievement -->
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-[#00F5D4] cyan-glow flex items-center justify-center">
+                                <i class="fas fa-atom text-4xl text-[#0A192F]"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">First Contact</p>
+                            <p class="text-xs text-gray-400">First Plexi-Match</p>
+                        </div>
+                        <!-- Unlocked Achievement -->
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-[#00F5D4] cyan-glow flex items-center justify-center">
+                                <i class="fas fa-palette text-4xl text-[#0A192F]"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">Color Master</p>
+                            <p class="text-xs text-gray-400">Eliminate 10k units</p>
+                        </div>
+                        <!-- Unlocked Achievement -->
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-[#FF00F7] pink-glow flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-4xl text-white"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">Transmuter</p>
+                            <p class="text-xs text-gray-400">Use Transmute 100 times</p>
+                        </div>
+                        <!-- Locked Achievement -->
+                        <div class="flex flex-col items-center text-center opacity-40">
+                            <div class="w-20 h-20 rounded-full border-2 border-dashed border-gray-600 flex items-center justify-center">
+                                <i class="fas fa-infinity text-4xl text-gray-500"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">Chain Reaction</p>
+                            <p class="text-xs text-gray-400">Trigger a 5x combo</p>
+                        </div>
+                        <!-- Locked Achievement -->
+                        <div class="flex flex-col items-center text-center opacity-40">
+                            <div class="w-20 h-20 rounded-full border-2 border-dashed border-gray-600 flex items-center justify-center">
+                                <i class="fas fa-crown text-4xl text-gray-500"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">Perfectionist</p>
+                            <p class="text-xs text-gray-400">Win with 5+ moves left</p>
+                        </div>
+                        <!-- Locked Achievement -->
+                        <div class="flex flex-col items-center text-center opacity-40">
+                            <div class="w-20 h-20 rounded-full border-2 border-dashed border-gray-600 flex items-center justify-center">
+                                <i class="fas fa-brain text-4xl text-gray-500"></i>
+                            </div>
+                            <p class="font-semibold mt-2 text-sm">Final Enlightenment</p>
+                            <p class="text-xs text-gray-400">Complete all levels</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- ======================= 7. 设置界面 ========================= -->
+        <!-- =================================================================== -->
+        <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-poppins mb-4">7. 设置 (Settings)</h2>
+            <div class="phone-frame">
+                <!-- 状态栏 -->
+                <div class="absolute top-0 left-0 right-0 h-11 px-8 flex justify-between items-center z-10">
+                    <span class="font-bold text-sm">9:47</span>
+                    <div class="absolute left-1/2 -translate-x-1/2 h-8 w-36 bg-black rounded-b-2xl"></div>
+                    <div class="flex items-center space-x-1"><i class="fa-solid fa-signal text-xs"></i><i class="fa-solid fa-wifi text-xs"></i><i class="fa-solid fa-battery-full text-sm"></i></div>
+                </div>
+
+                <!-- 屏幕内容 -->
+                <div class="phone-screen p-6 pt-16">
+                    <div class="absolute top-6 left-6 text-2xl text-gray-400 hover:text-white cursor-pointer transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <h1 class="text-3xl font-poppins font-bold text-center mb-8">SETTINGS</h1>
+                    <div class="space-y-6">
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <div class="flex justify-between items-center">
+                                <label for="music" class="text-lg">Music</label>
+                                <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="music" id="music" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                                    <label for="music" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                                </div>
+                            </div>
+                            <input type="range" class="w-full mt-2" value="80">
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4">
+                            <div class="flex justify-between items-center">
+                                <label for="sfx" class="text-lg">Sound FX</label>
+                                <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="sfx" id="sfx" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                                    <label for="sfx" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                                </div>
+                            </div>
+                            <input type="range" class="w-full mt-2" value="90">
+                        </div>
+                        <div class="glassmorphic rounded-2xl p-4 flex justify-between items-center">
+                            <label for="colorblind" class="text-lg">Colorblind Mode</label>
+                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="colorblind" id="colorblind" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                <label for="colorblind" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        <button class="w-full text-lg p-4 rounded-2xl glassmorphic">
+                            Review Tutorial
+                        </button>
+                        <button class="w-full text-lg p-4 rounded-2xl glassmorphic text-red-400 border-red-400/50 border">
+                            Reset Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .toggle-checkbox:checked { right: 0; border-color: #00F5D4; }
+                .toggle-checkbox:checked + .toggle-label { background-color: #00F5D4; }
+            </style>
+        </div>
+
+    </div>
+
+</body>
+</html>

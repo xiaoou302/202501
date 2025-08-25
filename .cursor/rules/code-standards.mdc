@@ -1,0 +1,39 @@
+---
+alwaysApply: true
+---
+# ChroPlexiGnosis Code Standards
+
+## State Management
+- Use `setState` for simple state management
+- Avoid complex state management libraries initially
+- Keep state as local as possible to where it's needed
+
+## Data Models
+- Create immutable data models with final fields when possible
+- Use factory constructors for creating objects from JSON
+- Implement `toString()` methods for easier debugging
+- Do not use freezed package or part syntax
+
+## File Organization
+- Keep files focused on a single responsibility
+- Limit file size to under 300 lines when possible
+- Group related functionality in directories
+- Use feature-first organization for screens and widgets
+
+## Naming Conventions
+- Use `camelCase` for variables and methods
+- Use `PascalCase` for classes and enums
+- Use `snake_case` for file names
+- Prefix private members with underscore
+
+## UI Development
+- Extract reusable widgets to separate files
+- Use constants for repeated values (dimensions, durations)
+- Implement responsive layouts that work across device sizes
+- Follow Material Design guidelines for spacing and sizing
+
+## Performance
+- Avoid expensive operations in build methods
+- Use const constructors where appropriate
+- Implement pagination or virtualization for large lists
+- Minimize rebuilds by using efficient state management

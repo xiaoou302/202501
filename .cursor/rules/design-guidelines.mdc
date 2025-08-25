@@ -1,0 +1,33 @@
+---
+alwaysApply: true
+---
+# ChroPlexiGnosis Design Guidelines
+
+## Color Scheme
+Always use the defined color constants from [lib/core/constants/colors.dart](mdc:lib/core/constants/colors.dart):
+
+- **Primary Dark**: Deep space blue (#0A192F) - Main background color
+- **Primary Accent**: Cyber cyan (#00F5D4) - Buttons, icons, and key UI elements
+- **Secondary Accent**: Neon pink (#FF00F7) - Special features and highlights
+- **Text Color**: Soft white (#E6F1FF) - For readable text on dark backgrounds
+
+## Visual Style
+- Use glassmorphic effects for UI containers (semi-transparent backgrounds with blur)
+- Apply glow effects to interactive elements using the primary or secondary accent colors
+- Use hexagon shapes for level selection and special game elements
+- Implement subtle animations for transitions and feedback
+- Maintain a cyberpunk aesthetic throughout all screens
+
+## Typography
+- Use the system font for all text
+- Apply consistent text sizing hierarchy:
+  - Screen titles: 24-32sp
+  - Section headers: 18-22sp
+  - Body text: 14-16sp
+  - Small labels: 12sp
+
+## UI Components
+- Buttons should have rounded corners (borderRadius: 16-24)
+- Cards should use the glassmorphic effect with subtle borders
+- Game board should maintain an 8x8 grid with appropriate spacing
+- Navigation elements should be intuitive and consistent across screens

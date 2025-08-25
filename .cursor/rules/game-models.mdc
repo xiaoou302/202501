@@ -1,0 +1,74 @@
+---
+globs: lib/models/*.dart
+---
+# Game Models Implementation Guidelines
+
+## GameUnit Model
+The `GameUnit` class should:
+- Store color and shape properties
+- Track position on the board
+- Maintain selection state
+- Support serialization for save/load functionality
+- Include methods for checking match compatibility
+
+Example implementation pattern:
+```dart
+class GameUnit {
+  final String color;
+  final String shape;
+  final Position position;
+  bool isSelected;
+  
+  // Constructor
+  GameUnit({
+    required this.color,
+    required this.shape,
+    required this.position,
+    this.isSelected = false,
+  });
+  
+  // Check if this unit matches another by color
+  bool matchesColorWith(GameUnit other) => this.color == other.color;
+  
+  // Check if this unit matches another by shape
+  bool matchesShapeWith(GameUnit other) => this.shape == other.shape;
+  
+  // Check if this is a perfect match (both color and shape)
+  bool isPerfectMatchWith(GameUnit other) => 
+      matchesColorWith(other) && matchesShapeWith(other);
+      
+  // Clone with new properties
+  GameUnit copyWith({
+    String? color,
+    String? shape,
+    Position? position,
+    bool? isSelected,
+  }) {
+    return GameUnit(
+      color: color ?? this.color,
+      shape: shape ?? this.shape,
+      position: position ?? this.position,
+      isSelected: isSelected ?? this.isSelected,
+    );
+  }
+}
+```
+
+## Level Model
+The `Level` class should:
+- Define level configuration and objectives
+- Store the initial board state
+- Track progress and completion status
+- Include methods for checking win conditions
+
+## Achievement Model
+The `Achievement` class should:
+- Define achievement criteria and rewards
+- Track progress toward completion
+- Include methods for checking if conditions are met
+
+## PlayerStats Model
+The `PlayerStats` class should:
+- Track all player statistics
+- Support persistence between sessions
+- Include methods for updating stats based on gameplay
