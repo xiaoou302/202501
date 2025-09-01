@@ -1,0 +1,26 @@
+---
+alwaysApply: true
+---
+# Hyquinoxa 项目结构
+
+Hyquinoxa 是一个 Flutter 游戏集合应用，包含记忆配对游戏和节奏流动游戏（别踩白块变体）。
+
+## 目录结构
+项目遵循以下目录结构:
+```
+lib/
+├── main.dart                 # 应用入口点
+├── core/                     # 核心功能
+│   ├── theme/                # 主题相关
+│   ├── utils/                # 工具类
+│   └── constants/            # 常量定义
+├── models/                   # 数据模型
+├── screens/                  # 页面
+├── widgets/                  # 可复用组件
+└── services/                 # 服务层
+```
+
+## 文件命名规范
+- 所有文件名使用小写字母和下划线分隔 (snake_case)
+- 组件文件名应与组件名称相匹配，例如：`memory_game_screen.dart`
+- 模型文件名应与模型名称相匹配，例如：`game_score.dart`

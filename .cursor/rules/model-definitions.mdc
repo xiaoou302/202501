@@ -1,0 +1,120 @@
+---
+description: "Hyquinoxa 应用中的数据模型定义"
+globs: "lib/models/*.dart"
+---
+# Hyquinoxa 数据模型定义
+
+## Achievement (成就)
+```dart
+class Achievement {
+  final String id;
+  final String title;
+  final String description;
+  final String icon;
+  final int progress;
+  final int maxProgress;
+  final bool isCompleted;
+  
+  Achievement({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.progress,
+    required this.maxProgress,
+    this.isCompleted = false,
+  });
+  
+  // 从 JSON 创建实例的方法
+  factory Achievement.fromJson(Map<String, dynamic> json);
+  
+  // 转换为 JSON 的方法
+  Map<String, dynamic> toJson();
+}
+```
+
+## GameScore (游戏分数)
+```dart
+class GameScore {
+  final String gameId;
+  final int score;
+  final DateTime timestamp;
+  final Map<String, dynamic> gameSpecificData;
+  
+  GameScore({
+    required this.gameId,
+    required this.score,
+    required this.timestamp,
+    this.gameSpecificData = const {},
+  });
+  
+  // 从 JSON 创建实例的方法
+  factory GameScore.fromJson(Map<String, dynamic> json);
+  
+  // 转换为 JSON 的方法
+  Map<String, dynamic> toJson();
+}
+```
+
+## MemoryCard (记忆游戏卡片)
+```dart
+class MemoryCard {
+  final String id;
+  final String icon;
+  final bool isFlipped;
+  final bool isMatched;
+  final bool isSpecial;
+  final String? specialPower;
+  
+  MemoryCard({
+    required this.id,
+    required this.icon,
+    this.isFlipped = false,
+    this.isMatched = false,
+    this.isSpecial = false,
+    this.specialPower,
+  });
+  
+  // 创建翻转后的卡片实例
+  MemoryCard flip();
+  
+  // 创建匹配后的卡片实例
+  MemoryCard match();
+}
+```
+
+## PowerUp (能力道具)
+```dart
+class PowerUp {
+  final String id;
+  final String name;
+  final String icon;
+  final String description;
+  final bool isAvailable;
+  
+  PowerUp({
+    required this.id,
+    required this.name,
+    required this.icon,
+    required this.description,
+    this.isAvailable = true,
+  });
+}
+```
+
+## RhythmObstacle (节奏游戏障碍物)
+```dart
+class RhythmObstacle {
+  final String id;
+  final String type;
+  final double position;
+  final double speed;
+  
+  RhythmObstacle({
+    required this.id,
+    required this.type,
+    required this.position,
+    required this.speed,
+  });
+}
+```
