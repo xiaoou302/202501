@@ -15,8 +15,10 @@ class PulsingBlockAnimation extends StatefulWidget {
   State<PulsingBlockAnimation> createState() => _PulsingBlockAnimationState();
 }
 
-class _PulsingBlockAnimationState extends State<PulsingBlockAnimation>
-    with SingleTickerProviderStateMixin {
+class _PulsingBlockAnimationState
+    extends State<PulsingBlockAnimation> //sdasdasd
+    with
+        SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
