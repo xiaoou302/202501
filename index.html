@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokko - Pattern Match & Clear Game</title>
+    
+    <!-- Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 定义游戏配色方案为 CSS 变量 */
+        :root {
+            --bg-deep-space-gray: #333945;
+            --ui-light-elegant-gray: #F5F7FA;
+            --text-moon-white: #E8EAF6;
+            --text-graphite-gray: #5C6B73;
+            --accent-mint-green: #76D7C4;
+            --block-coral-pink: #F1948A;
+            --block-sunny-yellow: #F7DC6F;
+            --block-sky-blue: #85C1E9;
+            --block-grape-purple: #BB8FCE;
+            --block-jade-green: #7DCEA0;
+            --block-terracotta-orange: #E59866;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1d24; /* 页面的深色背景，突出手机模型 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1rem;
+            gap: 4rem;
+        }
+
+        /* 模拟 iPhone 15 Pro 的外壳 */
+        .iphone-frame {
+            width: 393px;
+            height: 852px;
+            background-color: var(--bg-deep-space-gray);
+            border-radius: 50px; /* 模拟手机的圆角 */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 10px #111;
+            padding: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep-space-gray);
+            border-radius: 34px; /* 屏幕的内部圆角 */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .screen-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .screen-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, and Opera */
+        }
+        
+        /* 模拟 iOS 状态栏 */
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            color: var(--text-moon-white);
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* 模拟 iOS 底部导航栏 */
+        .tab-bar {
+            height: 83px;
+            background-color: rgba(40, 45, 55, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px; /* 为 Home Indicator 留出空间 */
+            color: var(--text-moon-white);
+            flex-shrink: 0;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            opacity: 0.6;
+        }
+        .tab-item.active {
+            opacity: 1;
+            color: var(--accent-mint-green);
+        }
+
+        /* 界面分隔标题 */
+        .page-divider {
+            color: #9ab;
+            text-align: center;
+            margin: 2rem 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        /* 自定义 toggle 开关样式 */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: var(--accent-mint-green);
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: var(--accent-mint-green);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-4xl font-bold text-white mb-8">Blokko - Pattern Match & Clear Game</h1>
+    
+    <div class="max-w-4xl mx-auto mb-12 bg-white/10 p-8 rounded-2xl">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">About Blokko</h2>
+            <p class="text-white/90 mb-4">
+                Blokko is a strategic puzzle-matching game that challenges your pattern recognition skills. In this addictive game, players must clear blocks from the board by matching them according to specific templates.
+            </p>
+            <p class="text-white/90">
+                Choose between 6x6 Classic mode for beginners or 8x8 Challenge mode for experienced players. Unlock achievements, compete for the fastest completion times, and enjoy a modern, clean interface with smooth animations and vibrant colors.
+            </p>
+        </div>
+        
+        <div>
+            <h2 class="text-2xl font-bold text-white mb-4">关于 Blokko</h2>
+            <p class="text-white/90 mb-4">
+                Blokko 是一款策略性的拼图匹配游戏，挑战您的模式识别能力。在这款引人入胜的游戏中，玩家需要通过匹配特定模板来清除棋盘上的方块。
+            </p>
+            <p class="text-white/90">
+                选择适合初学者的 6x6 经典模式或适合有经验玩家的 8x8 挑战模式。随着技能和策略的提升解锁成就，争夺最快完成时间，并享受现代、简洁的界面，流畅的动画和鲜艳的颜色。
+            </p>
+        </div>
+    </div>
+
+    <!-- 1. 游戏主菜单界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+
+            <!-- Screen Content -->
+            <main class="flex-grow flex flex-col justify-between items-center px-8 py-16 text-center" style="background: linear-gradient(180deg, var(--bg-deep-space-gray) 0%, #292e38 100%);">
+                <div>
+                    <h1 class="text-6xl font-bold text-white mb-4" style="color: var(--text-moon-white);">Blokko</h1>
+                    <p class="text-lg" style="color: var(--text-moon-white); opacity: 0.7;">Pattern Match & Clear</p>
+                </div>
+                
+                <div class="w-full flex flex-col gap-4">
+                    <button class="w-full py-4 rounded-xl text-lg font-semibold transition-transform duration-200 hover:scale-105" style="background-color: var(--accent-mint-green); color: var(--bg-deep-space-gray);">开始游戏</button>
+                    <button class="w-full py-4 rounded-xl text-lg font-semibold bg-white/10 transition-transform duration-200 hover:scale-105" style="color: var(--text-moon-white);">设置</button>
+                    <button class="w-full py-4 rounded-xl text-lg font-semibold bg-white/10 transition-transform duration-200 hover:scale-105" style="color: var(--text-moon-white);">帮助</button>
+                </div>
+
+                <div class="h-12"></div>
+            </main>
+
+            <!-- Tab Bar -->
+            <nav class="tab-bar">
+                <div class="tab-item active"><i class="fas fa-home text-2xl"></i><span>主页</span></div>
+                <div class="tab-item"><i class="fas fa-trophy text-2xl"></i><span>排行</span></div>
+                <div class="tab-item"><i class="fas fa-user text-2xl"></i><span>档案</span></div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="page-divider">▼ 下一个界面：关卡选择 ▼</div>
+    
+    <!-- 2. 关卡选择界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>9:42</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+
+            <!-- Screen Content -->
+             <main class="flex-grow flex flex-col items-center px-8 py-10" style="background: linear-gradient(180deg, var(--bg-deep-space-gray) 0%, #292e38 100%);">
+                <div class="w-full flex items-center justify-center relative mb-12">
+                     <button class="absolute left-0 text-2xl" style="color: var(--text-moon-white);"><i class="fas fa-chevron-left"></i></button>
+                    <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">选择棋盘大小</h2>
+                </div>
+                
+                <div class="w-full flex flex-col gap-6">
+                    <div class="bg-white/5 rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/10 cursor-pointer">
+                         <div class="grid grid-cols-6 gap-2 mb-4">
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-coral-pink);"></div>
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-sky-blue);"></div>
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-jade-green);"></div>
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-sunny-yellow);"></div>
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-grape-purple);"></div>
+                            <div class="w-8 h-8 rounded" style="background-color: var(--block-terracotta-orange);"></div>
+                         </div>
+                        <h3 class="text-3xl font-bold" style="color: var(--text-moon-white);">6 x 6</h3>
+                        <p class="mt-1" style="color: var(--text-moon-white); opacity: 0.6;">经典模式</p>
+                    </div>
+
+                    <div class="bg-white/5 rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/10 cursor-pointer">
+                         <div class="grid grid-cols-8 gap-1.5 mb-4">
+                            <script>
+                                const colors = ['--block-coral-pink', '--block-sky-blue', '--block-jade-green', '--block-sunny-yellow', '--block-grape-purple', '--block-terracotta-orange', '--block-coral-pink', '--block-sky-blue'];
+                                for(let i = 0; i < 8; i++) {
+                                    document.write(`<div class="w-6 h-6 rounded" style="background-color: var(${colors[i]});"></div>`);
+                                }
+                            </script>
+                         </div>
+                        <h3 class="text-3xl font-bold" style="color: var(--text-moon-white);">8 x 8</h3>
+                        <p class="mt-1" style="color: var(--text-moon-white); opacity: 0.6;">挑战模式</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Tab Bar -->
+            <nav class="tab-bar">
+                 <div class="tab-item active"><i class="fas fa-home text-2xl"></i><span>主页</span></div>
+                <div class="tab-item"><i class="fas fa-trophy text-2xl"></i><span>排行</span></div>
+                <div class="tab-item"><i class="fas fa-user text-2xl"></i><span>档案</span></div>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="page-divider">▼ 新增界面：关卡选择 ▼</div>
+
+    <!-- NEW: 2.5 关卡选择界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>9:42</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+
+            <!-- Screen Content -->
+             <main class="flex-grow flex flex-col" style="background: linear-gradient(180deg, var(--bg-deep-space-gray) 0%, #292e38 100%);">
+                <div class="w-full flex items-center justify-center relative p-5">
+                     <button class="absolute left-6 text-2xl" style="color: var(--text-moon-white);"><i class="fas fa-chevron-left"></i></button>
+                    <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">6x6 经典模式</h2>
+                </div>
+                
+                <div class="screen-content p-6">
+                    <div class="grid grid-cols-3 gap-5 text-center">
+                        <!-- Level 1 (Unlocked) -->
+                        <div class="aspect-square bg-white/10 rounded-2xl flex flex-col justify-center items-center cursor-pointer transition-transform hover:scale-105">
+                            <span class="text-4xl font-bold" style="color: var(--text-moon-white);">1</span>
+                            <div class="text-xs mt-1" style="color: var(--gold);"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                        <!-- Level 2 (Unlocked) -->
+                        <div class="aspect-square bg-white/10 rounded-2xl flex flex-col justify-center items-center cursor-pointer transition-transform hover:scale-105">
+                            <span class="text-4xl font-bold" style="color: var(--text-moon-white);">2</span>
+                             <div class="text-xs mt-1" style="color: var(--gold);"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                        </div>
+                        <!-- Level 3 (Unlocked) -->
+                        <div class="aspect-square bg-white/10 rounded-2xl flex flex-col justify-center items-center cursor-pointer transition-transform hover:scale-105">
+                            <span class="text-4xl font-bold" style="color: var(--text-moon-white);">3</span>
+                        </div>
+                        <!-- Level 4 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                            <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                        <!-- Level 5 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                            <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                        <!-- Level 6 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                            <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                        <!-- Level 7 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                             <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                         <!-- Level 8 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                             <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                         <!-- Level 9 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                             <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                         <!-- Level 10 (Locked) -->
+                        <div class="aspect-square bg-black/20 rounded-2xl flex justify-center items-center">
+                             <i class="fas fa-lock text-3xl" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="page-divider">▼ 下一个界面：核心游戏界面 ▼</div>
+
+    <!-- 3. 核心游戏界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+             <main class="flex-grow flex flex-col justify-between p-4" style="background-color: var(--bg-deep-space-gray);">
+                <!-- Top Bar -->
+                <header class="flex justify-between items-center px-2 py-4">
+                    <div>
+                        <span class="font-bold text-xl" style="color: var(--text-moon-white);">LVL 1</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-lg" style="color: var(--text-moon-white);">步数: <span class="font-bold">23</span></span>
+                    </div>
+                    <button class="text-2xl" style="color: var(--text-moon-white);"><i class="fas fa-lightbulb"></i></button>
+                </header>
+
+                <!-- Game Board (6x6) -->
+                <div class="flex-grow flex items-center justify-center">
+                    <div class="grid grid-cols-6 gap-1.5 p-2 bg-black/20 rounded-lg">
+                        <script>
+                            const boardColors = [
+                                '--block-coral-pink', '--block-sunny-yellow', '--block-sky-blue', '--block-sky-blue', '--block-jade-green', '--block-grape-purple',
+                                '--block-terracotta-orange', '--block-jade-green', '--block-sunny-yellow', '--block-coral-pink', '--block-terracotta-orange', '--block-sunny-yellow',
+                                '--block-grape-purple', '--block-jade-green', '--block-sky-blue', '--block-coral-pink', '--block-sky-blue', '--block-jade-green',
+                                '--block-grape-purple', '--block-sunny-yellow', '--block-terracotta-orange', '--block-jade-green', '--block-grape-purple', '--block-coral-pink',
+                                '--block-sky-blue', '--block-terracotta-orange', '--block-terracotta-orange', '--block-coral-pink', '--block-sky-blue', '--block-sunny-yellow',
+                                '--block-coral-pink', '--block-grape-purple', '--block-sunny-yellow', '--block-jade-green', '--block-grape-purple', '--block-terracotta-orange'
+                            ];
+                            // 模拟玩家选择的一对方块 (第3行，第3、4个)
+                            for (let i = 0; i < 36; i++) {
+                                let specialClass = '';
+                                if (i === 14 || i === 15) {
+                                    specialClass = 'ring-4 ring-offset-2 ring-offset-transparent'
+                                }
+                                document.write(`<div class="w-12 h-12 rounded-lg ${specialClass}" style="background-color: var(${boardColors[i]}); border-bottom: 4px solid rgba(0,0,0,0.2); box-shadow: 0 2px 4px rgba(0,0,0,0.2); border-color: var(--accent-mint-green);"></div>`);
+                            }
+                        </script>
+                         <!-- 交互提示: 当选择方块时，出现一个交换图标 -->
+                         <div class="absolute" style="top: 290px; left: 180px;">
+                            <div class="w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white backdrop-blur-sm">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                
+                <!-- Matching Templates -->
+                <div class="py-4">
+                     <p class="text-center mb-3 text-sm font-medium" style="color: var(--text-moon-white); opacity: 0.7;">匹配模板</p>
+                     <div class="grid grid-cols-4 gap-3 px-2">
+                        <!-- Template 1 (Vertical) - Pulsing to indicate match -->
+                        <div class="flex flex-col items-center gap-1 p-2 bg-black/20 rounded-lg animate-pulse ring-2" style="border-color: var(--accent-mint-green);">
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-sky-blue);"></div>
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-coral-pink);"></div>
+                        </div>
+                        <!-- Template 2 (Horizontal) -->
+                        <div class="flex items-center justify-center gap-1 p-2 bg-black/20 rounded-lg">
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-jade-green);"></div>
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-jade-green);"></div>
+                        </div>
+                        <!-- Template 3 (Horizontal) -->
+                        <div class="flex items-center justify-center gap-1 p-2 bg-black/20 rounded-lg">
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-terracotta-orange);"></div>
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-sunny-yellow);"></div>
+                        </div>
+                         <!-- Template 4 (Vertical) -->
+                        <div class="flex flex-col items-center gap-1 p-2 bg-black/20 rounded-lg">
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-grape-purple);"></div>
+                             <div class="w-6 h-6 rounded" style="background-color: var(--block-sky-blue);"></div>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Bottom Bar -->
+                <footer class="flex justify-around items-center p-4">
+                    <button class="text-3xl" style="color: var(--text-moon-white);"><i class="fas fa-pause-circle"></i></button>
+                    <button class="text-3xl" style="color: var(--text-moon-white);"><i class="fas fa-undo"></i></button>
+                    <button class="text-3xl" style="color: var(--text-moon-white);"><i class="fas fa-random"></i></button>
+                </footer>
+             </main>
+        </div>
+    </div>
+    
+    <div class="page-divider">▼ 下一个界面：游戏结束（胜利/失败/暂停）▼</div>
+
+    <!-- 4. 游戏结束界面集合 (使用一个手机模型展示不同状态) -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <!-- Background: a blurred game screen -->
+            <div class="absolute inset-0 bg-cover bg-center filter blur-sm scale-110" style="background-image: url('https://placehold.co/393x852/333945/E8EAF6?text=Blurred+Game+BG');"></div>
+            
+            <!-- A. 胜利界面 (默认显示) -->
+            <div id="win-screen" class="absolute inset-0 bg-black/60 flex flex-col justify-center items-center p-8 text-center backdrop-blur-md">
+                <i class="fas fa-crown text-7xl mb-6" style="color: var(--block-sunny-yellow);"></i>
+                <h2 class="text-5xl font-bold mb-4" style="color: var(--text-moon-white);">你赢了!</h2>
+                
+                <div class="bg-white/10 rounded-xl p-4 my-8 w-full">
+                    <div class="flex justify-between py-2 border-b border-white/10">
+                        <span style="color: var(--text-moon-white); opacity: 0.7;">步数</span>
+                        <span class="font-bold" style="color: var(--text-moon-white);">48</span>
+                    </div>
+                     <div class="flex justify-between py-2">
+                        <span style="color: var(--text-moon-white); opacity: 0.7;">用时</span>
+                        <span class="font-bold" style="color: var(--text-moon-white);">02:15</span>
+                    </div>
+                </div>
+                
+                <div class="w-full flex flex-col gap-4">
+                    <button class="w-full py-4 rounded-xl text-lg font-semibold" style="background-color: var(--accent-mint-green); color: var(--bg-deep-space-gray);">再玩一局</button>
+                    <button class="w-full py-3 rounded-xl text-lg font-semibold bg-white/10" style="color: var(--text-moon-white);">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-divider">▼ 新增界面：排行榜 ▼</div>
+    
+    <!-- 5. 排行榜界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>9:43</span>
+                <div><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></div>
+            </div>
+
+            <!-- Screen Content -->
+            <main class="flex-grow flex flex-col" style="background: linear-gradient(180deg, var(--bg-deep-space-gray) 0%, #292e38 100%);">
+                <header class="text-center py-5">
+                    <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">排行榜</h2>
+                </header>
+                
+                <!-- TABS -->
+                <div class="flex justify-center gap-4 px-4 py-2">
+                    <button class="px-6 py-2 rounded-full text-sm font-semibold" style="background-color: var(--accent-mint-green); color: var(--bg-deep-space-gray);">6x6 经典</button>
+                    <button class="px-6 py-2 rounded-full text-sm font-semibold bg-white/10" style="color: var(--text-moon-white);">8x8 挑战</button>
+                </div>
+
+                <!-- Leaderboard List -->
+                <div class="screen-content px-4 py-4 space-y-3">
+                    <!-- Top 1 -->
+                    <div class="flex items-center bg-white/10 p-3 rounded-lg">
+                        <span class="text-xl font-bold w-10 text-center" style="color: var(--gold);"><i class="fas fa-medal"></i> 1</span>
+                        <div class="flex-grow mx-3">
+                            <div class="font-semibold" style="color: var(--text-moon-white);">2025-09-10</div>
+                            <div class="text-xs" style="color: var(--text-moon-white); opacity:0.6;">14:30:15</div>
+                        </div>
+                        <span class="font-bold text-lg" style="color: var(--text-moon-white);">01:32</span>
+                    </div>
+                    <!-- Top 2 -->
+                    <div class="flex items-center bg-white/10 p-3 rounded-lg">
+                        <span class="text-xl font-bold w-10 text-center" style="color: var(--silver);"><i class="fas fa-medal"></i> 2</span>
+                        <div class="flex-grow mx-3">
+                            <div class="font-semibold" style="color: var(--text-moon-white);">2025-09-08</div>
+                            <div class="text-xs" style="color: var(--text-moon-white); opacity:0.6;">22:10:45</div>
+                        </div>
+                        <span class="font-bold text-lg" style="color: var(--text-moon-white);">01:45</span>
+                    </div>
+                    <!-- Top 3 -->
+                    <div class="flex items-center bg-white/10 p-3 rounded-lg">
+                        <span class="text-xl font-bold w-10 text-center" style="color: var(--bronze);"><i class="fas fa-medal"></i> 3</span>
+                        <div class="flex-grow mx-3">
+                            <div class="font-semibold" style="color: var(--text-moon-white);">2025-09-11</div>
+                            <div class="text-xs" style="color: var(--text-moon-white); opacity:0.6;">09:05:21</div>
+                        </div>
+                        <span class="font-bold text-lg" style="color: var(--text-moon-white);">01:59</span>
+                    </div>
+                    <!-- Your Rank -->
+                    <div class="flex items-center p-3 rounded-lg" style="background-color: var(--accent-mint-green);">
+                        <span class="text-xl font-bold w-10 text-center" style="color: var(--bg-deep-space-gray);">25</span>
+                        <div class="flex-grow mx-3">
+                            <div class="font-semibold" style="color: var(--bg-deep-space-gray);">2025-09-07</div>
+                            <div class="text-xs" style="color: var(--bg-deep-space-gray); opacity:0.8;">18:55:02</div>
+                        </div>
+                        <span class="font-bold text-lg" style="color: var(--bg-deep-space-gray);">03:10</span>
+                    </div>
+                     <!-- Others -->
+                    <div class="flex items-center bg-white/5 p-3 rounded-lg">
+                        <span class="text-xl font-bold w-10 text-center" style="color: var(--text-moon-white);">4</span>
+                        <div class="flex-grow mx-3">
+                            <div class="font-semibold" style="color: var(--text-moon-white);">2025-09-09</div>
+                            <div class="text-xs" style="color: var(--text-moon-white); opacity:0.6;">11:23:56</div>
+                        </div>
+                        <span class="font-bold text-lg" style="color: var(--text-moon-white);">02:05</span>
+                    </div>
+                </div>
+            </main>
+            <!-- Tab Bar -->
+            <nav class="tab-bar">
+                <div class="tab-item"><i class="fas fa-home text-2xl"></i><span>主页</span></div>
+                <div class="tab-item active"><i class="fas fa-trophy text-2xl"></i><span>排行</span></div>
+                <div class="tab-item"><i class="fas fa-user text-2xl"></i><span>档案</span></div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="page-divider">▼ 新增界面：个人档案 ▼</div>
+
+    <!-- 6. 个人档案界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <div class="status-bar">
+                <span>9:44</span>
+                <div><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></div>
+            </div>
+            <main class="flex-grow flex flex-col" style="background-color: var(--bg-deep-space-gray);">
+                <header class="text-center py-5">
+                    <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">统计数据</h2>
+                </header>
+                <div class="screen-content p-6">
+                    <!-- Profile Header -->
+                    <div class="flex flex-col items-center text-center py-8">
+                        <i class="fas fa-chart-pie text-6xl" style="color: var(--accent-mint-green);"></i>
+                    </div>
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white/5 rounded-2xl p-4 text-center">
+                            <p class="text-3xl font-bold" style="color: var(--accent-mint-green);">128</p>
+                            <p class="text-sm mt-1" style="color: var(--text-moon-white); opacity: 0.7;">游戏局数</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 text-center">
+                            <p class="text-3xl font-bold" style="color: var(--accent-mint-green);">75%</p>
+                            <p class="text-sm mt-1" style="color: var(--text-moon-white); opacity: 0.7;">胜率</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 text-center">
+                            <p class="text-3xl font-bold" style="color: var(--accent-mint-green);">01:32</p>
+                            <p class="text-sm mt-1" style="color: var(--text-moon-white); opacity: 0.7;">最佳(6x6)</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 text-center">
+                            <p class="text-3xl font-bold" style="color: var(--accent-mint-green);">03:50</p>
+                            <p class="text-sm mt-1" style="color: var(--text-moon-white); opacity: 0.7;">最佳(8x8)</p>
+                        </div>
+                    </div>
+                    <!-- Achievements -->
+                    <h4 class="text-xl font-bold mt-8 mb-4" style="color: var(--text-moon-white);">成就</h4>
+                    <div class="grid grid-cols-4 gap-4 text-center">
+                        <div class="flex flex-col items-center"><div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-3xl" style="color:var(--accent-mint-green);"><i class="fas fa-check-double"></i></div><span class="text-xs mt-2" style="color: var(--text-moon-white);">新手上路</span></div>
+                        <div class="flex flex-col items-center"><div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-3xl" style="color:var(--accent-mint-green);"><i class="fas fa-brain"></i></div><span class="text-xs mt-2" style="color: var(--text-moon-white);">策略大师</span></div>
+                        <div class="flex flex-col items-center"><div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-3xl opacity-50" style="color:var(--text-moon-white);"><i class="fas fa-lock"></i></div><span class="text-xs mt-2 opacity-50" style="color: var(--text-moon-white);">未解锁</span></div>
+                         <div class="flex flex-col items-center"><div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-3xl opacity-50" style="color:var(--text-moon-white);"><i class="fas fa-lock"></i></div><span class="text-xs mt-2 opacity-50" style="color: var(--text-moon-white);">未解锁</span></div>
+                    </div>
+                </div>
+            </main>
+            <nav class="tab-bar">
+                <div class="tab-item"><i class="fas fa-home text-2xl"></i><span>主页</span></div>
+                <div class="tab-item"><i class="fas fa-trophy text-2xl"></i><span>排行</span></div>
+                <div class="tab-item active"><i class="fas fa-user text-2xl"></i><span>档案</span></div>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="page-divider">▼ 新增界面：帮助与设置 ▼</div>
+
+    <!-- 7. 帮助与设置界面 -->
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+            <div class="status-bar">
+                <span>9:45</span>
+                <div><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></div>
+            </div>
+            <!-- 主容器，默认显示设置 -->
+            <main class="flex-grow flex flex-col" style="background: linear-gradient(180deg, var(--bg-deep-space-gray) 0%, #292e38 100%);">
+                
+                <!-- 设置界面 (默认显示) -->
+                <div id="settings-page" class="flex flex-col h-full">
+                    <header class="w-full flex items-center justify-center relative py-5">
+                        <button class="absolute left-6 text-2xl" style="color: var(--text-moon-white);"><i class="fas fa-times"></i></button>
+                        <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">设置</h2>
+                    </header>
+                    <div class="screen-content p-6 space-y-4">
+                        <div class="bg-white/5 rounded-xl p-4 flex justify-between items-center">
+                            <span class="font-semibold" style="color: var(--text-moon-white);">音效</span>
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="toggle-sound" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                                <label for="toggle-sound" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex justify-between items-center">
+                            <span class="font-semibold" style="color: var(--text-moon-white);">背景音乐</span>
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="toggle-music" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                <label for="toggle-music" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex justify-between items-center">
+                            <span class="font-semibold" style="color: var(--text-moon-white);">色弱模式</span>
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="toggle-colorblind" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                <label for="toggle-colorblind" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex justify-between items-center">
+                            <span class="font-semibold" style="color: var(--text-moon-white);">语言</span>
+                            <span style="color: var(--text-moon-white); opacity: 0.7;">简体中文 <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <button class="w-full text-center py-3 rounded-xl mt-4" style="color: var(--block-coral-pink); background-color: rgba(241, 148, 138, 0.1);">
+                            重置游戏数据
+                        </button>
+
+                        <div class="bg-white/5 rounded-xl mt-8">
+                            <a href="#" class="flex justify-between items-center p-4 border-b border-white/10">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">关于我们</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                            <a href="#" class="flex justify-between items-center p-4 border-b border-white/10">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">问题反馈</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                            <a href="#" class="flex justify-between items-center p-4 border-b border-white/10">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">帮助中心</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                            <a href="#" class="flex justify-between items-center p-4 border-b border-white/10">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">联系客服</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                             <a href="#" class="flex justify-between items-center p-4 border-b border-white/10">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">安全与隐私</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                            <a href="#" class="flex justify-between items-center p-4">
+                                <span class="font-semibold" style="color: var(--text-moon-white);">服务条款</span>
+                                <i class="fas fa-chevron-right" style="color: var(--text-moon-white); opacity: 0.5;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 帮助界面 (通过JS切换，这里用注释隐藏) -->
+                <!--
+                <div id="help-page" class="flex-col h-full">
+                    <header class="w-full flex items-center justify-center relative py-5">
+                        <button class="absolute left-6 text-2xl" style="color: var(--text-moon-white);"><i class="fas fa-times"></i></button>
+                        <h2 class="text-2xl font-bold" style="color: var(--text-moon-white);">游戏帮助</h2>
+                    </header>
+                    <div class="screen-content p-6 space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--accent-mint-green);">游戏目标</h3>
+                            <p style="color: var(--text-moon-white); opacity: 0.9;">在方块耗尽前，通过匹配消除棋盘上的所有方块。</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--accent-mint-green);">核心操作</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 text-center leading-8 font-bold" style="color: var(--text-moon-white);">1</span>
+                                    <p style="color: var(--text-moon-white); opacity: 0.9;">选择棋盘上两个<strong style="color: var(--accent-mint-green);">相邻</strong>(上下或左右)的方块。</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 text-center leading-8 font-bold" style="color: var(--text-moon-white);">2</span>
+                                    <p style="color: var(--text-moon-white); opacity: 0.9;">观察下方模板，方块的方向、颜色和顺序需<strong style="color: var(--accent-mint-green);">完全一致</strong>。</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                     <span class="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 text-center leading-8 font-bold" style="color: var(--text-moon-white);">3</span>
+                                    <p style="color: var(--text-moon-white); opacity: 0.9;">点击匹配的模板，即可<strong style="color: var(--accent-mint-green);">消除</strong>方块。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--accent-mint-green);">重要规则</h3>
+                            <p style="color: var(--text-moon-white); opacity: 0.9;">方块消除后<strong style="color: var(--block-coral-pink);">不会补充</strong>，每一步都需要谨慎规划！</p>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
+
+

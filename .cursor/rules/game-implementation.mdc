@@ -1,0 +1,38 @@
+---
+description: Guidelines for implementing the core game mechanics
+---
+
+# Game Implementation Guidelines
+
+## Game Board
+- Implement the game board as a 2D grid (List<List<Block>>)
+- Support both 6x6 and 8x8 grid sizes
+- Ensure blocks have properties for color, position, and selection state
+
+## Block Matching Logic
+- Two blocks can only be selected if they are adjacent (horizontally or vertically)
+- Selected blocks must match one of the four available templates by:
+  1. Color combination
+  2. Order/sequence
+  3. Orientation (horizontal or vertical)
+- Templates are displayed at the bottom of the screen
+- Matched blocks are permanently removed (no refilling)
+
+## Game State Management
+- Track the current level, moves, and time
+- Detect win condition: all blocks cleared
+- Detect loss condition: no possible matches with current templates
+- Implement undo functionality for reverting the last move
+- Implement shuffle functionality to rearrange remaining blocks
+
+## Persistence
+- Save game progress using shared_preferences
+- Store player statistics (games played, win rate, best times)
+- Save unlocked levels and achievements
+- Maintain leaderboard data locally
+
+## UI Interactions
+- Implement intuitive block selection with visual feedback
+- Show clear indicators for matched templates
+- Provide smooth animations for block removal
+- Include helpful tooltips or guides for new players

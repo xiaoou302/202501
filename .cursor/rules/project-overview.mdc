@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+---
+
+# Blokko - Pattern Match & Clear Game
+
+## Project Overview
+Blokko is a strategic puzzle-matching game where players must clear blocks by matching them according to specific templates. The game features different board sizes (6x6 and 8x8), multiple levels, and various game mechanics.
+
+## Core Game Mechanics
+- Players select two adjacent blocks (horizontally or vertically)
+- Match these blocks with one of four templates shown at the bottom
+- Matched blocks are permanently removed (no refilling)
+- Win by clearing all blocks; lose when no more valid matches are possible
+
+## Design Guidelines
+- Use the defined color palette:
+  - Deep Space Gray (`#333945`) - Main background
+  - Light Elegant Gray (`#F5F7FA`) - Secondary UI elements
+  - Moon White (`#E8EAF6`) - Main text on dark backgrounds
+  - Graphite Gray (`#5C6B73`) - Secondary text
+  - Mint Green (`#76D7C4`) - Accent color for buttons, selections
+- Block colors:
+  - Coral Pink (`#F1948A`)
+  - Sunny Yellow (`#F7DC6F`)
+  - Sky Blue (`#85C1E9`)
+  - Grape Purple (`#BB8FCE`)
+  - Jade Green (`#7DCEA0`)
+  - Terracotta Orange (`#E59866`)
+
+## Technical Constraints
+- Use setState for state management (no complex state management libraries)
+- Use shared_preferences for data storage
+- No external assets/images required
+- No external fonts required
+- No account functionality needed
+- No network image caching required

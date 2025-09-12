@@ -1,0 +1,53 @@
+---
+description: UI design guidelines for the Blokko game
+---
+
+# UI Design Guidelines
+
+## Design System
+- Follow the established color palette from the project requirements
+- Use consistent spacing and sizing throughout the app
+- Maintain a clean, modern aesthetic with ample whitespace
+- Ensure all UI elements are accessible and easy to interact with
+
+## Color Usage
+- Background: Deep Space Gray (#333945)
+- UI Elements: Light Elegant Gray (#F5F7FA)
+- Main Text: Moon White (#E8EAF6)
+- Secondary Text: Graphite Gray (#5C6B73)
+- Accent/Interactive Elements: Mint Green (#76D7C4)
+- Block Colors:
+  - Coral Pink (#F1948A)
+  - Sunny Yellow (#F7DC6F)
+  - Sky Blue (#85C1E9)
+  - Grape Purple (#BB8FCE)
+  - Jade Green (#7DCEA0)
+  - Terracotta Orange (#E59866)
+
+## Typography
+- Use the system default font (no custom fonts required)
+- Maintain a clear typographic hierarchy:
+  - Large bold text for headings
+  - Medium weight for subheadings
+  - Regular weight for body text
+  - Small text for auxiliary information
+
+## Animations & Interactions
+- Add subtle animations for transitions between screens
+- Include micro-interactions for button presses and selections
+- Animate block selections and removals
+- Keep animations smooth and non-distracting
+
+## Accessibility
+- Ensure sufficient contrast between text and backgrounds
+- Make touch targets adequately sized (minimum 44x44 points)
+- Include a colorblind mode option in settings
+- Support system text scaling
+
+## Screen-Specific Guidelines
+- **Main Menu**: Clean, focused layout with prominent play button
+- **Level Selection**: Visual distinction between locked and unlocked levels
+- **Game Board**: Clear visual hierarchy with focus on the game grid
+- **Settings**: Organized, easy-to-understand toggles and options
+- **Leaderboard**: Clear ranking visualization with emphasis on top positions
+- **Profile**: Visual representation of achievements and statistics

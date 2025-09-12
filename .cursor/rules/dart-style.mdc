@@ -1,0 +1,38 @@
+---
+globs: *.dart
+---
+
+# Dart Coding Style Guidelines
+
+## General
+- Follow the [Effective Dart](https://dart.dev/guides/language/effective-dart) style guide
+- Keep functions small and focused on a single responsibility
+- Limit line length to 80 characters when possible
+- Use meaningful variable and function names
+
+## Classes and Models
+- Make fields `final` when possible
+- Implement proper constructors for all models
+- Don't use `freezed` package or `part` syntax as specified in requirements
+- Provide clear documentation for public APIs
+
+## UI Components
+- Separate business logic from UI code
+- Extract reusable widgets into separate files
+- Use constants for dimensions, paddings, and other UI values
+- Follow Material Design guidelines for consistent UX
+
+## Comments and Documentation
+- Add meaningful comments for complex logic
+- Document public APIs with dartdoc comments
+- Keep comments up-to-date with code changes
+
+## Error Handling
+- Handle errors gracefully with try/catch where appropriate
+- Provide meaningful error messages
+- Never silently catch exceptions without proper handling
+
+## Performance
+- Minimize unnecessary rebuilds in Flutter widgets
+- Use const constructors where applicable
+- Be mindful of memory usage, especially with large collections
