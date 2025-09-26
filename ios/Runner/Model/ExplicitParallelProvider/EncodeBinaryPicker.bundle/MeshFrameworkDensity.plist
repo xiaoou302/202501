@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>convolutionContextSize</key>
+	<string>particleTypeVisibility</string>
+	<key>decorationCompositeEdge</key>
+	<string>imperativeMovementRate</string>
+	<key>interactiveInjectionPressure</key>
+	<string>materialNavigationStatus</string>
+	<key>interactorCycleMode</key>
+	<string>kernelAtStage</string>
+	<key>invisibleEntityVelocity</key>
+	<string>permissiveHistogramColor</string>
+	<key>repositoryPerStrategy</key>
+	<string>progressbarSinceMemento</string>
+	<key>responsiveCharacterVisible</key>
+	<string>directlySizedboxFormat</string>
+	<key>sortedViewFeedback</key>
+	<string>resultObserverFlags</string>
+	<key>usedSizeTension</key>
+	<string>completionDuringVariable</string>
+</dict>
+</plist>

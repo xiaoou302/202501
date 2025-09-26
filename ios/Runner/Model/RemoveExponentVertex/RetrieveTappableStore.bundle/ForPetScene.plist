@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commonSinkTransparency</key>
+	<string>richtextChainInteraction</string>
+	<key>convolutionFromStyle</key>
+	<string>associatedTransformerShade</string>
+	<key>invisibleTabbarOrigin</key>
+	<string>routeNumberTheme</string>
+	<key>lastResolverOpacity</key>
+	<string>activeTabbarShape</string>
+	<key>prismaticFeaturePadding</key>
+	<string>skinInsideProcess</string>
+</dict>
+</plist>

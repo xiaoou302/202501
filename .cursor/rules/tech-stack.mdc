@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+# Technology Stack
+
+This project uses the following technologies:
+
+## Core
+- Flutter SDK for cross-platform development
+- Dart programming language
+
+## State Management
+- Riverpod or Provider for state management
+- Repository pattern for data access
+
+## Navigation
+- GoRouter for declarative routing
+
+## Data Handling
+- Dio for network requests
+- Hive or SharedPreferences for local storage
+- JSON serialization for data models
+
+## UI Components
+- Material Design 3 with custom theme
+- CachedNetworkImage for image handling
+- Custom animations for enhanced UX
+
+When implementing features, use these technologies consistently throughout the project.

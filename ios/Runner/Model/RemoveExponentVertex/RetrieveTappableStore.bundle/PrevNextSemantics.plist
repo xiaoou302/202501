@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>adaptiveCoordinatorTop</key>
+	<string>routeJobTheme</string>
+	<key>gesturePrototypeTop</key>
+	<string>vectorWithoutLevel</string>
+	<key>interactiveAppbarContrast</key>
+	<string>tensorProjectionHue</string>
+	<key>positionedActionDensity</key>
+	<string>catalystFrameworkSize</string>
+	<key>webChapterOrientation</key>
+	<string>convolutionScopeValidation</string>
+</dict>
+</plist>

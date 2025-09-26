@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>advancedSegmentFormat</key>
+	<string>resourceLevelContrast</string>
+	<key>commonBulletForce</key>
+	<string>flexibleTabviewColor</string>
+	<key>consultativeAsyncOffset</key>
+	<string>aspectratioLayerBehavior</string>
+	<key>frameAroundWork</key>
+	<string>optimizerBridgeRotation</string>
+	<key>heapStyleFlags</key>
+	<string>equalizationExceptActivity</string>
+	<key>requestIncludeSystem</key>
+	<string>metadataOutsideBuffer</string>
+	<key>slashWorkDelay</key>
+	<string>usageAroundMemento</string>
+	<key>symbolSingletonContrast</key>
+	<string>specifyCheckboxAlignment</string>
+	<key>usageStructureTension</key>
+	<string>actionEnvironmentVelocity</string>
+</dict>
+</plist>

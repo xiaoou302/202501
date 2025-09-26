@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>asynchronousSegueOpacity</key>
+	<string>cubitPlatformTint</string>
+	<key>certificateFormContrast</key>
+	<string>priorityStructureInset</string>
+	<key>consumerDespiteMode</key>
+	<string>groupPerOperation</string>
+	<key>containerObserverForce</key>
+	<string>curveByVisitor</string>
+	<key>indicatorBesideTask</key>
+	<string>constraintScopeColor</string>
+	<key>lazyLayoutCount</key>
+	<string>resizableCurveScale</string>
+	<key>reducerFromCycle</key>
+	<string>reducerDecoratorDuration</string>
+	<key>themeJobVisible</key>
+	<string>fixedBulletFlags</string>
+</dict>
+</plist>

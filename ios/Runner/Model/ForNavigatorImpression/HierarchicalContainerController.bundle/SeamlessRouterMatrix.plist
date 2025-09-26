@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>deferredContainerStyle</key>
+	<string>semanticGradientSkewx</string>
+	<key>pinchableRepositoryTop</key>
+	<string>streamFacadeVisible</string>
+	<key>responseCycleContrast</key>
+	<string>asyncHashFeedback</string>
+	<key>richtextVarLocation</key>
+	<string>gemAndObserver</string>
+</dict>
+</plist>

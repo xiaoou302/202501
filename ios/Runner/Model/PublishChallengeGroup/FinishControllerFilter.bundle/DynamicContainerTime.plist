@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>alphaAdapterValidation</key>
+	<string>previewOutsidePrototype</string>
+	<key>asyncByForm</key>
+	<string>semanticConstraintType</string>
+	<key>callbackStyleStyle</key>
+	<string>themeAmongSingleton</string>
+	<key>captionChainEdge</key>
+	<string>nativeRadioTop</string>
+	<key>futureSystemColor</key>
+	<string>localizationAtPrototype</string>
+	<key>optionNearFlyweight</key>
+	<string>localizationVersusFacade</string>
+	<key>significantSizeTheme</key>
+	<string>adaptiveSizeRate</string>
+	<key>synchronousCubitForce</key>
+	<string>eagerBlocDirection</string>
+	<key>uniqueGramTop</key>
+	<string>widgetInterpreterStyle</string>
+</dict>
+</plist>

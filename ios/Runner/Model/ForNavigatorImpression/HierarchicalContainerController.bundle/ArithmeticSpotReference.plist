@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>buttonStructureInteraction</key>
+	<string>unaryAsShape</string>
+	<key>interfacePerCycle</key>
+	<string>contractionProcessResponse</string>
+	<key>mutableMethodSkewx</key>
+	<string>modelBeyondNumber</string>
+	<key>permissiveActivityLocation</key>
+	<string>uniqueGridRotation</string>
+	<key>projectionVarOffset</key>
+	<string>originalCollectionType</string>
+</dict>
+</plist>

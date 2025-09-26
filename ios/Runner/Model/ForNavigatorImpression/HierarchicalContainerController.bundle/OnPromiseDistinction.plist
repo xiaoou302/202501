@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aspectFromInterpreter</key>
+	<string>resourceContextOrigin</string>
+	<key>asyncOperationCenter</key>
+	<string>immutableLayerBehavior</string>
+	<key>customizedIntensityBorder</key>
+	<string>retainedProgressbarBottom</string>
+	<key>localBitrateBound</key>
+	<string>localizationByValue</string>
+	<key>popupByInterpreter</key>
+	<string>semanticQueueFlags</string>
+	<key>presenterAboutLevel</key>
+	<string>bufferBufferRotation</string>
+	<key>progressbarInVar</key>
+	<string>builderLikeVar</string>
+	<key>sliderPhaseDuration</key>
+	<string>menuVisitorAppearance</string>
+	<key>synchronousChallengeCenter</key>
+	<string>marginPrototypeBehavior</string>
+</dict>
+</plist>

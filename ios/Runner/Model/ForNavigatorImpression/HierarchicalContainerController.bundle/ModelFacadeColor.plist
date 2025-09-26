@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>buttonAgainstShape</key>
+	<string>richtextAgainstKind</string>
+	<key>cycleFunctionShape</key>
+	<string>retainedAppbarInteraction</string>
+	<key>dedicatedBlocPressure</key>
+	<string>inactiveActivityBound</string>
+	<key>displayableModalMomentum</key>
+	<string>localCharacterMargin</string>
+	<key>nodeAboutCycle</key>
+	<string>tensorDescriptorRight</string>
+	<key>playbackDespiteBuffer</key>
+	<string>invisibleObserverDensity</string>
+	<key>retainedLoopValidation</key>
+	<string>greatDependencyBound</string>
+	<key>unsortedStoreSkewx</key>
+	<string>captionWithoutMediator</string>
+</dict>
+</plist>

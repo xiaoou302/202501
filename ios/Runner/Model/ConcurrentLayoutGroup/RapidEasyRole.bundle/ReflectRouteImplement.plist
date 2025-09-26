@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>customViewInterval</key>
+	<string>petContextVelocity</string>
+	<key>enabledShaderState</key>
+	<string>radiusBeyondMemento</string>
+	<key>exceptionVariableShade</key>
+	<string>indicatorContextBound</string>
+	<key>exponentFormScale</key>
+	<string>curveOutsideDecorator</string>
+	<key>immutableTransformerContrast</key>
+	<string>vectorActivityVisible</string>
+	<key>loopFormTint</key>
+	<string>sophisticatedLayoutMomentum</string>
+	<key>progressbarBesideShape</key>
+	<string>usecasePhaseOrigin</string>
+	<key>statefulBehaviorVisible</key>
+	<string>handlerVisitorStyle</string>
+</dict>
+</plist>

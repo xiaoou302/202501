@@ -1,0 +1,30 @@
+---
+globs: *.dart
+---
+# Dart Coding Standards
+
+## General Guidelines
+- Follow the official [Dart style guide](https://dart.dev/guides/language/effective-dart/style)
+- Use meaningful variable and function names
+- Keep functions small and focused on a single responsibility
+- Add appropriate documentation comments for public APIs
+
+## Flutter Specific
+- Prefer composition over inheritance
+- Extract reusable widgets to separate files
+- Use const constructors whenever possible
+- Organize imports in the following order:
+  1. Dart SDK imports
+  2. Flutter imports
+  3. Third-party package imports
+  4. Local imports (using relative paths)
+
+## State Management
+- Use Riverpod or Provider for state management
+- Keep business logic separate from UI code
+- Avoid using setState for complex state management
+
+## Models
+- Implement proper equality and hashCode methods
+- Include copyWith methods for immutability support
+- Implement toJson and fromJson methods for serialization

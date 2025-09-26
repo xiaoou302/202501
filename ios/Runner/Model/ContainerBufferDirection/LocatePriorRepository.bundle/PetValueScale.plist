@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>cellModeFormat</key>
+	<string>exceptionCycleTag</string>
+	<key>curveForAction</key>
+	<string>toolAndFacade</string>
+	<key>decorationTierVisibility</key>
+	<string>managerPatternInteraction</string>
+	<key>diversifiedPresenterRotation</key>
+	<string>standaloneAllocatorFrequency</string>
+	<key>rapidQueryAcceleration</key>
+	<string>anchorSystemSpeed</string>
+	<key>requiredAspectratioName</key>
+	<string>customizedCupertinoInset</string>
+	<key>spriteParameterTension</key>
+	<string>observerWithoutFramework</string>
+	<key>vectorStructureName</key>
+	<string>bufferTierSpeed</string>
+</dict>
+</plist>

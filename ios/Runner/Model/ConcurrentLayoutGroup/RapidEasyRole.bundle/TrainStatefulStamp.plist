@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>painterNearFramework</key>
+	<string>modulusFormContrast</string>
+	<key>precisionBesideNumber</key>
+	<string>graphSingletonContrast</string>
+	<key>reactiveEntropyPosition</key>
+	<string>customizedSceneDensity</string>
+	<key>spritePhaseName</key>
+	<string>durationOfType</string>
+	<key>stateUntilCommand</key>
+	<string>mobxPlatformColor</string>
+</dict>
+</plist>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>backwardGrainFormat</key>
+	<string>resultAsBridge</string>
+	<key>gradientJobFormat</key>
+	<string>dialogsBesideVariable</string>
+	<key>immutableRoleFrequency</key>
+	<string>layoutCyclePosition</string>
+	<key>kernelPatternTransparency</key>
+	<string>relationalDrawerRight</string>
+	<key>opaqueIntegerForce</key>
+	<string>metadataNumberStyle</string>
+	<key>roleScopeVisible</key>
+	<string>asyncAgainstValue</string>
+	<key>subscriptionInsideCycle</key>
+	<string>observerParameterInset</string>
+	<key>tweenPerAdapter</key>
+	<string>respectiveAlertScale</string>
+</dict>
+</plist>

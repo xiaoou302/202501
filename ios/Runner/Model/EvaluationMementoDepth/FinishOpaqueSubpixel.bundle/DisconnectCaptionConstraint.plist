@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>baselineForScope</key>
+	<string>methodBeyondState</string>
+	<key>frameAboutKind</key>
+	<string>hierarchicalRouteSkewy</string>
+	<key>layoutPerLevel</key>
+	<string>sophisticatedCompletionResponse</string>
+	<key>managerCommandCount</key>
+	<string>cellInObserver</string>
+</dict>
+</plist>

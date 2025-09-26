@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commonRichtextType</key>
+	<string>queueInsideVariable</string>
+	<key>configurationStageHead</key>
+	<string>featureByContext</string>
+	<key>inactiveCaptionContrast</key>
+	<string>textfieldContextMargin</string>
+	<key>routeScopeMargin</key>
+	<string>grainVersusPhase</string>
+	<key>sortedTransitionOffset</key>
+	<string>inheritedAssetCount</string>
+</dict>
+</plist>

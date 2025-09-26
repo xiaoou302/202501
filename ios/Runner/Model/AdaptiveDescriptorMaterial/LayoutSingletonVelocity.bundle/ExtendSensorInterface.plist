@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>comprehensiveAssetFrequency</key>
+	<string>sliderIncludeMediator</string>
+	<key>interactiveBufferBrightness</key>
+	<string>firstDurationRate</string>
+	<key>mediaqueryAtSingleton</key>
+	<string>delegateContextDistance</string>
+	<key>resilientZoneDirection</key>
+	<string>interactorDecoratorOpacity</string>
+	<key>spotFlyweightDistance</key>
+	<string>streamTempleBehavior</string>
+</dict>
+</plist>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soli - 情感伴侣应用</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-space': '#1C1C22',
+                        'champagne': '#D3B88C',
+                        'moonlight': '#EAEAEA',
+                        'silverstone': '#3A3A42',
+                        'coral': '#E87A90',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #1C1C22;
+            color: #EAEAEA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .iphone-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            background-color: #1C1C22;
+        }
+        
+        .screen-content {
+            height: calc(100% - 140px);
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 10px;
+        }
+        
+        .status-bar {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background-color: #1C1C22;
+        }
+        
+        .nav-bar {
+            height: 90px;
+            background-color: #1C1C22;
+            border-top: 1px solid rgba(58, 58, 66, 0.3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9CA3AF;
+            padding-top: 10px;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #D3B88C;
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #D3B88C;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+        
+        .nav-label {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        .memory-card {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .ai-message, .user-message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .ai-message {
+            background: linear-gradient(135deg, #3A3A42 0%, #2A2A32 100%);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #D3B88C 0%, #C0A578 100%);
+            color: #1C1C22;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .proposal-card {
+            background: linear-gradient(135deg, #3A3A42 0%, #2A2A32 100%);
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .proposal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #3A3A42;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .input-field {
+            background-color: #3A3A42;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            color: #EAEAEA;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #D3B88C 0%, #C0A578 100%);
+            color: #1C1C22;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #D3B88C;
+            margin: 0 auto 16px;
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-box {
+            background-color: #3A3A42;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+    <!-- iPhone模拟框架 -->
+    <div class="iphone-frame">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div>9:41</div>
+            <div>
+                <i class="fas fa-signal" style="margin-right: 5px;"></i>
+                <i class="fas fa-wifi" style="margin-right: 5px;"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+        
+        <!-- 屏幕内容 -->
+        <div class="screen-content">
+            <!-- 回忆艺术馆界面 -->
+            <div id="gallery-screen" class="screen active">
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="section-title">回忆艺术馆</h1>
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-search text-champagne"></i>
+                        <i class="fas fa-plus-circle text-champagne text-xl"></i>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex overflow-x-auto pb-2 space-x-3">
+                        <div class="tag bg-champagne text-deep-space">所有回忆</div>
+                        <div class="tag">旅行</div>
+                        <div class="tag">纪念日</div>
+                        <div class="tag">美食</div>
+                        <div class="tag">日常</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="memory-card aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Memory" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent rounded-2xl">
+                            <p class="text-sm font-medium">巴厘岛之旅</p>
+                            <p class="text-xs opacity-80">2023年6月12日</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Memory" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent rounded-2xl">
+                            <p class="text-sm font-medium">周年纪念</p>
+                            <p class="text-xs opacity-80">2023年3月24日</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1529254479751-fbacb4c3b6e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Memory" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent rounded-2xl">
+                            <p class="text-sm font-medium">浪漫晚餐</p>
+                            <p class="text-xs opacity-80">2023年5月18日</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Memory" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent rounded-2xl">
+                            <p class="text-sm font-medium">周末徒步</p>
+                            <p class="text-xs opacity-80">2023年7月8日</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1519415711931-702deacf5be2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Memory" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent rounded-2xl">
+                            <p class="text-sm font-medium">生日惊喜</p>
+                            <p class="text-xs opacity-80">2023年4月15日</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card aspect-square relative bg-silverstone rounded-2xl flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="fas fa-images text-3xl mb-2 text-champagne"></i>
+                            <p class="text-sm">更多回忆</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI主题策展部分已移除 -->
+            </div>
+            
+            <!-- 情感共鸣社区界面 -->
+            <div id="community-screen" class="screen">
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="section-title">情感社区</h1>
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-bell text-champagne"></i>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex overflow-x-auto pb-2 space-x-3">
+                        <div class="tag bg-champagne text-deep-space">推荐</div>
+                        <div class="tag">婚姻智慧</div>
+                        <div class="tag">恋爱瞬间</div>
+                        <div class="tag">备婚进行时</div>
+                    </div>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="ai-message">
+                        <p>你好，我是Soli的情感助手。今天有什么想分享的吗？无论是快乐还是烦恼，我都在这里倾听。</p>
+                    </div>
+                    
+                    <div class="user-message">
+                        <p>最近和伴侣有些小摩擦，不知道该如何处理...</p>
+                    </div>
+                    
+                    <div class="ai-message">
+                        <p>感谢你愿意分享。关系中出现摩擦是正常的，重要的是如何沟通解决。可以告诉我更多细节吗？我会尽力提供一些建议。</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h2 class="text-lg font-semibold mb-4">热门话题</h2>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-start mb-3">
+                            <div class="w-10 h-10 rounded-full bg-champagne flex items-center justify-center mr-3">
+                                <span class="text-deep-space font-semibold">L</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">如何平衡工作与感情？</h3>
+                                <p class="text-xs text-gray-400">128条回复 · 45赞</p>
+                            </div>
+                        </div>
+                        <p class="text-sm">和伴侣工作时间完全不同，感觉越来越疏远，大家有什么建议吗？</p>
+                    </div>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-start mb-3">
+                            <div class="w-10 h-10 rounded-full bg-coral flex items-center justify-center mr-3">
+                                <span class="text-white font-semibold">M</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">惊喜约会创意分享</h3>
+                                <p class="text-xs text-gray-400">76条回复 · 62赞</p>
+                            </div>
+                        </div>
+                        <p class="text-sm">收集了一些超棒的约会创意，让平凡的日子也变得特别！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 求婚策划界面 -->
+            <div id="planner-screen" class="screen">
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="section-title">仪式策划</h1>
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-history text-champagne"></i>
+                    </div>
+                </div>
+                
+                <div class="mb-6 bg-silverstone p-5 rounded-2xl">
+                    <h2 class="text-lg font-semibold mb-4">定制您的完美求婚</h2>
+                    <p class="text-sm mb-4">回答几个问题，AI将为您生成个性化的求婚方案</p>
+                    <button class="btn-primary">开始策划</button>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-4">灵感库</h2>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-lg bg-champagne flex items-center justify-center mr-3">
+                                <i class="fas fa-utensils text-deep-space"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">浪漫餐厅求婚</h3>
+                                <p class="text-xs text-gray-400">经典而优雅的选择</p>
+                            </div>
+                        </div>
+                        <p class="text-sm">在高级餐厅的私密环境中，用戒指和鲜花给她一个惊喜。</p>
+                    </div>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-lg bg-coral flex items-center justify-center mr-3">
+                                <i class="fas fa-mountain text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">自然风光求婚</h3>
+                                <p class="text-xs text-gray-400">适合热爱户外的情侣</p>
+                            </div>
+                        </div>
+                        <p class="text-sm">在山顶、海边或星空下，让大自然见证你们的爱情。</p>
+                    </div>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-lg bg-silverstone flex items-center justify-center mr-3">
+                                <i class="fas fa-home text-champagne"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">家庭温馨求婚</h3>
+                                <p class="text-xs text-gray-400">私密而个性化</p>
+                            </div>
+                        </div>
+                        <p class="text-sm">在家中精心布置，创造温馨而难忘的求婚时刻。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人资料界面 -->
+            <div id="profile-screen" class="screen">
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="section-title">个人资料</h1>
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-cog text-champagne"></i>
+                    </div>
+                </div>
+                
+                <!-- 用户头像和名字已移除 -->
+                
+                <div class="stats-grid mb-8">
+                    <div class="stat-box">
+                        <div class="stat-value">147</div>
+                        <div class="stat-label">回忆瞬间</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">主题相册</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">策划方案</div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-4">最近活动</h2>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-champagne flex items-center justify-center mr-3">
+                            <i class="fas fa-plus text-deep-space"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">添加了新回忆</h3>
+                            <p class="text-xs text-gray-400">2小时前</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-coral flex items-center justify-center mr-3">
+                            <i class="fas fa-heart text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">点赞了社区帖子</h3>
+                            <p class="text-xs text-gray-400">昨天</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-silverstone flex items-center justify-center mr-3">
+                            <i class="fas fa-ring text-champagne"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">创建了求婚方案</h3>
+                            <p class="text-xs text-gray-400">3天前</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h2 class="text-lg font-semibold mb-4">设置</h2>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-medium">通知设置</h3>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-medium">隐私与安全</h3>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="proposal-card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-medium">帮助与支持</h3>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 导航栏 -->
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchScreen('gallery-screen')">
+                <i class="fas fa-images text-xl"></i>
+                <div class="nav-label">回忆</div>
+            </div>
+            
+            <div class="nav-item" onclick="switchScreen('community-screen')">
+                <i class="fas fa-comments text-xl"></i>
+                <div class="nav-label">社区</div>
+            </div>
+            
+            <div class="nav-item" onclick="switchScreen('planner-screen')">
+                <i class="fas fa-ring text-xl"></i>
+                <div class="nav-label">策划</div>
+            </div>
+            
+            <div class="nav-item" onclick="switchScreen('profile-screen')">
+                <i class="fas fa-user text-xl"></i>
+                <div class="nav-label">我的</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换屏幕函数
+        function switchScreen(screenId) {
+            // 隐藏所有屏幕
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // 显示选中的屏幕
+            document.getElementById(screenId).classList.add('active');
+            
+            // 更新导航栏活动状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 为当前选中的导航项添加活动类
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

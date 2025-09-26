@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>futureStageFlags</key>
+	<string>commonSinkHead</string>
+	<key>notificationOrCycle</key>
+	<string>configurationFlyweightFlags</string>
+	<key>resultAboutFramework</key>
+	<string>delegateActivityShade</string>
+	<key>routeActivityKind</key>
+	<string>providerValueOffset</string>
+	<key>screenDuringStage</key>
+	<string>reactiveSignSkewy</string>
+	<key>scrollableBitrateFlags</key>
+	<string>missedGraphicState</string>
+	<key>sinkFlyweightTheme</key>
+	<string>asyncSingletonTheme</string>
+	<key>symmetricUsecaseDistance</key>
+	<string>functionalRowFeedback</string>
+	<key>usecaseDespiteParam</key>
+	<string>monsterAboutAction</string>
+</dict>
+</plist>

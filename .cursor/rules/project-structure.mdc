@@ -1,0 +1,28 @@
+---
+alwaysApply: true
+---
+# Project Structure
+
+This Flutter project follows a clean architecture pattern with clear separation of concerns:
+
+```
+lib/
+├── main.dart                    # 应用入口
+├── core/
+│   ├── constants/              # 常量定义
+│   ├── utils/                  # 工具类
+│   └── theme/                  # 主题配置
+├── data/
+│   ├── models/                 # 数据模型
+│   ├── repositories/           # 数据仓库
+│   └── datasources/            # 数据源
+├── domain/
+│   ├── entities/               # 业务实体
+│   └── usecases/               # 用例
+└── presentation/
+    ├── screens/                # 页面屏幕
+    ├── widgets/                # 可复用组件
+    └── providers/              # 状态管理
+```
+
+When creating new files, follow this structure and ensure they are placed in the appropriate directories.

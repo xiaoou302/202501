@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>activeResourceRate</key>
+	<string>intuitiveTitleFeedback</string>
+	<key>futureAmongChain</key>
+	<string>tappableBrushShade</string>
+	<key>largeTimerFormat</key>
+	<string>variantOutsideAction</string>
+	<key>segueChainTop</key>
+	<string>effectMethodEdge</string>
+	<key>semanticsAboutCycle</key>
+	<string>delegateWithoutVariable</string>
+	<key>sineVarShape</key>
+	<string>tensorTimerTail</string>
+</dict>
+</plist>

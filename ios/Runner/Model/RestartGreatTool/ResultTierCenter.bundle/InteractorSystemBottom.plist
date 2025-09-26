@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>borderWithType</key>
+	<string>drawerBridgeKind</string>
+	<key>materialObserverHue</key>
+	<string>menuFormHue</string>
+	<key>mobxDuringCycle</key>
+	<string>unactivatedHashBottom</string>
+	<key>mobxOfOperation</key>
+	<string>stackAmongVisitor</string>
+	<key>responsivePaddingType</key>
+	<string>projectionContextPosition</string>
+	<key>singlePresenterFrequency</key>
+	<string>grainFormMode</string>
+	<key>swiftLayerTint</key>
+	<string>scaffoldMethodBrightness</string>
+	<key>widgetFrameworkForce</key>
+	<string>observerBeyondActivity</string>
+</dict>
+</plist>

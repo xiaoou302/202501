@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>baselineSingletonIndex</key>
+	<string>aspectratioOrOperation</string>
+	<key>chapterSinceFlyweight</key>
+	<string>eagerBoxshadowBehavior</string>
+	<key>coordinatorExceptMode</key>
+	<string>popupInsideMode</string>
+	<key>descriptorInStage</key>
+	<string>constraintFormVisible</string>
+	<key>heapVersusSingleton</key>
+	<string>callbackThroughPlatform</string>
+	<key>significantPromiseStyle</key>
+	<string>completionMediatorInterval</string>
+	<key>tickerMethodLeft</key>
+	<string>tensorErrorDuration</string>
+	<key>vectorViaStructure</key>
+	<string>storageCompositeName</string>
+</dict>
+</plist>

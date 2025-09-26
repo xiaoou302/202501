@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>cacheStructureRotation</key>
+	<string>tweenWorkState</string>
+	<key>containerAgainstObserver</key>
+	<string>usageOutsideObserver</string>
+	<key>reductionWorkMargin</key>
+	<string>gridviewAdapterOpacity</string>
+	<key>tappableErrorRight</key>
+	<string>mapParameterFrequency</string>
+	<key>transformerMethodBrightness</key>
+	<string>ephemeralNavigatorBound</string>
+</dict>
+</plist>

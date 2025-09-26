@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commonScreenKind</key>
+	<string>advancedAwaitFormat</string>
+	<key>commonZoneDirection</key>
+	<string>scrollableTaskInteraction</string>
+	<key>durationByMediator</key>
+	<string>pageviewBufferCoord</string>
+	<key>sinkParameterTint</key>
+	<string>heapFrameworkSkewy</string>
+	<key>sizeOutsideStrategy</key>
+	<string>webRepositoryDirection</string>
+</dict>
+</plist>

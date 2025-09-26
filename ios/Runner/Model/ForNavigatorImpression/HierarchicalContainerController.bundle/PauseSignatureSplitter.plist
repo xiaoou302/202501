@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>alphaFromCycle</key>
+	<string>batchAsCycle</string>
+	<key>checklistProcessSpeed</key>
+	<string>delegateIncludeEnvironment</string>
+	<key>draggableBuilderDelay</key>
+	<string>controllerOutsidePattern</string>
+	<key>routeLayerFlags</key>
+	<string>rowVersusMediator</string>
+	<key>transitionUntilTier</key>
+	<string>invisiblePlateContrast</string>
+	<key>vectorVariableTension</key>
+	<string>currentAssetTension</string>
+</dict>
+</plist>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commandBridgeInteraction</key>
+	<string>loopWorkInset</string>
+	<key>dialogsLevelOpacity</key>
+	<string>sortedTransformerCount</string>
+	<key>fusedLayoutBottom</key>
+	<string>mediaqueryStructureInset</string>
+	<key>futureAmongPhase</key>
+	<string>eagerFactoryRotation</string>
+	<key>getxObserverFlags</key>
+	<string>timerMediatorShade</string>
+	<key>providerLikeForm</key>
+	<string>rectAboutVariable</string>
+	<key>semanticAwaitInterval</key>
+	<string>transformerSingletonMargin</string>
+	<key>subscriptionThroughVisitor</key>
+	<string>listenerProxyBound</string>
+</dict>
+</plist>

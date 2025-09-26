@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fixedCupertinoKind</key>
+	<string>masterSystemMode</string>
+	<key>localNavigatorBorder</key>
+	<string>positionChainVisible</string>
+	<key>mobxLayerLeft</key>
+	<string>priorityAsAdapter</string>
+	<key>prismaticCapacitiesIndex</key>
+	<string>prevDrawerPressure</string>
+</dict>
+</plist>

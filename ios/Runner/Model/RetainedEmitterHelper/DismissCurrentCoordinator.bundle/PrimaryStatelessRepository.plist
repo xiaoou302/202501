@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>cardForShape</key>
+	<string>loopSinceMediator</string>
+	<key>contractionScopeTail</key>
+	<string>radiusCommandVisibility</string>
+	<key>diffableAssetScale</key>
+	<string>cacheMediatorStyle</string>
+	<key>iconAtKind</key>
+	<string>layoutSingletonInset</string>
+	<key>momentumOperationTransparency</key>
+	<string>iterativeBuilderSpacing</string>
+	<key>nibBesideOperation</key>
+	<string>spotTempleSize</string>
+	<key>segmentSinceInterpreter</key>
+	<string>bufferFrameworkAlignment</string>
+</dict>
+</plist>

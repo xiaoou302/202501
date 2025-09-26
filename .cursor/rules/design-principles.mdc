@@ -1,0 +1,26 @@
+---
+alwaysApply: true
+---
+# Design Principles
+
+## Unique Design Style
+- Maintain brand consistency with the established color scheme:
+  - Deep Space (`#1C1C22`)
+  - Champagne (`#D3B88C`)
+  - Moonlight (`#EAEAEA`)
+  - Silverstone (`#3A3A42`)
+  - Coral (`#E87A90`)
+- Use custom components rather than standard ones where appropriate
+- Create distinctive visual elements to make the app stand out
+
+## Visual Engagement
+- Include micro-interactions and subtle animations to improve usability
+- Ensure proper spacing and alignment for clean layouts
+- Use high contrast between text and backgrounds for readability
+- Design with attention to detail in state feedback and interactive elements
+
+## Typography and Layout
+- Use the Inter font family as the primary typeface
+- Maintain clear typographic hierarchy
+- Experiment with non-traditional layouts while keeping navigation intuitive
+- Ensure responsive design across different screen sizes

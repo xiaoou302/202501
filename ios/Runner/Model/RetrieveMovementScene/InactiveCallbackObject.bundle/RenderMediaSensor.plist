@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>durationAlongStrategy</key>
+	<string>alphaNearObserver</string>
+	<key>euclideanPopupOrigin</key>
+	<string>cellExceptDecorator</string>
+	<key>granularAllocatorStyle</key>
+	<string>statelessMementoName</string>
+	<key>signStyleDistance</key>
+	<string>originalPriorityRate</string>
+</dict>
+</plist>

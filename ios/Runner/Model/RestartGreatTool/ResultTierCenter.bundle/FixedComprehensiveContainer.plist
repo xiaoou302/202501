@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>accessibleGateBehavior</key>
+	<string>transitionThroughShape</string>
+	<key>blocDuringNumber</key>
+	<string>completerShapeStyle</string>
+	<key>builderAlongCycle</key>
+	<string>activatedMultiplicationMargin</string>
+	<key>fusedUsecaseShape</key>
+	<string>immediatePrecisionBorder</string>
+	<key>gramSingletonSkewy</key>
+	<string>scalePatternFeedback</string>
+	<key>spriteStateBottom</key>
+	<string>completerDespiteFunction</string>
+	<key>tensorEffectInteraction</key>
+	<string>factoryFlyweightTension</string>
+	<key>unaryIncludeStructure</key>
+	<string>multiplicationAlongProxy</string>
+</dict>
+</plist>

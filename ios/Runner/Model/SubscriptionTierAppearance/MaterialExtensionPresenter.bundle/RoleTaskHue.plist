@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dependencyAmongVar</key>
+	<string>customPreviewCount</string>
+	<key>easyGemSpeed</key>
+	<string>priorityAdapterFeedback</string>
+	<key>labelBridgeBrightness</key>
+	<string>checkboxInMethod</string>
+	<key>lastAccessoryForce</key>
+	<string>similarUtilOrientation</string>
+	<key>listenerAsPrototype</key>
+	<string>popupInsideActivity</string>
+	<key>optionLayerSaturation</key>
+	<string>responsiveTableRate</string>
+	<key>reducerChainVisible</key>
+	<string>boxAtPlatform</string>
+	<key>sessionAsFramework</key>
+	<string>subtleStampPressure</string>
+	<key>stateOrForm</key>
+	<string>advancedSampleSaturation</string>
+</dict>
+</plist>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>intensityFromStrategy</key>
+	<string>coordinatorByVisitor</string>
+	<key>kernelScopeVisibility</key>
+	<string>modelPerVisitor</string>
+	<key>lostTickerBound</key>
+	<string>equalizationAwayOperation</string>
+	<key>radioAlongFlyweight</key>
+	<string>callbackNearInterpreter</string>
+	<key>radiusAsState</key>
+	<string>shaderAdapterMode</string>
+	<key>semanticFactoryPadding</key>
+	<string>activatedTangentScale</string>
+	<key>sinkFromParameter</key>
+	<string>eagerDecorationDelay</string>
+</dict>
+</plist>

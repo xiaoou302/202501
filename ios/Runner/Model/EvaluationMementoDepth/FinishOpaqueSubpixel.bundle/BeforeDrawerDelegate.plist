@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>disabledIsolateIndex</key>
+	<string>sceneWithoutJob</string>
+	<key>hardHistogramStyle</key>
+	<string>sliderForCycle</string>
+	<key>listviewAlongForm</key>
+	<string>interfaceSystemRate</string>
+	<key>providerForActivity</key>
+	<string>invisibleMediaLeft</string>
+	<key>relationalNodeSaturation</key>
+	<string>playbackFlyweightHue</string>
+	<key>smallFactoryDuration</key>
+	<string>keyPreviewTop</string>
+	<key>toolForTier</key>
+	<string>intermediateControllerSkewy</string>
+	<key>topicThroughObserver</key>
+	<string>injectionActionForce</string>
+</dict>
+</plist>

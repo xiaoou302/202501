@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commandViaEnvironment</key>
+	<string>menuDuringStyle</string>
+	<key>documentPhasePressure</key>
+	<string>entityExceptCommand</string>
+	<key>gemScopeContrast</key>
+	<string>webDecorationOrigin</string>
+	<key>hierarchicalGridviewCoord</key>
+	<string>symmetricFrameName</string>
+	<key>layerStructureFeedback</key>
+	<string>tabbarActionIndex</string>
+	<key>masterUntilStage</key>
+	<string>viewMementoInterval</string>
+	<key>overlayFrameworkFrequency</key>
+	<string>cupertinoBufferScale</string>
+	<key>pointChainDuration</key>
+	<string>autoSignAlignment</string>
+	<key>singleLabelState</key>
+	<string>mapShapeFrequency</string>
+</dict>
+</plist>

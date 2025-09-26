@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>blocOutsideFacade</key>
+	<string>transformerStateEdge</string>
+	<key>cellLikeActivity</key>
+	<string>menuPerPlatform</string>
+	<key>chapterDecoratorMargin</key>
+	<string>grainParamBottom</string>
+	<key>concurrentWorkflowMargin</key>
+	<string>uniqueWorkflowCount</string>
+	<key>decorationAsContext</key>
+	<string>cupertinoFrameShade</string>
+	<key>oldPlaybackOrientation</key>
+	<string>particleBufferKind</string>
+	<key>reusableRadiusMode</key>
+	<string>assetPerBridge</string>
+	<key>sizedboxScopeInterval</key>
+	<string>batchForPrototype</string>
+	<key>slashVariableTail</key>
+	<string>constMobxOrigin</string>
+</dict>
+</plist>

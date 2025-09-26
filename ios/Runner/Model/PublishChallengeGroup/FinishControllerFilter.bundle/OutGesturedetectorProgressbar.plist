@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>activatedSkirtRate</key>
+	<string>boxThroughParam</string>
+	<key>activatedTaskOffset</key>
+	<string>asyncByFunction</string>
+	<key>capsuleBridgeScale</key>
+	<string>aspectratioThroughMethod</string>
+	<key>constraintStateBound</key>
+	<string>mobileChannelAlignment</string>
+	<key>independentImageBrightness</key>
+	<string>unaryFrameworkLocation</string>
+	<key>lostErrorForce</key>
+	<string>opaqueAspectratioDistance</string>
+	<key>stackStateBorder</key>
+	<string>cubitOfState</string>
+</dict>
+</plist>

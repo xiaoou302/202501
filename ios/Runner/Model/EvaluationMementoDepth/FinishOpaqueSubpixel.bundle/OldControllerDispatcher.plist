@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dependencyPlatformSpeed</key>
+	<string>scrollFlyweightSpacing</string>
+	<key>granularDelegatePosition</key>
+	<string>discardedResolverCenter</string>
+	<key>gridviewNearProcess</key>
+	<string>asynchronousWidgetCenter</string>
+	<key>publicTransformerDuration</key>
+	<string>dialogsAlongTask</string>
+	<key>stepParamBorder</key>
+	<string>heapActionKind</string>
+	<key>timerSystemEdge</key>
+	<string>widgetPerPlatform</string>
+</dict>
+</plist>

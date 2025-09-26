@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>concreteRoleDensity</key>
+	<string>graphOrVariable</string>
+	<key>errorOutsideAdapter</key>
+	<string>cubitAboutLevel</string>
+	<key>isolateOrStructure</key>
+	<string>stampMethodShade</string>
+	<key>positionDuringCommand</key>
+	<string>entityDuringSystem</string>
+	<key>projectWithoutPlatform</key>
+	<string>builderPerProcess</string>
+</dict>
+</plist>

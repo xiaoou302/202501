@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>controllerObserverInterval</key>
+	<string>blocDuringState</string>
+	<key>coordinatorWithParameter</key>
+	<string>menuTierMargin</string>
+	<key>dependencyJobRight</key>
+	<string>multiLayoutBehavior</string>
+	<key>firstTableAppearance</key>
+	<string>builderParameterTail</string>
+	<key>isolatePerPattern</key>
+	<string>previewBridgeOrigin</string>
+	<key>primaryListenerType</key>
+	<string>crucialTransformerStyle</string>
+	<key>routeJobBehavior</key>
+	<string>radiusCompositeKind</string>
+	<key>semanticNodeCenter</key>
+	<string>euclideanContractionKind</string>
+</dict>
+</plist>

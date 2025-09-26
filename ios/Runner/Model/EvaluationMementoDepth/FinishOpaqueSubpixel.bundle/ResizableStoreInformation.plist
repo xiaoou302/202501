@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>borderCompositeTop</key>
+	<string>reusableViewAlignment</string>
+	<key>rectStateAcceleration</key>
+	<string>mutableFrameSaturation</string>
+	<key>scrollableConstraintPosition</key>
+	<string>cupertinoVersusBridge</string>
+	<key>signVisitorAppearance</key>
+	<string>relationalStackAcceleration</string>
+	<key>significantRemainderScale</key>
+	<string>difficultTickerSize</string>
+	<key>stepInterpreterBehavior</key>
+	<string>fixedCoordinatorRight</string>
+</dict>
+</plist>

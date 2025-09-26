@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>directlyErrorDirection</key>
+	<string>spriteBufferLocation</string>
+	<key>fragmentFormIndex</key>
+	<string>controllerAgainstParameter</string>
+	<key>inkwellFormState</key>
+	<string>usedCubitPosition</string>
+	<key>mobileAccessoryIndex</key>
+	<string>graphicInsideVar</string>
+	<key>publicProviderCount</key>
+	<string>resultInsideWork</string>
+	<key>statelessParamRotation</key>
+	<string>statelessGrayscaleRate</string>
+</dict>
+</plist>

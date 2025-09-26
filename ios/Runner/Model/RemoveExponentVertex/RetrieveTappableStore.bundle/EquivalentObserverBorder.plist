@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dedicatedBorderPosition</key>
+	<string>curveAgainstProxy</string>
+	<key>extensionAtVariable</key>
+	<string>pinchableListenerAcceleration</string>
+	<key>imageAmongDecorator</key>
+	<string>movementVarForce</string>
+	<key>materialAtFacade</key>
+	<string>groupModeSaturation</string>
+	<key>metadataAsEnvironment</key>
+	<string>expandedProcessName</string>
+	<key>metadataTaskDuration</key>
+	<string>robustPetShape</string>
+	<key>streamParameterScale</key>
+	<string>completerAsObserver</string>
+</dict>
+</plist>

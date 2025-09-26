@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>binaryDecoratorType</key>
+	<string>ignoredMenuPadding</string>
+	<key>blocSinceObserver</key>
+	<string>decorationAsAction</string>
+	<key>comprehensiveEventDensity</key>
+	<string>tensorTitleStyle</string>
+	<key>cupertinoDocumentCenter</key>
+	<string>curveNumberState</string>
+	<key>inkwellInLayer</key>
+	<string>touchSincePlatform</string>
+	<key>mediumDescriptorColor</key>
+	<string>convolutionContainPattern</string>
+	<key>scaffoldNearStructure</key>
+	<string>sceneByStrategy</string>
+	<key>secondPositionName</key>
+	<string>histogramLikeSingleton</string>
+	<key>serviceAdapterPressure</key>
+	<string>desktopRowMargin</string>
+	<key>tabbarModeTheme</key>
+	<string>intensityOfTask</string>
+</dict>
+</plist>

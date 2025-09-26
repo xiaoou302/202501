@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>accordionBinaryInterval</key>
+	<string>originalLocalizationFlags</string>
+	<key>layoutBeyondObserver</key>
+	<string>diffablePreviewBound</string>
+	<key>mobileObserverTag</key>
+	<string>robustBinaryTint</string>
+	<key>relationalTextRight</key>
+	<string>columnPerVar</string>
+	<key>uniqueGesturedetectorType</key>
+	<string>localizationPerObserver</string>
+</dict>
+</plist>

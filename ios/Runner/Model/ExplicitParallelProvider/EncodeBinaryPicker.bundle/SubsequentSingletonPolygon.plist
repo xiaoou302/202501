@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>arithmeticAgainstFunction</key>
+	<string>equalizationDuringFlyweight</string>
+	<key>arithmeticDuringJob</key>
+	<string>equalizationAtFlyweight</string>
+	<key>flexTierVisibility</key>
+	<string>grayscaleFormBrightness</string>
+	<key>iconWithLevel</key>
+	<string>animatedConstraintBound</string>
+	<key>listenerPlatformShape</key>
+	<string>apertureAndType</string>
+	<key>ternaryExceptInterpreter</key>
+	<string>blocFacadeLocation</string>
+</dict>
+</plist>

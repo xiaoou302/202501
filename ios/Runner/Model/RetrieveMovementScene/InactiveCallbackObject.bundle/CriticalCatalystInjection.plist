@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>behaviorAroundType</key>
+	<string>explicitStateResponse</string>
+	<key>coordinatorByObserver</key>
+	<string>handlerVersusEnvironment</string>
+	<key>effectAtProxy</key>
+	<string>requiredStatefulFrequency</string>
+	<key>independentGrayscaleScale</key>
+	<string>protocolAwayTier</string>
+	<key>overlayWithFunction</key>
+	<string>resilientButtonDelay</string>
+	<key>prevPlatePadding</key>
+	<string>rapidCoordinatorState</string>
+	<key>progressbarWorkTransparency</key>
+	<string>offsetFunctionSkewy</string>
+	<key>providerValueHead</key>
+	<string>animationVersusVariable</string>
+</dict>
+</plist>

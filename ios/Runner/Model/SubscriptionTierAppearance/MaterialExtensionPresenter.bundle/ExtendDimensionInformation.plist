@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>basicStoryboardContrast</key>
+	<string>signCommandValidation</string>
+	<key>blocSystemAcceleration</key>
+	<string>singletonProxyRate</string>
+	<key>cupertinoNumberDistance</key>
+	<string>backwardCoordinatorFlags</string>
+	<key>hyperbolicButtonDelay</key>
+	<string>sizeStructureBorder</string>
+	<key>primaryCallbackSkewx</key>
+	<string>materialVariableBrightness</string>
+	<key>sizedboxWithoutStyle</key>
+	<string>denseSpotStatus</string>
+</dict>
+</plist>

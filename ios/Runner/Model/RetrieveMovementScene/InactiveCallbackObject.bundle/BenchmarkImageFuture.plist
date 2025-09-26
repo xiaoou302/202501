@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>backwardRowVelocity</key>
+	<string>sampleBesideComposite</string>
+	<key>giftCommandDelay</key>
+	<string>commandBridgeDistance</string>
+	<key>groupDuringStage</key>
+	<string>zoneContainActivity</string>
+	<key>mobxContextAcceleration</key>
+	<string>graphicActivityBound</string>
+	<key>queryFormBound</key>
+	<string>currentPopupMomentum</string>
+	<key>repositoryForAdapter</key>
+	<string>alignmentAboutStyle</string>
+	<key>symmetricCycleBehavior</key>
+	<string>declarativeMasterBottom</string>
+</dict>
+</plist>

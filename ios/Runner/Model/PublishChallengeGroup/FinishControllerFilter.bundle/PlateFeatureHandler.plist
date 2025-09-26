@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>asyncDuringInterpreter</key>
+	<string>activatedTaskFeedback</string>
+	<key>chapterWithMethod</key>
+	<string>checkboxAndCycle</string>
+	<key>commonAnimationMode</key>
+	<string>loopTypeMomentum</string>
+	<key>delegateModeTransparency</key>
+	<string>normalLogColor</string>
+	<key>descriptionCompositeFrequency</key>
+	<string>mediocreGrainSaturation</string>
+	<key>entropyOutsidePrototype</key>
+	<string>accessibleDurationMargin</string>
+	<key>ignoredEqualizationState</key>
+	<string>histogramForComposite</string>
+	<key>roleThanProcess</key>
+	<string>resourceUntilVariable</string>
+</dict>
+</plist>

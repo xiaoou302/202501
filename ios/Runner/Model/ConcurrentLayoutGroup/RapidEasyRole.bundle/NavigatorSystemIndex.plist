@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>effectLikeEnvironment</key>
+	<string>rowChainAlignment</string>
+	<key>featureInsideValue</key>
+	<string>richtextDuringVariable</string>
+	<key>modelChainVisibility</key>
+	<string>modelFromPrototype</string>
+	<key>popupActionOpacity</key>
+	<string>isolatePrototypeOrientation</string>
+	<key>progressbarNumberShape</key>
+	<string>scaleLevelSpacing</string>
+	<key>queryAsStructure</key>
+	<string>tensorVectorTransparency</string>
+	<key>smallDependencyBorder</key>
+	<string>sophisticatedTickerSpacing</string>
+	<key>unactivatedLayoutStyle</key>
+	<string>grayscaleDecoratorMode</string>
+</dict>
+</plist>

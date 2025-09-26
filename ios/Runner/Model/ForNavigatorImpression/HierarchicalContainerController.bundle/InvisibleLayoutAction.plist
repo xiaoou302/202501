@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>chapterFromFacade</key>
+	<string>heapTaskBottom</string>
+	<key>drawerBufferBorder</key>
+	<string>nextStepMode</string>
+	<key>easyEntityDuration</key>
+	<string>listviewLikeMediator</string>
+	<key>grainValueValidation</key>
+	<string>painterInActivity</string>
+	<key>intermediateWidgetRotation</key>
+	<string>sizeStructureTop</string>
+	<key>parallelCompletionBrightness</key>
+	<string>resultAdapterType</string>
+	<key>positionedActivityDensity</key>
+	<string>accessoryContainAction</string>
+	<key>semanticReducerPressure</key>
+	<string>sceneJobStyle</string>
+	<key>transitionAgainstProxy</key>
+	<string>containerAmongBuffer</string>
+</dict>
+</plist>

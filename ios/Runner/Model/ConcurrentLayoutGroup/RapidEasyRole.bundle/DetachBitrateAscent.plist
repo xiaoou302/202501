@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commandDuringCycle</key>
+	<string>rowSinceWork</string>
+	<key>containerOutsideWork</key>
+	<string>callbackBesidePrototype</string>
+	<key>currentWorkflowDirection</key>
+	<string>grayscaleForVisitor</string>
+	<key>delegateForChain</key>
+	<string>vectorForStage</string>
+	<key>immutableAsyncVisibility</key>
+	<string>momentumViaVar</string>
+	<key>inheritedSpriteCoord</key>
+	<string>interactorKindBehavior</string>
+	<key>labelTypeMomentum</key>
+	<string>semanticsTemplePadding</string>
+	<key>zoneOfVar</key>
+	<string>localGiftMode</string>
+</dict>
+</plist>

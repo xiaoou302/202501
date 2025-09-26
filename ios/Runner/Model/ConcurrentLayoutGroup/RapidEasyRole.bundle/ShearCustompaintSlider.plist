@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>actionAgainstDecorator</key>
+	<string>serviceOfVariable</string>
+	<key>batchLayerAlignment</key>
+	<string>themeBufferHue</string>
+	<key>bufferNearBridge</key>
+	<string>marginForPlatform</string>
+	<key>fixedReducerCenter</key>
+	<string>nativeChartVisible</string>
+	<key>graphicMediatorBottom</key>
+	<string>widgetTaskAppearance</string>
+	<key>mapOperationIndex</key>
+	<string>cardLikeScope</string>
+	<key>riverpodDecoratorSaturation</key>
+	<string>cardThroughMode</string>
+	<key>taskPhaseBehavior</key>
+	<string>tweenVarValidation</string>
+</dict>
+</plist>

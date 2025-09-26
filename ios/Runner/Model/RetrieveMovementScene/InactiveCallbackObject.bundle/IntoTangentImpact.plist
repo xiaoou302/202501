@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dependencyParameterContrast</key>
+	<string>textInVisitor</string>
+	<key>explicitUtilBound</key>
+	<string>graphicAsFramework</string>
+	<key>monsterSinceVisitor</key>
+	<string>labelProcessEdge</string>
+	<key>primaryGestureShade</key>
+	<string>timerProxyRotation</string>
+	<key>rowIncludeJob</key>
+	<string>awaitWithoutCycle</string>
+</dict>
+</plist>

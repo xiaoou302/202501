@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>accessibleGateShade</key>
+	<string>scaleBufferShape</string>
+	<key>clipperProxyOpacity</key>
+	<string>responsiveAnimationOpacity</string>
+	<key>compositionForType</key>
+	<string>configurationViaLayer</string>
+	<key>effectOfSystem</key>
+	<string>anchorBufferPressure</string>
+	<key>instructionMediatorDepth</key>
+	<string>checkboxProcessFeedback</string>
+	<key>isolateEnvironmentType</key>
+	<string>timerBeyondSystem</string>
+	<key>listviewPlatformShade</key>
+	<string>cubitShapeInterval</string>
+	<key>sharedWorkflowFormat</key>
+	<string>localizationContainCommand</string>
+	<key>unactivatedEntropySize</key>
+	<string>previewOfActivity</string>
+</dict>
+</plist>

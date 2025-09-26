@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appbarProcessPosition</key>
+	<string>entityAgainstActivity</string>
+	<key>channelContextVisibility</key>
+	<string>substantialGraphShape</string>
+	<key>decorationMethodColor</key>
+	<string>smartOverlayOrientation</string>
+	<key>eventBeyondPlatform</key>
+	<string>discardedScreenFrequency</string>
+	<key>hashModeOrientation</key>
+	<string>imageChainColor</string>
+	<key>stateTaskSize</key>
+	<string>pivotalQueryDuration</string>
+	<key>symmetricSignatureSkewy</key>
+	<string>navigatorPerType</string>
+	<key>taskAboutStrategy</key>
+	<string>tappableAsyncShape</string>
+</dict>
+</plist>

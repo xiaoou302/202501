@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>asynchronousEffectState</key>
+	<string>customLabelTransparency</string>
+	<key>builderAroundStyle</key>
+	<string>animationProxyCenter</string>
+	<key>builderCycleSpacing</key>
+	<string>cardPhaseBorder</string>
+	<key>invisibleStoryboardAppearance</key>
+	<string>lossTempleColor</string>
+	<key>routeJobDuration</key>
+	<string>lastVectorDepth</string>
+	<key>symbolPhaseOrigin</key>
+	<string>cupertinoOperationIndex</string>
+</dict>
+</plist>

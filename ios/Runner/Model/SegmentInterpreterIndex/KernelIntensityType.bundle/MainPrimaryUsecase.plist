@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>alignmentVersusScope</key>
+	<string>cubeNearParameter</string>
+	<key>baseAtLevel</key>
+	<string>constraintMementoValidation</string>
+	<key>compositionalGridviewTop</key>
+	<string>mainProjectInteraction</string>
+	<key>denseNodePressure</key>
+	<string>singleBoxBehavior</string>
+	<key>gridviewVisitorBrightness</key>
+	<string>otherInterpolationTint</string>
+	<key>remainderPrototypeInteraction</key>
+	<string>reusableAxisTint</string>
+	<key>statelessCustompaintRotation</key>
+	<string>discardedImageValidation</string>
+	<key>touchSinceProxy</key>
+	<string>animatedGetxOrientation</string>
+	<key>utilMediatorInterval</key>
+	<string>specifyInterpolationTail</string>
+</dict>
+</plist>

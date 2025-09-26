@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>disabledUsecaseAppearance</key>
+	<string>presenterTempleHue</string>
+	<key>displayableDependencyCount</key>
+	<string>staticNotificationKind</string>
+	<key>pinchableManagerPosition</key>
+	<string>projectionOrTask</string>
+	<key>protectedNavigationVisible</key>
+	<string>chapterByPhase</string>
+	<key>reducerFunctionResponse</key>
+	<string>buttonLevelSpacing</string>
+	<key>skirtAmongProxy</key>
+	<string>interactorJobFlags</string>
+	<key>storageBridgePadding</key>
+	<string>temporaryViewName</string>
+	<key>symbolAdapterValidation</key>
+	<string>descriptionBridgeShade</string>
+</dict>
+</plist>

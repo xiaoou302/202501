@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>animationPrototypeIndex</key>
+	<string>protocolPhaseOrientation</string>
+	<key>characterThroughStrategy</key>
+	<string>globalControllerInset</string>
+	<key>exceptionActionTransparency</key>
+	<string>sessionAlongPrototype</string>
+	<key>metadataVarMode</key>
+	<string>secondTickerLocation</string>
+	<key>requestDuringComposite</key>
+	<string>lastInterfaceHead</string>
+</dict>
+</plist>

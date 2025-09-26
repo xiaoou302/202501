@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>activeInteractorMode</key>
+	<string>constraintObserverStyle</string>
+	<key>alphaOutsideVariable</key>
+	<string>mobileWithCommand</string>
+	<key>arithmeticCanvasShape</key>
+	<string>coordinatorJobEdge</string>
+	<key>cursorInterpreterSpacing</key>
+	<string>sortedGrayscaleOrigin</string>
+	<key>isolateContainFlyweight</key>
+	<string>intuitiveSinkLocation</string>
+	<key>largeConsumerTop</key>
+	<string>checklistValueSkewy</string>
+	<key>managerProcessSize</key>
+	<string>accessibleNodeBottom</string>
+	<key>resolverBesideVariable</key>
+	<string>robustTabbarEdge</string>
+	<key>riverpodLevelMomentum</key>
+	<string>optimizerAlongPlatform</string>
+</dict>
+</plist>

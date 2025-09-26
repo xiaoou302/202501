@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>directlyTransitionInterval</key>
+	<string>spineMementoSkewx</string>
+	<key>immediateStackVelocity</key>
+	<string>compositionalSingletonEdge</string>
+	<key>missionCompositeKind</key>
+	<string>robustSpriteAlignment</string>
+	<key>publicNotifierDensity</key>
+	<string>topicActivityStatus</string>
+	<key>synchronousStreamSpeed</key>
+	<string>customizedNavigatorSpeed</string>
+</dict>
+</plist>

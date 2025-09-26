@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>actionOutsideChain</key>
+	<string>usedEquipmentOrientation</string>
+	<key>actionTierDepth</key>
+	<string>binaryMediatorTension</string>
+	<key>listenerVisitorState</key>
+	<string>resolverWithState</string>
+	<key>mainStreamBound</key>
+	<string>lazyEffectShape</string>
+	<key>reusableFactoryBound</key>
+	<string>asyncAsStage</string>
+	<key>sceneVarDensity</key>
+	<string>deferredTopicResponse</string>
+	<key>storeCommandForce</key>
+	<string>monsterScopeSpeed</string>
+	<key>tangentWorkShape</key>
+	<string>temporaryResourceResponse</string>
+	<key>tappableListenerDensity</key>
+	<string>independentChannelsTail</string>
+	<key>usedCallbackType</key>
+	<string>activatedInstructionType</string>
+</dict>
+</plist>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>chartDuringTier</key>
+	<string>agileOverlayTint</string>
+	<key>exceptionOperationVisibility</key>
+	<string>errorOrWork</string>
+	<key>iterativeCubitOpacity</key>
+	<string>opaqueBuilderStyle</string>
+	<key>newestAppbarDepth</key>
+	<string>repositoryByState</string>
+	<key>presenterNearVariable</key>
+	<string>boxInSystem</string>
+	<key>referenceAlongMediator</key>
+	<string>immutableTransitionOrientation</string>
+</dict>
+</plist>

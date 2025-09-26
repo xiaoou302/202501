@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>cupertinoMenuFrequency</key>
+	<string>groupAwayStyle</string>
+	<key>customLayoutMargin</key>
+	<string>movementAdapterTransparency</string>
+	<key>pinchableExpandedBrightness</key>
+	<string>webHeroPressure</string>
+	<key>primaryNodeBrightness</key>
+	<string>constWidgetState</string>
+	<key>semanticTransitionSpeed</key>
+	<string>nativePositionBorder</string>
+	<key>symmetricImageAppearance</key>
+	<string>previewScopeMargin</string>
+</dict>
+</plist>

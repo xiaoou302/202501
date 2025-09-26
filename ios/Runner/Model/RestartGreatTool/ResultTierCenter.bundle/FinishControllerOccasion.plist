@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>allocatorAboutMemento</key>
+	<string>alignmentInPlatform</string>
+	<key>compositionalGridviewRight</key>
+	<string>storageStyleBottom</string>
+	<key>dependencyMethodOrientation</key>
+	<string>mutableModelShape</string>
+	<key>discardedPositionShape</key>
+	<string>liteDialogsPosition</string>
+	<key>displayableRequestTail</key>
+	<string>normalProtocolForce</string>
+	<key>futureAroundState</key>
+	<string>sceneAsActivity</string>
+	<key>invisibleTechniqueOrientation</key>
+	<string>screenCompositeFormat</string>
+	<key>navigatorStateAlignment</key>
+	<string>gridviewValueOffset</string>
+	<key>typicalPlaybackTheme</key>
+	<string>viewAtPrototype</string>
+</dict>
+</plist>

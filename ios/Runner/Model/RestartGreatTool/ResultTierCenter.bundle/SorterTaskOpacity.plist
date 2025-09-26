@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>completerFromChain</key>
+	<string>gesturedetectorOrVisitor</string>
+	<key>metadataThroughAdapter</key>
+	<string>positionAgainstChain</string>
+	<key>overlayAndDecorator</key>
+	<string>channelsAroundEnvironment</string>
+	<key>routeByChain</key>
+	<string>getxWithoutShape</string>
+	<key>rowAtAction</key>
+	<string>swiftMementoBottom</string>
+	<key>serviceBesideChain</key>
+	<string>missionShapeDelay</string>
+	<key>spriteViaTemple</key>
+	<string>rapidCellHue</string>
+	<key>tangentChainTail</key>
+	<string>layerDecoratorShade</string>
+	<key>taskPlatformStyle</key>
+	<string>materialLabelShade</string>
+</dict>
+</plist>

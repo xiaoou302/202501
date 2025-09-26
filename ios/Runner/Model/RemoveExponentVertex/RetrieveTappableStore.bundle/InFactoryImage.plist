@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>capacitiesBesideProxy</key>
+	<string>hashInsideNumber</string>
+	<key>observerOutsideSystem</key>
+	<string>usedViewSpacing</string>
+	<key>scrollableInstructionSkewy</key>
+	<string>synchronousPreviewInset</string>
+	<key>streamForTier</key>
+	<string>mapExceptObserver</string>
+</dict>
+</plist>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>autoConvolutionMode</key>
+	<string>logSingletonDistance</string>
+	<key>binaryOutsideMemento</key>
+	<string>factoryFrameworkCoord</string>
+	<key>blocInterpreterFormat</key>
+	<string>frameVisitorShade</string>
+	<key>curveShapeResponse</key>
+	<string>instructionPerFlyweight</string>
+	<key>disabledAspectFrequency</key>
+	<string>displayableQueryTop</string>
+	<key>labelPhaseLocation</key>
+	<string>missionThroughEnvironment</string>
+	<key>protocolBeyondBridge</key>
+	<string>constraintStrategyFormat</string>
+	<key>substantialSceneOffset</key>
+	<string>mainCubePressure</string>
+	<key>visibleTopicValidation</key>
+	<string>cycleOutsideTier</string>
+</dict>
+</plist>

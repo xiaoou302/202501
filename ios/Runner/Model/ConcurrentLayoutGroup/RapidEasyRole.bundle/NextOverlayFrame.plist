@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>kernelValueInteraction</key>
+	<string>gridviewLikeStyle</string>
+	<key>methodAwayPhase</key>
+	<string>referenceProxyVelocity</string>
+	<key>skinMediatorDensity</key>
+	<string>diffableInterfaceTension</string>
+</dict>
+</plist>

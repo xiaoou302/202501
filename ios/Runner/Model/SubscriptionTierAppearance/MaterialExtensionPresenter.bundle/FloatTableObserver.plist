@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>asynchronousBuilderVisibility</key>
+	<string>keyCallbackRotation</string>
+	<key>basicDialogsDirection</key>
+	<string>seamlessMethodCenter</string>
+	<key>configurationProcessTop</key>
+	<string>protocolOrWork</string>
+	<key>featureByStructure</key>
+	<string>materialBaseDelay</string>
+	<key>inkwellPlatformBrightness</key>
+	<string>graphOrPattern</string>
+	<key>mapCommandLeft</key>
+	<string>completerDuringDecorator</string>
+	<key>responseWithMemento</key>
+	<string>dynamicLayerTransparency</string>
+	<key>rowMementoInterval</key>
+	<string>observerInTask</string>
+</dict>
+</plist>

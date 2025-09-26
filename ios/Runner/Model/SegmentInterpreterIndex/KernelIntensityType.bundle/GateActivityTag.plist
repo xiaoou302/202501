@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ignoredProtocolHead</key>
+	<string>symbolIncludeStyle</string>
+	<key>publicMasterShade</key>
+	<string>queueWithMemento</string>
+	<key>queryLikeLayer</key>
+	<string>actionProcessInterval</string>
+	<key>queueMementoAppearance</key>
+	<string>singletonOfMemento</string>
+	<key>sceneOrTier</key>
+	<string>inactiveZoneRotation</string>
+	<key>signOfMediator</key>
+	<string>loopByAction</string>
+</dict>
+</plist>

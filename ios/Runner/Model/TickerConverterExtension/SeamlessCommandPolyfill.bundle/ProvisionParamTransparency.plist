@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>animationKindTheme</key>
+	<string>transitionAgainstObserver</string>
+	<key>bufferScopeInset</key>
+	<string>routerProcessBehavior</string>
+	<key>localizationVarAppearance</key>
+	<string>subpixelIncludeType</string>
+	<key>smallLogarithmLeft</key>
+	<string>sineLevelPadding</string>
+	<key>tangentCycleBehavior</key>
+	<string>routerWithCycle</string>
+	<key>topicAroundVar</key>
+	<string>inheritedTimerFeedback</string>
+</dict>
+</plist>

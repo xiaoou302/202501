@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>crucialBufferBehavior</key>
+	<string>bufferOrComposite</string>
+	<key>dialogsInEnvironment</key>
+	<string>mainNotificationInterval</string>
+	<key>eventFlyweightValidation</key>
+	<string>priorCheckboxMode</string>
+	<key>singletonOfPrototype</key>
+	<string>labelBeyondEnvironment</string>
+	<key>sizeAlongBridge</key>
+	<string>consultativeSkirtBound</string>
+</dict>
+</plist>

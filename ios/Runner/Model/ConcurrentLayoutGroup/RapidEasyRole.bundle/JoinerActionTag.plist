@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>accessibleStreamRight</key>
+	<string>compositionPlatformInset</string>
+	<key>curveBeyondLayer</key>
+	<string>iconInPlatform</string>
+	<key>decorationMementoForce</key>
+	<string>cubitStrategyFlags</string>
+	<key>listviewWithForm</key>
+	<string>projectAlongPlatform</string>
+	<key>similarIsolateColor</key>
+	<string>observerLayerScale</string>
+	<key>usedLoopTransparency</key>
+	<string>fusedPetRight</string>
+</dict>
+</plist>

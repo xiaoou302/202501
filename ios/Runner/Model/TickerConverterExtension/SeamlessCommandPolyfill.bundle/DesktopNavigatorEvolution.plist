@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>immutableLayoutTheme</key>
+	<string>localKernelCount</string>
+	<key>statelessSpriteVelocity</key>
+	<string>characterTaskOpacity</string>
+	<key>symbolStageAcceleration</key>
+	<string>batchMediatorHue</string>
+	<key>taskMediatorLeft</key>
+	<string>hardRequestCount</string>
+</dict>
+</plist>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>gridSystemBehavior</key>
+	<string>stepAtMethod</string>
+	<key>hierarchicalStampSkewx</key>
+	<string>exponentAboutStrategy</string>
+	<key>localLoopPosition</key>
+	<string>symbolVersusSystem</string>
+	<key>observerInProcess</key>
+	<string>delegateObserverAppearance</string>
+	<key>reactiveUtilColor</key>
+	<string>specifyCompletionMode</string>
+	<key>sequentialLoopDepth</key>
+	<string>topicFunctionFlags</string>
+</dict>
+</plist>

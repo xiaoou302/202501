@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aspectratioBeyondWork</key>
+	<string>commonWorkflowHue</string>
+	<key>baselineVarEdge</key>
+	<string>interpolationExceptInterpreter</string>
+	<key>blocFlyweightAppearance</key>
+	<string>controllerAboutKind</string>
+	<key>multiRadioFeedback</key>
+	<string>injectionOutsidePrototype</string>
+	<key>robustProfileOrientation</key>
+	<string>smallRadiusPosition</string>
+</dict>
+</plist>
