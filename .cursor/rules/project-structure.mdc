@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+# Glyphion Project Structure
+
+This Flutter project follows a clean architecture with specific conventions:
+
+1. Entry point is [lib/main.dart](mdc:lib/main.dart)
+2. Follow the directory structure:
+   - models/ - Data models
+   - screens/ - UI screens
+   - widgets/ - Reusable components
+   - utils/ - Helper functions
+   - services/ - Business logic
+
+3. Use setState for state management (no complex state management libraries)
+4. Use shared_preferences for data persistence

@@ -1,0 +1,28 @@
+---
+alwaysApply: true
+---
+# Design Guidelines
+
+## Color Palette
+- Background: Linen White/Light Gray (#F5F5F0)
+- Arrow Tiles:
+  - Misty Blue (#6A8EAE)
+  - Terracotta (#CC7A62)
+  - Olive Green (#78866B)
+  - Dusty Pink (#D3A6A0)
+- Text/Icons: Graphite Gray (#4A4A4A)
+- Accent/Highlight: Coral (#FF6F61)
+
+## Design Principles
+1. Maintain a minimalist, clean aesthetic
+2. Use soft, muted colors (Modern & Muted palette)
+3. Ensure high contrast for readability
+4. Implement smooth animations for interactions
+5. Create a balanced, harmonious layout
+6. Follow a consistent visual hierarchy
+
+## UI Components
+- Use rounded corners (borderRadius: 16)
+- Apply subtle shadows for depth
+- Implement micro-interactions for feedback
+- Maintain proper spacing and alignment

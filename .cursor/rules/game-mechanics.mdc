@@ -1,0 +1,34 @@
+---
+description: Game mechanics and implementation details
+---
+# Game Mechanics Implementation Guide
+
+## Core Game Logic
+1. **Arrow Direction Logic**:
+   - Each arrow can only be clicked if its path is clear in its pointing direction
+   - Path checking must traverse the entire row/column in the direction of the arrow
+
+2. **Game Grid Implementation**:
+   - Use a 5x5 grid layout (standard level)
+   - Support for empty cells in advanced levels
+   - Track tile positions and states efficiently
+
+3. **Animation Requirements**:
+   - Flying animation when arrow is clicked (fly-out effect)
+   - Error shake animation for invalid moves
+   - Ghost trail effect for removed arrows
+
+4. **Game State Management**:
+   - Track moves count vs optimal solution
+   - Detect win conditions
+   - Support level restart
+
+5. **Level Design**:
+   - Ensure each level has a valid solution
+   - Store solution sequence for validation
+   - Implement progressive difficulty
+
+## Performance Considerations
+- Keep animations smooth (60fps)
+- Optimize path checking algorithms
+- Minimize unnecessary rebuilds
