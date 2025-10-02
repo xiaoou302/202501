@@ -18,7 +18,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   final List<Achievement> _achievements =
       AchievementService.getAllAchievements();
   final Map<String, bool> _unlockedAchievements = {};
-  final Map<String, double> _achievementProgress = {};
+  final Map<String, double> _achievementProgress = {}; //sadasdasdasdwdwdwd
   // 移除选中标签索引，因为不再需要底部导航栏
 
   // Filter options
