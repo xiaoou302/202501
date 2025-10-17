@@ -1,0 +1,35 @@
+---
+alwaysApply: true
+---
+# Jongara Game Rules and Mechanics
+
+This document defines the core game rules and mechanics that must be implemented:
+
+## Game Mechanics
+1. **Tile Selection**: Players can only select tiles that are not blocked by other tiles
+2. **Hand Management**: The hand can hold a maximum of 7 tiles
+3. **Matching**: When 3 identical tiles are in the hand, they are automatically removed
+4. **Victory**: Player wins when all tiles are cleared from the board
+5. **Defeat**: Player loses when the hand is full (7 tiles) and no matches can be made
+
+## Power-ups
+1. **Undo**: Allows reverting the last move (limited to 1 use per level)
+2. **Shuffle**: Randomizes all currently selectable tiles (limited to 1 use per level)
+
+## Level Design
+- **Chapter 1 (Levels 1-3)**: Simple layouts with few tile types (wan and tong suits only)
+- **Chapter 2 (Levels 4-7)**: Medium complexity with more tile types (adds tiao and some honor tiles)
+- **Chapter 3 (Levels 8-12)**: Complex layouts with all tile types and challenging arrangements
+
+## Tile Types
+- **Wan (萬)**: Character tiles numbered 1-9
+- **Tong/Bing (筒)**: Circle/dot tiles numbered 1-9
+- **Tiao/Suo (条)**: Bamboo tiles numbered 1-9
+- **Honor Tiles**: Wind tiles (East, South, West, North) and Dragon tiles (Red, Green, White)
+
+## Game Logic Requirements
+- Always generate solvable board layouts
+- Implement proper overlap detection for tile selection
+- Track and update selectable tiles after each move
+- Validate matches in the hand after each move
+- Check win/loss conditions after each move

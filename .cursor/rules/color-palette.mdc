@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+# Jongara Color Palette - "Warm Wood, Carved Jade"
+
+All UI elements must adhere to this color palette to maintain visual consistency:
+
+## Primary Colors
+- **Xuan Paper White**: `#F5F0E6` (RGB: 245, 240, 230) - Main background color
+- **Ebony Brown**: `#5C5249` (RGB: 92, 82, 73) - Main text/UI icons
+- **Carved Jade Green**: `#527D6E` (RGB: 82, 125, 110) - Primary interactive elements
+
+## Secondary Colors
+- **Birch Wood**: `#DCD1C0` (RGB: 220, 209, 192) - Card backgrounds, secondary elements
+- **Beeswax Amber**: `#E8A866` (RGB: 232, 168, 102) - Accents, power-ups, highlights
+
+## Mahjong Tile Colors
+- **Mahjong Red**: `#D32F2F` - For red characters and wan suit
+- **Mahjong Blue**: `#1976D2` - For blue elements
+- **Mahjong Green**: `#43A047` - For bamboo/tiao suit
+
+Always use these exact color values rather than approximations. Define them as constants in `lib/core/constants/app_constants.dart` and reference them throughout the application.

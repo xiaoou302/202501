@@ -1,0 +1,41 @@
+---
+alwaysApply: true
+---
+# Jongara Flutter Architecture Guidelines
+
+This project follows a clean architecture approach with MVVM pattern. Adhere to these guidelines for all development work:
+
+## Project Structure
+- Maintain the layered architecture: core → data → domain → presentation
+- Each layer should only depend on layers below it
+- Presentation layer must not directly access data layer repositories
+
+## State Management
+- Use setState for simple state management
+- Avoid external state management libraries like Riverpod, BLoC, or Provider
+- Keep state management simple and contained within widgets when possible
+
+## Code Style
+- Follow Flutter's style guide and best practices
+- Use meaningful variable and function names
+- Keep functions small and focused on a single responsibility
+- Document complex logic with clear comments
+
+## Data Models
+- Define clear model classes with appropriate constructors
+- Avoid using freezed package or part syntax
+- Keep models immutable when possible
+
+## Storage
+- Use SharedPreferences for local data persistence
+- No external database dependencies required
+
+## UI/UX
+- Maintain the "Warm Wood, Carved Jade" color palette defined in theme constants
+- Follow the zen-like, minimalist aesthetic throughout the app
+- Ensure responsive layouts that work across different screen sizes
+- Implement smooth animations for tile movements and transitions
+
+## Assets
+- No local image assets or custom fonts required
+- No network image loading required
