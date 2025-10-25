@@ -1,0 +1,29 @@
+---
+globs: *.dart
+---
+# Dart Coding Standards
+
+## General Guidelines
+- Follow the [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style)
+- Use `camelCase` for variables and functions
+- Use `PascalCase` for classes and enums
+- Use `snake_case` for file names
+
+## Project-Specific Standards
+- Use `setState` for state management initially (not BLoC or other complex patterns)
+- Use `SharedPreferences` for data persistence
+- Do not use external fonts or image assets
+- Do not use `freezed` package or `part` syntax
+- Do not implement account functionality
+- Do not use `cached_network_image` package
+
+## Documentation
+- Add documentation comments for all public APIs
+- Use /// for documentation comments
+- Include parameter descriptions for functions
+
+## Testing
+- Write unit tests for utility functions and services
+- Write widget tests for UI components
+
+Always follow these standards to maintain code quality and consistency.

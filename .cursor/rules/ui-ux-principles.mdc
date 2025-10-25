@@ -1,0 +1,31 @@
+---
+globs: lib/presentation/**/*.dart
+---
+# UI/UX Design Principles
+
+## Visual Hierarchy
+- Use font size, weight, and spacing to create clear information hierarchy
+- Main content should be the focal point of each screen
+- Use consistent spacing between elements (8px, 16px, 24px, 32px)
+
+## Micro-interactions
+- Add subtle animations for button clicks and transitions
+- Implement visual feedback for user actions
+- Keep animations short and purposeful (300-500ms)
+
+## Accessibility
+- Ensure sufficient contrast between text and background
+- Use semantic widgets for better accessibility
+- Support system text scaling
+
+## Navigation
+- Implement intuitive and user-friendly navigation
+- Use clear visual indicators for current screen
+- Provide back buttons for nested screens
+
+## Responsive Design
+- Design UI to adapt to different screen sizes
+- Test layouts on both small and large devices
+- Use flexible widgets like Expanded and Flexible
+
+Always prioritize user experience and follow these principles to create a polished, engaging app.

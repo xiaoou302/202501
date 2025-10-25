@@ -1,0 +1,27 @@
+---
+globs: lib/core/services/*.dart,lib/presentation/screens/codex_screen.dart
+---
+# Game Mechanics Implementation Guide
+
+## Text Fading System
+- Non-keyword text should gradually fade out over time
+- Use opacity animations with configurable duration
+- Implement random selection for which words fade first
+
+## Keyword Highlighting
+- Keywords should glow using the `accent-blue` color
+- Implement pulsing animation for keywords
+- Saved keywords should be highlighted permanently with `accent-blue`
+
+## Timer System
+- Use a linear progress indicator for the timer
+- Change color to `danger-red` when time is running low (< 20%)
+- Timer should be pausable and resumable
+
+## Scoring System
+- 3-star rating: All keywords saved
+- 2-star rating: More than minimum keywords saved
+- 1-star rating: Minimum required keywords saved
+- 0-star rating: Failed to save minimum keywords
+
+Always ensure game mechanics are implemented consistently across all chapters.
