@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognifex - Prototype</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter (UI) and EB Garamond (Log) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void-charcoal': '#1a1a1a',      // Main BG (Nigredo)
+                        'alabaster-white': '#e9e9e9',    // Main Text (Albedo)
+                        'alchemical-gold': '#d4af37',   // Interactive/Clues (Citrinitas)
+                        'neutral-steel': '#7a7a7a',     // Neutral Buttons (Action)
+                        'rubedo-red': '#d13030',        // Critical Action/Highlight (Rubedo)
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'garamond': ['EB Garamond', 'serif'],
+                    },
+                    keyframes: {
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+                            '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+                        },
+                        pulse: {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 15px rgba(209, 48, 48, 0.7)' },
+                            '50%': { opacity: 0.9, boxShadow: '0 0 25px rgba(209, 48, 48, 1)' },
+                        }
+                    },
+                    animation: {
+                        shake: 'shake 0.5s ease-in-out',
+                        pulse: 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base styles */
+        body {
+            background-color: #111827; /* Darker background for contrast */
+            font-family: 'inter', sans-serif;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #eab308; /* Brighter gold on hover */
+        }
+
+        /* Styling for the custom dropdown arrows */
+        .select-wrapper {
+            position: relative;
+        }
+        .select-wrapper::after {
+            content: '\f078'; /* FontAwesome chevron-down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.75rem; /* 12px */
+            color: #d4af37; /* alchemical-gold */
+            position: absolute;
+            right: 0.75rem; /* 12px */
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+        }
+        /* Style for select options (can be limited) */
+        select option {
+            background: #1a1a1a;
+            color: #e9e9e9;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex flex-col items-center justify-start min-h-screen p-4 md:p-10 space-y-12">
+
+    <h1 class="text-3xl font-bold text-alabaster-white text-center">Cognifex - High-Fidelity Prototype (v2)</h1>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 1: "Home Screen" (New)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">1. Home Screen</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:41</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-16 flex flex-col items-center justify-center p-8 text-center">
+                <!-- Title -->
+                <i class="fa-solid fa-book-skull text-6xl text-alchemical-gold mb-4" style="filter: drop-shadow(0 0 15px #d4af37);"></i>
+                <h1 class="text-5xl font-bold text-alabaster-white font-garamond mb-2">Cognifex</h1>
+                <p class="text-lg text-neutral-steel font-garamond italic mb-6">The Alchemist's Paradox</p>
+
+                <!-- New Richer Content: Last Log -->
+                <div class="w-full max-w-xs bg-black/20 border border-neutral-steel/30 rounded-lg p-4 mb-8 text-left">
+                    <h3 class="text-sm font-bold text-alchemical-gold mb-2">LAST LOG ENTRY</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-alabaster-white">Attempt #3</span>
+                        <span class="text-sm font-bold text-rubedo-red">FAILURE</span>
+                    </div>
+                    <p class="text-xs text-neutral-steel mt-1 italic">Cause: Executed [Calcify] instead of [Sublimate].</p>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="w-full max-w-xs space-y-4">
+                    <button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl shadow-lg shadow-rubedo-red/30 transition-all hover:brightness-110">
+                        Begin The Work
+                    </button>
+                    <button class="w-full bg-alchemical-gold/20 text-alchemical-gold font-medium py-3 rounded-xl transition-all hover:bg-alchemical-gold/30">
+                        Crafting Log
+                    </button>
+                    <button class="w-full bg-neutral-steel/20 text-alabaster-white font-medium py-3 rounded-xl transition-all hover:bg-neutral-steel/30">
+                        Revelations
+                    </button>
+                    <button class="w-full bg-neutral-steel/20 text-alabaster-white font-medium py-3 rounded-xl transition-all hover:bg-neutral-steel/30">
+                        Introduction
+                    </button>
+                    <button class="w-full bg-neutral-steel/20 text-alabaster-white font-medium py-3 rounded-xl transition-all hover:bg-neutral-steel/30">
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 2: "The Study" - Encrypted Log (Was 1)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">2. "The Study" - Encrypted Log</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:42</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Study</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Tab Navigation -->
+                <nav class="flex p-2 bg-black/20">
+                    <button class="flex-1 text-center py-2 text-alchemical-gold border-b-2 border-alchemical-gold font-bold">
+                        <i class="fa-solid fa-book-skull mr-2"></i>Encrypted Log
+                    </button>
+                    <button class="flex-1 text-center py-2 text-neutral-steel hover:text-alabaster-white">
+                        <i class="fa-solid fa-scroll mr-2"></i>Recipe Slate
+                    </button>
+                </nav>
+
+                <!-- Content: Encrypted Log -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar space-y-4">
+                    <h3 class="text-xl font-bold text-alchemical-gold font-garamond">Mentor's Notes: Fragment I</h3>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        ...all begins in chaos, and ends in perfection. Remember, the <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">Red King</span> must be tamed before the <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">White Queen</span>...
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        ...the star chart clearly shows that when the moon is in Gemini, <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">Sulfur</span> must precede <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">Mercury</span>. The order is absolute.
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        The <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">Green Lion</span> devours the sun, a violent process. You must first <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">[Dissolve]</span> it, or all will be lost to the fumes.
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        ...the <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">White Eagle</span> brings purity. After <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">[Sublimate]</span>, the very next must be <span class="text-alchemical-gold font-bold italic cursor-pointer hover:underline">[Calcify]</span>...
+                    </p>
+                    <p class="text-neutral-steel font-garamond text-lg leading-relaxed italic">
+                        ...[more illegible scrawls]...
+                    </p>
+                </div>
+
+                <!-- Footer Action Button -->
+                <div class="p-4 border-t border-alchemical-gold/30 bg-void-charcoal/80 backdrop-blur-sm">
+                    <button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl shadow-lg shadow-rubedo-red/30 transition-all hover:brightness-110">
+                        <i class="fa-solid fa-lock mr-2"></i>Lock Recipe & Enter Laboratory
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 3: "The Study" - Recipe Slate (Was 2)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">3. "The Study" - Recipe Slate</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:42</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Study</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Tab Navigation -->
+                <nav class="flex p-2 bg-black/20">
+                    <button class="flex-1 text-center py-2 text-neutral-steel hover:text-alabaster-white">
+                        <i class="fa-solid fa-book-skull mr-2"></i>Encrypted Log
+                    </button>
+                    <button class="flex-1 text-center py-2 text-alchemical-gold border-b-2 border-alchemical-gold font-bold">
+                        <i class="fa-solid fa-scroll mr-2"></i>Recipe Slate
+                    </button>
+                </nav>
+
+                <!-- Content: Recipe Slate -->
+                <div class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-3">
+                    <p class="text-neutral-steel text-sm text-center mb-2">Drag or select the 12 steps in their only true order.</p>
+                    
+                    <!-- Recipe Slots -->
+                    <div class="space-y-3">
+                        <!-- Slot 1 -->
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-alchemical-gold w-10">1:</span>
+                            <div class="select-wrapper flex-1">
+                                <select class="w-full p-2 border border-alchemical-gold rounded-lg text-alchemical-gold focus:outline-none focus:ring-2 focus:ring-alchemical-gold">
+                                    <option value="">[Select Action]</option>
+                                    <option value="dissolve">Dissolve</option>
+                                    <option value="combine">Combine</option>
+                                    <option value="calcify">Calcify</option>
+                                    <option value="sublimate">Sublimate</option>
+                                </select>
+                            </div>
+                            <div class="select-wrapper flex-1">
+                                <select class="w-full p-2 border border-alchemical-gold rounded-lg text-alchemical-gold focus:outline-none focus:ring-2 focus:ring-alchemical-gold">
+                                    <option value="">[Select Material]</option>
+                                    <option value="red_lion">Red Lion</option>
+                                    <option value="white_eagle">White Eagle</option>
+                                    <option value="sulfur">Sulfur</option>
+                                    <option value="mercury">Mercury</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Slot 2 (Example of filled) -->
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-alchemical-gold w-10">2:</span>
+                            <div class="select-wrapper flex-1">
+                                <select class="w-full p-2 border border-alchemical-gold rounded-lg text-alchemical-gold focus:outline-none focus:ring-2 focus:ring-alchemical-gold">
+                                    <option value="dissolve">Dissolve</option>
+                                    <option value="combine" selected>Combine</option>
+                                    <option value="calcify">Calcify</option>
+                                    <option value="sublimate">Sublimate</option>
+                                </select>
+                            </div>
+                            <div class="select-wrapper flex-1">
+                                <select class="w-full p-2 border border-alchemical-gold rounded-lg text-alchemical-gold focus:outline-none focus:ring-2 focus:ring-alchemical-gold">
+                                    <option value="red_lion">Red Lion</option>
+                                    <option value="white_eagle" selected>White Eagle</option>
+                                    <option value="sulfur">Sulfur</option>
+                                    <option value="mercury">Mercury</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Other Slots (Simplified) -->
+                        <div class="flex items-center space-x-2 opacity-60">
+                            <span class="font-bold text-alchemical-gold w-10">3:</span>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Action]</option></select></div>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Material]</option></select></div>
+                        </div>
+                        <div class="flex items-center space-x-2 opacity-60">
+                            <span class="font-bold text-alchemical-gold w-10">4:</span>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Action]</option></select></div>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Material]</option></select></div>
+                        </div>
+                        <!-- ... slots 5-11 ... -->
+                        <p class="text-center text-neutral-steel">...</p>
+                        <div class="flex items-center space-x-2 opacity-60">
+                            <span class="font-bold text-alchemical-gold w-10">12:</span>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Action]</option></select></div>
+                            <div class="select-wrapper flex-1"><select class="w-full p-2 border border-neutral-steel rounded-lg text-neutral-steel"><option>[Material]</option></select></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Action Button -->
+                <div class="p-4 border-t border-alchemical-gold/30 bg-void-charcoal/80 backdrop-blur-sm">
+                    <button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl shadow-lg shadow-rubedo-red/30 transition-all hover:brightness-110">
+                        <i class="fa-solid fa-lock mr-2"></i>Lock Recipe & Enter Laboratory
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 4: "Crafting Log" (New)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">4. Crafting Log</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:43</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">Crafting Log</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Content: Log List -->
+                <div class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-3">
+                    <p class="text-neutral-steel text-sm text-center mb-2">A record of your attempts.</p>
+                    
+                    <!-- Log Entry 1 -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-neutral-steel/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-lg font-bold text-alabaster-white">Attempt #3</h3>
+                            <span class="text-sm font-bold text-rubedo-red">FAILURE</span>
+                        </div>
+                        <p class="text-sm text-neutral-steel">Date: 10/31/2025</p>
+                        <p class="text-sm text-alabaster-white mt-2">Result: Catastrophic explosion at <span class="text-rubedo-red">Step 8</span>.</p>
+                        <p class="text-sm text-neutral-steel italic">Cause: Executed [Calcify] instead of [Sublimate].</p>
+                    </div>
+                    
+                    <!-- Log Entry 2 -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-neutral-steel/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-lg font-bold text-alabaster-white">Attempt #2</h3>
+                            <span class="text-sm font-bold text-rubedo-red">FAILURE</span>
+                        </div>
+                        <p class="text-sm text-neutral-steel">Date: 10/30/2025</p>
+                        <p class="text-sm text-alabaster-white mt-2">Result: Unstable reaction at <span class="text-rubedo-red">Step 2</span>.</p>
+                        <p class="text-sm text-neutral-steel italic">Cause: Used [Red Lion] instead of [White Eagle].</p>
+                    </div>
+
+                    <!-- Log Entry 3 -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-neutral-steel/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-lg font-bold text-alabaster-white">Attempt #1</h3>
+                            <span class="text-sm font-bold text-rubedo-red">FAILURE</span>
+                        </div>
+                        <p class="text-sm text-neutral-steel">Date: 10/29/2025</p>
+                        <p class="text-sm text-alabaster-white mt-2">Result: Immediate detonation at <span class="text-rubedo-red">Step 1</span>.</p>
+                        <p class="text-sm text-neutral-steel italic">Cause: Incorrect sequence order.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      ======================================================================
+      SCREEN 5: "Revelations" (New)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">5. Revelations</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:43</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">Revelations</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Content: Revelations List -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar space-y-4">
+                    <p class="text-neutral-steel text-sm text-center mb-2">Truths uncovered from your failures.</p>
+                    
+                    <!-- Revelation 1 -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-alchemical-gold/30">
+                        <h3 class="text-lg font-bold text-alchemical-gold font-garamond mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>The Nature of the Lion</h3>
+                        <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                            "The <span class="font-bold">Green Lion</span> must be the first to be tamed. Its violent nature, if not addressed at the start with <span class="font-bold">[Dissolve]</span>, poisons all that follows."
+                        </p>
+                    </div>
+
+                    <!-- Revelation 2 (Locked) -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-neutral-steel/30 opacity-60">
+                        <h3 class="text-lg font-bold text-neutral-steel font-garamond mb-2"><i class="fa-solid fa-lock mr-2"></i>The King and Queen</h3>
+                        <p class="text-neutral-steel font-garamond text-lg leading-relaxed">
+                            "The union of Red and White... [This truth remains hidden...]"
+                        </p>
+                    </div>
+
+                    <!-- Revelation 3 (Locked) -->
+                    <div class="bg-black/20 p-4 rounded-lg border border-neutral-steel/30 opacity-60">
+                        <h3 class="text-lg font-bold text-neutral-steel font-garamond mb-2"><i class="fa-solid fa-lock mr-2"></i>The Celestial Order</h3>
+                        <p class="text-neutral-steel font-garamond text-lg leading-relaxed">
+                            "Sulfur and Mercury dance to the tune of the stars... [This truth remains hidden...]"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      ======================================================================
+      SCREEN 6: "Introduction" (New)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">6. Introduction</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:43</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">Introduction</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Content: Background Story -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar space-y-4">
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        You are a reclusive alchemist, entrusted with your dying mentor's life's work: a cryptic <span class="text-alchemical-gold italic">"Journal of the Great Work."</span>
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        It scrawls the 12 key steps to create the Philosopher's Stone, but the sequence is in chaos, the materials encrypted—"Red King," "White Queen," "Green Lion."
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        Your mentor failed countless times, but with his last breath, he prepared the laboratory. He believes you, his most gifted apprentice, can solve the final sequence.
+                    </p>
+                    <p class="text-alabaster-white font-bold font-garamond text-xl leading-relaxed mt-6 text-alchemical-gold">
+                        Your task is twofold:
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        1. In <span class="font-bold">The Study</span>, safely decipher the journal and deduce the one true sequence.
+                    </p>
+                    <p class="text-alabaster-white font-garamond text-lg leading-relaxed">
+                        2. When you are certain, enter <span class="font-bold">The Laboratory</span> and execute it, step by step, without error.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      ======================================================================
+      SCREEN 7: "Settings" (New)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">7. Settings</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:43</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-alchemical-gold/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-alchemical-gold transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">Settings</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+                
+                <!-- Content: Settings Options -->
+                <div class="flex-1 p-5 space-y-6">
+                    <!-- Sound Toggle -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg text-alabaster-white">Sound Effects</span>
+                        <div class="w-14 h-8 bg-neutral-steel/50 rounded-full flex items-center p-1 cursor-pointer">
+                            <div class="w-6 h-6 bg-alabaster-white rounded-full shadow-md transform translate-x-6 transition-transform"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Music Toggle -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg text-alabaster-white">Music</span>
+                        <div class="w-14 h-8 bg-alchemical-gold rounded-full flex items-center p-1 cursor-pointer">
+                            <div class="w-6 h-6 bg-void-charcoal rounded-full shadow-md transform translate-x-6 transition-transform"></div>
+                        </div>
+                    </div>
+
+                    <!-- Text Speed -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg text-alabaster-white">Text Speed</span>
+                        <div class="flex space-x-2">
+                            <button class="text-neutral-steel hover:text-alabaster-white">Slow</button>
+                            <button class="text-alchemical-gold font-bold">Normal</button>
+                            <button class="text-neutral-steel hover:text-alabaster-white">Fast</button>
+                        </div>
+                    </div>
+
+                    <!-- Separator -->
+                    <hr class="border-neutral-steel/30 my-6"/>
+
+                    <!-- Reset Progress -->
+                    <div class="text-center">
+                        <button class="bg-rubedo-red/20 text-rubedo-red font-medium py-3 px-6 rounded-xl transition-all hover:bg-rubedo-red/30">
+                            Reset All Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 8: Confirmation Modal (Was 3)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">8. Confirmation Modal</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- Base Screen (Recipe Slate) -->
+            <div class="absolute top-0 left-0 w-full h-full pt-11 flex flex-col opacity-30">
+                <header class="p-4 border-b border-alchemical-gold/30"><h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Study</h1></header>
+                <nav class="flex p-2 bg-black/20">
+                    <button class="flex-1 text-center py-2 text-neutral-steel"><i class="fa-solid fa-book-skull mr-2"></i>Encrypted Log</button>
+                    <button class="flex-1 text-center py-2 text-alchemical-gold border-b-2 border-alchemical-gold font-bold"><i class="fa-solid fa-scroll mr-2"></i>Recipe Slate</button>
+                </nav>
+                <div class="flex-1 p-4 overflow-y-auto space-y-3">
+                    <div class="flex items-center space-x-2"><span class="font-bold text-alchemical-gold w-10">1:</span><div class="flex-1 p-2 border border-alchemical-gold rounded-lg text-alchemical-gold">Dissolve</div><div class="flex-1 p-2 border border-alchemical-gold rounded-lg text-alchemical-gold">Red Lion</div></div>
+                    <div class="flex items-center space-x-2"><span class="font-bold text-alchemical-gold w-10">2:</span><div class="flex-1 p-2 border border-alchemical-gold rounded-lg text-alchemical-gold">Combine</div><div class="flex-1 p-2 border border-alchemical-gold rounded-lg text-alchemical-gold">White Eagle</div></div>
+                    <div class="flex items-center space-x-2 opacity-60"><span class="font-bold text-alchemical-gold w-10">3:</span><div class="flex-1 p-2 border border-neutral-steel rounded-lg text-neutral-steel">[Action]</div><div class="flex-1 p-2 border border-neutral-steel rounded-lg text-neutral-steel">[Material]</div></div>
+                </div>
+                <div class="p-4 border-t border-alchemical-gold/30"><button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl"></button></div>
+            </div>
+            
+            <!-- Modal Overlay -->
+            <div class="absolute inset-0 bg-black/70 backdrop-blur-sm z-30 flex items-center justify-center p-6">
+                <div class="w-full bg-void-charcoal border-2 border-alchemical-gold rounded-2xl shadow-2xl shadow-alchemical-gold/20 p-6 text-center">
+                    <i class="fa-solid fa-triangle-exclamation text-4xl text-rubedo-red mb-4"></i>
+                    <h3 class="text-2xl font-bold text-alabaster-white mb-2">Are you certain?</h3>
+                    <p class="text-alabaster-white mb-6">Once in the Laboratory, there is no turning back. Your recipe will be locked.</p>
+                    <div class="flex flex-col space-y-3">
+                        <button class="w-full bg-rubedo-red text-white font-bold py-3 rounded-xl shadow-lg shadow-rubedo-red/30 transition-all hover:brightness-110">
+                            Confirm & Enter
+                        </button>
+                        <button class="w-full bg-neutral-steel/50 text-alabaster-white font-medium py-3 rounded-xl transition-all hover:bg-neutral-steel/70">
+                            Return to Study
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      ======================================================================
+      SCREEN 9: "The Laboratory" - Standby (Was 4)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">9. "The Laboratory" - Standby</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:45</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-rubedo-red/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-rubedo-red transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Laboratory</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+
+                <!-- Top Panel: Locked Recipe -->
+                <div class="p-4 bg-black/20">
+                    <h3 class="text-center text-alchemical-gold font-bold text-lg mb-2">Current Step: 1 / 12</h3>
+                    <p class="text-center text-alabaster-white text-xl font-bold">
+                        [ <i class="fa-solid fa-flask-vial"></i> Dissolve ] + [ <i class="fa-solid fa-gem"></i> Red Lion ]
+                    </p>
+                    <!-- Small view of full list -->
+                    <p class="text-center text-neutral-steel text-xs mt-2 truncate">
+                        2: [Combine] [White Eagle]... 3: [Calcify] [Sulfur]...
+                    </p>
+                </div>
+
+                <!-- Central Panel: Alchemy Bench -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar">
+                    <!-- Action Area -->
+                    <div class="mb-6">
+                        <h4 class="text-alabaster-white font-bold text-lg mb-3">Actions</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <!-- Example: Selected Action -->
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all ring-4 ring-rubedo-red ring-offset-2 ring-offset-void-charcoal">
+                                <i class="fa-solid fa-flask-vial text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Dissolve</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-link text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Combine</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-fire text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Calcify</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-mountain-sun text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Sublimate</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Material Area -->
+                    <div>
+                        <h4 class="text-alabaster-white font-bold text-lg mb-3">Materials</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-gem text-3xl mb-1 text-red-400"></i>
+                                <span class="text-sm font-medium">Red Lion</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-feather text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">White Eagle</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-atom text-3xl mb-1 text-yellow-300"></i>
+                                <span class="text-sm font-medium">Sulfur</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-droplet text-3xl mb-1 text-gray-400"></i>
+                                <span class="text-sm font-medium">Mercury</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Action -->
+                <div class="p-4 border-t border-rubedo-red/30 bg-void-charcoal/80 backdrop-blur-sm">
+                    <!-- Narrative Window -->
+                    <div class="h-12 flex items-center justify-center mb-4">
+                        <p class="text-alabaster-white text-center text-sm italic">Step 1: [Dissolve] selected. Awaiting material...</p>
+                    </div>
+                    <!-- Execute Button -->
+                    <button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl shadow-lg shadow-rubedo-red/30 animate-pulse transition-all hover:brightness-110 disabled:opacity-50 disabled:animate-none" disabled>
+                        Execute
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 10: "The Laboratory" - Step Success (Was 5)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">10. "The Laboratory" - Step Success</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:46</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-rubedo-red/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-rubedo-red transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Laboratory</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+
+                <!-- Top Panel: Locked Recipe -->
+                <div class="p-4 bg-black/20">
+                    <h3 class="text-center text-alchemical-gold font-bold text-lg mb-2">Current Step: 2 / 12</h3>
+                    <p class="text-center text-alabaster-white text-xl font-bold">
+                        [ <i class="fa-solid fa-link"></i> Combine ] + [ <i class="fa-solid fa-feather"></i> White Eagle ]
+                    </p>
+                    <p class="text-center text-neutral-steel text-xs mt-2 truncate">
+                        1: [Dissolve] [Red Lion] (Complete)... 3: [Calcify] [Sulfur]...
+                    </p>
+                </div>
+
+                <!-- Central Panel: Alchemy Bench (Reset for next step) -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar">
+                    <!-- Action Area -->
+                    <div class="mb-6">
+                        <h4 class="text-alabaster-white font-bold text-lg mb-3">Actions</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-flask-vial text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Dissolve</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-link text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Combine</span>
+                            </button>
+                            <!-- ... other buttons ... -->
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-fire text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">Calcify</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Material Area -->
+                    <div>
+                        <h4 class="text-alabaster-white font-bold text-lg mb-3">Materials</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-gem text-3xl mb-1 text-red-400"></i>
+                                <span class="text-sm font-medium">Red Lion</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg transition-all hover:bg-neutral-steel/80">
+                                <i class="fa-solid fa-feather text-3xl mb-1"></i>
+                                <span class="text-sm font-medium">White Eagle</span>
+                            </button>
+                            <!-- ... other buttons ... -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Action -->
+                <div class="p-4 border-t border-rubedo-red/30 bg-void-charcoal/80 backdrop-blur-sm">
+                    <!-- Narrative Window -->
+                    <div class="h-12 flex items-center justify-center mb-4">
+                        <p class="text-alchemical-gold text-center text-sm font-bold">
+                            <i class="fa-solid fa-check-circle mr-1"></i> Step 1 Complete. The mixture is stable.
+                        </p>
+                    </div>
+                    <!-- Execute Button -->
+                    <button class="w-full bg-rubedo-red text-white font-bold py-4 rounded-xl shadow-lg shadow-rubedo-red/30 animate-pulse transition-all hover:brightness-110 disabled:opacity-50 disabled:animate-none" disabled>
+                        Execute
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      ======================================================================
+      SCREEN 11: "The Laboratory" - Failure (Was 6)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">11. "The Laboratory" - Catastrophe!</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:47</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col">
+                <!-- Header -->
+                <header class="p-4 border-b border-rubedo-red/30 flex items-center justify-between">
+                    <button class="text-alabaster-white hover:text-rubedo-red transition-colors">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold text-alabaster-white text-center font-garamond">The Laboratory</h1>
+                    <div class="w-6"><!-- Placeholder for spacing --></div>
+                </header>
+
+                <!-- Top Panel: Locked Recipe (Frozen) -->
+                <div class="p-4 bg-black/20">
+                    <h3 class="text-center text-rubedo-red font-bold text-lg mb-2">Step 2 / 12 - FAILED!</h3>
+                    <p class="text-center text-neutral-steel text-xl font-bold line-through">
+                        [ <i class="fa-solid fa-link"></i> Combine ] + [ <i class="fa-solid fa-feather"></i> White Eagle ]
+                    </p>
+                    <p class="text-center text-rubedo-red text-sm mt-2">
+                        Incorrect Action: [ <i class="fa-solid fa-fire"></i> Calcify ] was executed
+                    </p>
+                </div>
+
+                <!-- Central Panel: Alchemy Bench (Disabled) -->
+                <div class="flex-1 p-5 overflow-y-auto custom-scrollbar opacity-40">
+                    <div class="mb-6">
+                        <h4 class="text-alabaster-white font-bold text-lg mb-3">Actions</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg" disabled><i class="fa-solid fa-flask-vial text-3xl mb-1"></i><span class="text-sm font-medium">Dissolve</span></button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg" disabled><i class="fa-solid fa-link text-3xl mb-1"></i><span class="text-sm font-medium">Combine</span></button>
+                            <button class="flex flex-col items-center justify-center aspect-square bg-neutral-steel text-alabaster-white rounded-2xl shadow-lg" disabled><i class="fa-solid fa-fire text-3xl mb-1"></i><span class="text-sm font-medium">Calcify</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Action -->
+                <div class="p-4 border-t border-rubedo-red/30 bg-void-charcoal/80 backdrop-blur-sm">
+                    <!-- Narrative Window -->
+                    <div class="h-12 flex items-center justify-center mb-4">
+                        <p class="text-rubedo-red text-center text-lg font-bold animate-shake">
+                            <i class="fa-solid fa-burst mr-1"></i> Catastrophe! Incorrect reaction!
+                        </p>
+                    </div>
+                    <!-- Execute Button -->
+                    <button class_comment="This button leads to the failure screen" class="w-full bg-neutral-steel text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:brightness-110">
+                        See Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 12: Victory Screen (Was 7)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">12. Victory Screen</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">10:02</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-full text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col items-center justify-center text-center p-8 space-y-6">
+                <i class="fa-solid fa-gem text-8xl text-rubedo-red animate-pulse" style="filter: drop-shadow(0 0 20px #d13030);"></i>
+                <h1 class="text-3xl font-bold text-alchemical-gold font-garamond">The Great Work is Complete</h1>
+                <p class="text-alabaster-white text-lg leading-relaxed font-garamond">
+                    ...the final substance cools in the crucible, emitting a perfect, ruby-like glow.
+                </p>
+                <p class="text-alabaster-white text-xl leading-relaxed font-bold">
+                    You have succeeded. You have created the<br>[ Philosopher's Stone ].
+                </p>
+                
+                <button class="w-full max-w-xs bg-alchemical-gold text-void-charcoal font-bold py-3 rounded-xl shadow-lg shadow-alchemical-gold/30 transition-all hover:brightness-110 mt-6">
+                    Begin Anew
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+      ======================================================================
+      SCREEN 13: Failure Screen (Was 8)
+      ======================================================================
+    -->
+    <div class="w-full max-w-md">
+        <h2 class="text-xl font-bold text-alchemical-gold mb-3 text-center">13. Failure Screen</h2>
+        
+        <!-- iPhone 15 Pro Frame -->
+        <div class="w-full h-[844px] max-w-[390px] mx-auto bg-void-charcoal rounded-[50px] border-4 border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- iOS Status Bar & Notch -->
+            <div class="absolute top-0 left-0 w-full h-11 z-20 px-8 flex justify-between items-center text-alabaster-white">
+                <span class="font-semibold text-sm">9:48</span>
+                <div class="absolute left-1/2 -translate-x-1/2 w-24 h-8 bg-void-charcoal rounded-b-2xl"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid fa-signal text-xs"></i>
+                    <i class="fa-solid fa-wifi text-xs"></i>
+                    <i class="fa-solid fa-battery-empty text-sm text-rubedo-red"></i>
+                </div>
+            </div>
+
+            <!-- Main App Content -->
+            <div class="flex-1 pt-11 flex flex-col items-center justify-center text-center p-8 space-y-6 bg-gradient-to-b from-rubedo-red/20 to-void-charcoal">
+                <i class="fa-solid fa-burst text-8xl text-rubedo-red animate-shake"></i>
+                <h1 class="text-3xl font-bold text-rubedo-red font-garamond">A Fatal Error</h1>
+                <p class="text-alabaster-white text-lg leading-relaxed font-garamond">
+                    ...the unstable mixture boils over, emitting a piercing shriek. You do not even have time to step back.
+                </p>
+                <p class="text-alabaster-white text-xl leading-relaxed font-bold">
+                    The laboratory is consumed in the blast.<br>Your work is at an end.
+                </p>
+                
+                <button class="w-full max-w-xs bg-neutral-steel text-alabaster-white font-bold py-3 rounded-xl shadow-lg transition-all hover:bg-neutral-steel/80 mt-6">
+                    Begin Anew
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+

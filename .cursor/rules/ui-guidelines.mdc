@@ -1,0 +1,275 @@
+---
+globs: lib/screens/*,lib/widgets/*
+---
+
+# UI Design Guidelines
+
+## Design Reference
+All screens should follow the design patterns established in [index.html](mdc:index.html).
+
+## Typography
+
+### Font Families
+```dart
+// Use system fonts only - NO custom font assets
+const String serifFont = 'serif';        // For narrative text (mimics EB Garamond)
+const String sansSerifFont = 'sans-serif'; // For UI elements (mimics Inter)
+```
+
+### Text Styles
+```dart
+// Headers (The Study, The Laboratory, etc.)
+TextStyle(
+  fontFamily: serifFont,
+  fontSize: 24,
+  fontWeight: FontWeight.bold,
+  color: alabasterWhite,
+)
+
+// Body text / Narrative (Encrypted log, story text)
+TextStyle(
+  fontFamily: serifFont,
+  fontSize: 18,
+  color: alabasterWhite,
+  height: 1.6, // line height
+)
+
+// UI labels / Buttons
+TextStyle(
+  fontFamily: sansSerifFont,
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  color: alabasterWhite,
+)
+
+// Clues / Keywords (highlighted text in log)
+TextStyle(
+  fontFamily: serifFont,
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  fontStyle: FontStyle.italic,
+  color: alchemicalGold,
+)
+```
+
+## Screen Layout Pattern
+
+All main screens should follow this structure:
+```dart
+Scaffold(
+  backgroundColor: voidCharcoal,
+  body: SafeArea(
+    child: Column(
+      children: [
+        // 1. Custom App Bar (44px height)
+        CustomAppBar(
+          title: 'Screen Name',
+          onHomePressed: () => Navigator.pop(context),
+        ),
+        
+        // 2. Optional: Tab Navigation (if needed)
+        // TabBar with alchemical-gold active state
+        
+        // 3. Main Content (Expanded)
+        Expanded(
+          child: SingleChildScrollView(
+            // Content here
+          ),
+        ),
+        
+        // 4. Optional: Footer Action Button
+        // Primary action button (Lock Recipe, Execute, etc.)
+      ],
+    ),
+  ),
+)
+```
+
+## Button Styles
+
+### Primary Action Button (Critical)
+```dart
+ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: rubedoRed,
+    foregroundColor: Colors.white,
+    padding: EdgeInsets.symmetric(vertical: 16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    elevation: 4,
+  ),
+  child: Text(
+    'Execute',
+    style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+)
+```
+
+### Secondary Action Button (Gold)
+```dart
+ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: alchemicalGold.withOpacity(0.2),
+    foregroundColor: alchemicalGold,
+    // ... same structure as above
+  ),
+)
+```
+
+### Tertiary Action Button (Neutral)
+```dart
+ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: neutralSteel.withOpacity(0.2),
+    foregroundColor: alabasterWhite,
+    // ... same structure as above
+  ),
+)
+```
+
+## Icons
+Use FontAwesome-style icon mappings with Flutter's built-in icons:
+
+```dart
+// Mapping from HTML FontAwesome to Flutter Icons
+Icons.home_outlined          // fa-house
+Icons.menu_book             // fa-book-skull (closest match)
+Icons.dashboard             // fa-scroll
+Icons.lock                  // fa-lock
+Icons.science               // fa-flask-vial
+Icons.link                  // fa-link
+Icons.local_fire_department // fa-fire
+Icons.landscape             // fa-mountain-sun
+Icons.diamond               // fa-gem
+Icons.nature                // fa-feather (closest)
+Icons.circle                // fa-atom
+Icons.water_drop            // fa-droplet
+Icons.lightbulb_outline     // fa-lightbulb
+Icons.check_circle          // fa-check-circle
+Icons.warning               // fa-triangle-exclamation
+Icons.celebration           // fa-burst
+```
+
+## Spacing System
+```dart
+// Use consistent spacing throughout
+const double spacing_xs = 4.0;
+const double spacing_sm = 8.0;
+const double spacing_md = 16.0;
+const double spacing_lg = 24.0;
+const double spacing_xl = 32.0;
+```
+
+## Border Radius
+```dart
+const double radius_sm = 8.0;   // Small elements
+const double radius_md = 12.0;  // Buttons, cards
+const double radius_lg = 16.0;  // Modals, major containers
+const double radius_xl = 24.0;  // Screen corners (if needed)
+```
+
+## Animations
+
+### Shake Animation (for failures)
+```dart
+AnimationController _shakeController;
+Animation<double> _shakeAnimation;
+
+// In initState
+_shakeController = AnimationController(
+  duration: Duration(milliseconds: 500),
+  vsync: this,
+);
+_shakeAnimation = TweenSequence<double>([
+  TweenSequenceItem(tween: Tween(begin: 0, end: -5), weight: 1),
+  TweenSequenceItem(tween: Tween(begin: -5, end: 5), weight: 1),
+  // Continue alternating...
+]).animate(_shakeController);
+```
+
+### Pulse Animation (for Execute button)
+```dart
+AnimationController _pulseController;
+
+_pulseController = AnimationController(
+  duration: Duration(milliseconds: 1500),
+  vsync: this,
+)..repeat(reverse: true);
+
+// Apply to button with AnimatedBuilder
+```
+
+## Modal Dialogs
+
+### Confirmation Modal Pattern
+```dart
+showDialog(
+  context: context,
+  barrierDismissible: false,
+  barrierColor: Colors.black.withOpacity(0.7),
+  builder: (context) => AlertDialog(
+    backgroundColor: voidCharcoal,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: BorderSide(color: alchemicalGold, width: 2),
+    ),
+    // Content...
+  ),
+);
+```
+
+## Scrollable Content
+```dart
+// Custom scrollbar styling
+Scrollbar(
+  thumbVisibility: true,
+  thickness: 6,
+  radius: Radius.circular(3),
+  child: SingleChildScrollView(
+    // Content
+  ),
+)
+```
+
+## Accessibility
+- Ensure all interactive elements have minimum 44x44 tap targets
+- Provide semantic labels for screen readers
+- Use sufficient color contrast (already ensured by color scheme)
+- Support dynamic text sizing
+
+## Responsive Design
+- Use MediaQuery for responsive sizing
+- Test on various screen sizes (iPhone SE to iPad)
+- Use Expanded/Flexible for fluid layouts
+- Avoid fixed pixel values for major layout decisions
+
+## Screen-Specific Guidelines
+
+### HomeScreen
+- Large centered title with book-skull icon
+- Last attempt summary in bordered card
+- Vertically stacked navigation buttons
+- "Begin The Work" button uses rubedo-red
+
+### StudyScreen
+- TabBar with 2 tabs: Encrypted Log | Recipe Slate
+- Active tab has gold underline
+- Footer button: "Lock Recipe & Enter Laboratory"
+
+### LaboratoryScreen
+- Top panel shows current step (X/12)
+- Action buttons in 3-column grid
+- Material buttons in 3-column grid
+- Selected button has ring indicator
+- Narrative window above Execute button
+- Execute button pulsing when ready
+
+### Victory/Failure Screens
+- Centered content vertically
+- Large icon at top (diamond for victory, burst for failure)
+- Serif font for narrative text
+- Single button at bottom: "Begin Anew"

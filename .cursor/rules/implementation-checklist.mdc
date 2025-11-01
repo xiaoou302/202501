@@ -1,0 +1,276 @@
+---
+description: Step-by-step implementation guide for building Cognifex
+---
+
+# Implementation Checklist
+
+## Phase 1: Project Setup & Foundation
+
+### 1.1 Project Configuration
+- [ ] Create new Flutter project: `flutter create cognifex`
+- [ ] Update `pubspec.yaml` with dependencies:
+  ```yaml
+  dependencies:
+    flutter:
+      sdk: flutter
+    shared_preferences: ^2.2.0
+  ```
+- [ ] Run `flutter pub get`
+- [ ] Test app runs on target devices
+
+### 1.2 Constants & Utils
+- [ ] Create `lib/utils/constants.dart`
+  - [ ] Define all colors from [color-scheme.mdc](mdc:.cursor/rules/color-scheme.mdc)
+  - [ ] Define text styles
+  - [ ] Define enums (AlchemyAction, AlchemyMaterial)
+  - [ ] Define helper methods for enum conversion
+- [ ] Create basic app structure in `main.dart`
+
+## Phase 2: Data Models
+
+### 2.1 Create Models (in order)
+- [ ] `lib/models/alchemy_step.dart`
+  - [ ] Constructor with required fields
+  - [ ] `copyWith()` method
+  - [ ] `toJson()` and `fromJson()` methods
+- [ ] `lib/models/recipe.dart`
+  - [ ] Constructor
+  - [ ] `isComplete()` helper method
+  - [ ] Serialization methods
+- [ ] `lib/models/revelation.dart`
+  - [ ] Constructor
+  - [ ] Serialization methods
+- [ ] `lib/models/game_state.dart`
+  - [ ] Constructor with all fields
+  - [ ] `GameState.initial()` factory
+  - [ ] Serialization methods
+- [ ] `lib/models/attempt_record.dart`
+  - [ ] Constructor
+  - [ ] Serialization methods
+
+### 2.2 Test Models
+- [ ] Write unit tests for each model
+- [ ] Test JSON serialization round-trip
+- [ ] Test `copyWith()` methods
+
+## Phase 3: Core Game Logic
+
+### 3.1 Game Logic Implementation
+- [ ] Create `lib/utils/game_logic.dart`
+- [ ] Define the correct 12-step recipe
+  - [ ] Design the puzzle (actions + materials)
+  - [ ] Ensure puzzle is logically solvable from clues
+- [ ] Implement `validateStep()` method
+- [ ] Implement revelation unlock logic
+- [ ] Write comprehensive unit tests
+
+### 3.2 Storage Service
+- [ ] Create `lib/utils/storage_service.dart`
+- [ ] Implement singleton pattern
+- [ ] Add save/load methods for:
+  - [ ] GameState
+  - [ ] Settings
+  - [ ] Crafting Log
+- [ ] Add reset method
+- [ ] Test with mock SharedPreferences
+
+## Phase 4: Reusable Widgets
+
+### 4.1 Basic Widgets
+- [ ] `lib/widgets/custom_app_bar.dart`
+  - [ ] Title display
+  - [ ] Home button
+  - [ ] Consistent styling
+- [ ] `lib/widgets/toggle_switch.dart`
+  - [ ] Custom switch for settings
+  - [ ] Alchemical gold active color
+
+### 4.2 Complex Widgets
+- [ ] `lib/widgets/encrypted_log.dart`
+  - [ ] Display clue text
+  - [ ] Highlight keywords in gold
+  - [ ] Make keywords tappable (optional)
+- [ ] `lib/widgets/recipe_slate.dart`
+  - [ ] 12 rows of dropdowns
+  - [ ] Action dropdown + Material dropdown per row
+  - [ ] Pass selections to parent via callback
+- [ ] `lib/widgets/alchemy_bench.dart`
+  - [ ] Grid of action buttons (4 buttons)
+  - [ ] Grid of material buttons (4-7 buttons)
+  - [ ] Selection state management
+  - [ ] Pass selections to parent
+- [ ] `lib/widgets/confirmation_modal.dart`
+  - [ ] Warning message
+  - [ ] Confirm/Cancel buttons
+  - [ ] Modal styling
+
+## Phase 5: Main Screens (in order)
+
+### 5.1 Simple Screens First
+- [ ] `lib/screens/home_screen.dart`
+  - [ ] App title and icon
+  - [ ] Last attempt summary (if exists)
+  - [ ] Navigation buttons to all screens
+  - [ ] Load GameState from storage
+- [ ] `lib/screens/introduction_screen.dart`
+  - [ ] Display story text
+  - [ ] Scrollable content
+  - [ ] Custom app bar
+- [ ] `lib/screens/settings_screen.dart`
+  - [ ] Sound/Music toggles
+  - [ ] Text speed selector
+  - [ ] Reset progress button with confirmation
+  - [ ] Save settings to storage
+
+### 5.2 Content Screens
+- [ ] `lib/screens/revelations_screen.dart`
+  - [ ] Load revelations from GameState
+  - [ ] Display unlocked revelations
+  - [ ] Show locked revelations as grayed out
+- [ ] `lib/screens/crafting_log_screen.dart`
+  - [ ] Load attempt history
+  - [ ] Display each attempt in card
+  - [ ] Show attempt number, date, result
+  - [ ] Show failure details if applicable
+
+### 5.3 Core Gameplay Screens
+- [ ] `lib/screens/study_screen.dart`
+  - [ ] Implement TabBar (Encrypted Log | Recipe Slate)
+  - [ ] Tab 1: Show encrypted log widget
+  - [ ] Tab 2: Show recipe slate widget
+  - [ ] Track recipe in local state
+  - [ ] Lock button (enabled when recipe complete)
+  - [ ] Show confirmation modal on lock
+  - [ ] Navigate to Laboratory with locked recipe
+- [ ] `lib/screens/laboratory_screen.dart`
+  - [ ] Display locked recipe at top
+  - [ ] Show current step (X/12)
+  - [ ] Render alchemy bench widget
+  - [ ] Track selected action + material
+  - [ ] Enable Execute button when both selected
+  - [ ] Validate step on execute
+  - [ ] Handle success: show message, advance step
+  - [ ] Handle failure: show error, save attempt, navigate
+  - [ ] Navigate to Victory after step 12 success
+
+### 5.4 Ending Screens
+- [ ] `lib/screens/victory_screen.dart`
+  - [ ] Display success message
+  - [ ] Philosopher's Stone icon with animation
+  - [ ] "Begin Anew" button
+  - [ ] Save successful attempt to log
+- [ ] `lib/screens/failure_screen.dart`
+  - [ ] Display failure message
+  - [ ] Explosion icon with animation
+  - [ ] "Begin Anew" button
+  - [ ] Save failed attempt to log
+
+## Phase 6: Content Creation
+
+### 6.1 Write the Puzzle
+- [ ] Design the correct 12-step recipe
+- [ ] Write encrypted log clues
+  - [ ] Direct order clues
+  - [ ] Conditional clues
+  - [ ] Action hints
+  - [ ] Sequential hints
+  - [ ] Add some red herrings
+- [ ] Ensure puzzle is solvable
+- [ ] Test solve it yourself
+
+### 6.2 Write Revelations
+- [ ] Create 5-10 revelations
+- [ ] Define unlock conditions for each
+- [ ] Write revelation text (hints/lore)
+
+## Phase 7: Polish & Testing
+
+### 7.1 Animations
+- [ ] Add shake animation to failure states
+- [ ] Add pulse animation to Execute button
+- [ ] Add fade transitions between screens
+- [ ] Add icon glow effects (victory/failure)
+
+### 7.2 Navigation Flow
+- [ ] Test all navigation paths
+- [ ] Ensure back button behavior is correct
+- [ ] Prevent back navigation from Laboratory
+- [ ] Handle app lifecycle (pause/resume)
+
+### 7.3 Persistence Testing
+- [ ] Test saving after each attempt
+- [ ] Test loading on app restart
+- [ ] Test settings persistence
+- [ ] Test reset progress functionality
+
+### 7.4 UI Polish
+- [ ] Verify all colors match design
+- [ ] Check text sizes and spacing
+- [ ] Test on multiple screen sizes
+- [ ] Test on iOS and Android
+- [ ] Ensure scrollbars work correctly
+- [ ] Check tap targets are 44x44 minimum
+
+### 7.5 Edge Cases
+- [ ] Handle empty/corrupted storage data
+- [ ] Handle rapid button presses
+- [ ] Test with many attempts (50+)
+- [ ] Test all failure scenarios
+- [ ] Test victory scenario
+
+## Phase 8: Final Checks
+
+### 8.1 Code Quality
+- [ ] Run `flutter analyze` - fix all issues
+- [ ] Format code: `flutter format .`
+- [ ] Remove debug prints
+- [ ] Add code comments where needed
+- [ ] Remove unused imports
+
+### 8.2 Testing
+- [ ] Run all unit tests
+- [ ] Manual test all user flows
+- [ ] Test on real devices (not just simulator)
+- [ ] Check performance (no frame drops)
+
+### 8.3 Deployment Prep
+- [ ] Update app icon
+- [ ] Update splash screen (if applicable)
+- [ ] Set correct app name in pubspec.yaml
+- [ ] Increment version number
+- [ ] Test release build
+
+## Estimated Timeline
+
+- **Phase 1-2**: 1-2 days (Setup & Models)
+- **Phase 3**: 1-2 days (Core Logic)
+- **Phase 4**: 1-2 days (Widgets)
+- **Phase 5**: 3-5 days (Screens)
+- **Phase 6**: 2-3 days (Content)
+- **Phase 7**: 2-3 days (Polish)
+- **Phase 8**: 1 day (Final Checks)
+
+**Total**: 11-18 days for solo developer
+
+## Priority Order
+
+If time is limited, implement in this order:
+1. Core Models + Game Logic (CRITICAL)
+2. Study Screen + Laboratory Screen (CORE GAMEPLAY)
+3. Victory/Failure Screens (ENDINGS)
+4. Home Screen + Navigation (ENTRY POINT)
+5. Storage Service (PERSISTENCE)
+6. Other screens (NICE TO HAVE)
+7. Animations + Polish (FINAL TOUCHES)
+
+## Quick Start Implementation
+
+For fastest path to playable prototype:
+1. Create models
+2. Hardcode a simple 3-step recipe in game_logic.dart
+3. Create Study Screen (minimal - just 3 dropdowns)
+4. Create Laboratory Screen (minimal - just buttons)
+5. Create Victory/Failure screens (just text)
+6. Test the core loop works
+7. Expand to 12 steps and add content
+8. Add remaining screens and features

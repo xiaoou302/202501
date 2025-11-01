@@ -1,0 +1,95 @@
+---
+alwaysApply: true
+---
+
+# Flutter App Architecture
+
+## Project Structure
+
+```
+lib/
+├── main.dart                    // App entry point
+├── models/                      // Data models
+│   ├── alchemy_step.dart       // Single alchemy step
+│   ├── recipe.dart             // Complete 12-step recipe
+│   ├── game_state.dart         // Overall game state
+│   └── revelation.dart         // Unlockable knowledge
+├── screens/                     // Main UI screens
+│   ├── home_screen.dart        // Main menu
+│   ├── study_screen.dart       // Stage 1: The Study
+│   ├── laboratory_screen.dart  // Stage 2: The Laboratory
+│   ├── crafting_log_screen.dart // Attempt history
+│   ├── revelations_screen.dart  // Unlocked knowledge
+│   ├── introduction_screen.dart // Story & tutorial
+│   ├── settings_screen.dart    // App settings
+│   ├── victory_screen.dart     // Success ending
+│   └── failure_screen.dart     // Failure ending
+├── widgets/                     // Reusable components
+│   ├── custom_app_bar.dart     // Themed app bar
+│   ├── recipe_slate.dart       // 12-step recipe editor
+│   ├── encrypted_log.dart      // Clue display
+│   ├── alchemy_bench.dart      // Laboratory controls
+│   ├── confirmation_modal.dart // Lock recipe dialog
+│   └── toggle_switch.dart      // Custom toggle
+└── utils/                       // Utilities
+    ├── game_logic.dart         // Core game rules
+    ├── storage_service.dart    // SharedPreferences wrapper
+    └── constants.dart          // App constants
+```
+
+## State Management
+- Use **setState** for local widget state
+- Pass callbacks for parent-child communication
+- Use `shared_preferences` for persistence
+- NO Provider, Bloc, Riverpod, or other state management packages
+
+## Key Architecture Principles
+
+### 1. Model Layer
+Each model should be a simple class with:
+- Named constructor parameters
+- `copyWith()` method for immutability
+- `toJson()` and `fromJson()` for serialization (NO freezed)
+- Clear, descriptive property names
+
+### 2. Screen Layer
+Each screen should:
+- Extend `StatefulWidget` (most screens need state)
+- Handle its own state with `setState`
+- Use composition with widgets from `widgets/` folder
+- Implement navigation logic
+- Follow the design from [index.html](mdc:index.html)
+
+### 3. Widget Layer
+Reusable widgets should:
+- Be small, focused components
+- Accept callbacks for user interactions
+- Be stateless when possible
+- Use consistent styling with color constants
+
+### 4. Utils Layer
+- `game_logic.dart`: Contains the "correct" recipe and validation logic
+- `storage_service.dart`: Wrapper for SharedPreferences operations
+- `constants.dart`: All color, string, and enum constants
+
+## Navigation Flow
+```
+HomeScreen
+├── → StudyScreen (begin new attempt)
+├── → CraftingLogScreen (view history)
+├── → RevelationsScreen (view unlocked knowledge)
+├── → IntroductionScreen (read story)
+└── → SettingsScreen (adjust settings)
+
+StudyScreen → ConfirmationModal → LaboratoryScreen
+LaboratoryScreen → VictoryScreen (if success)
+LaboratoryScreen → FailureScreen (if error)
+```
+
+## Data Flow
+1. User creates recipe in StudyScreen
+2. Recipe is locked and validated
+3. LaboratoryScreen receives locked recipe
+4. Each step execution is validated against correct sequence
+5. Results are saved to CraftingLog via StorageService
+6. Revelations may unlock based on attempt count/patterns
