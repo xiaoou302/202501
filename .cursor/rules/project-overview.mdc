@@ -1,0 +1,41 @@
+---
+alwaysApply: true
+---
+
+# 
+Leno Project Overview
+
+## App Identity
+- **Name**: 
+Leno
+- **Type**: Pet sharing, private recording, and intelligent communication platform
+- **Language**: English
+- **Target Platform**: iOS and Android (Flutter)
+
+## Core Philosophy
+
+Leno is a one-stop app designed for modern pet owners. It's not just a recording tool, but a warm community and intelligent assistant. We believe every pet deserves to be "seen", "recorded", and "scientifically cared for".
+
+## Three Core Pillars
+1. **Paws Plaza**: A vibrant, curated pet content community (satisfies "sharing" needs)
+2. **My Pets**: A private, powerful pet growth journal (satisfies "recording" needs)
+3. **AI Pal**: A 24/7 online intelligent pet care assistant (satisfies "communication" needs)
+
+## Design Language
+- **Primary Color**: Soft Coral (#FF7A8A) - warm, friendly, caring
+- **Style**: Modern, Instagram-inspired, iOS-like components
+- **Feel**: Gentle, intimate, fashionable
+
+## Technical Constraints
+- ❌ NO freezed package or part syntax
+- ❌ NO local image assets (assets/images/)
+- ❌ NO cached_network_image package
+- ❌ NO external custom fonts
+- ❌ NO user account/authentication features
+- ✅ Use setState for state management
+- ✅ Use shared_preferences for data storage
+- ✅ Use network images (Unsplash URLs)
+- ✅ Use system fonts
+
+## Project Structure Reference
+See [README.md](mdc:README.md) for detailed architecture and requirements.

@@ -1,0 +1,91 @@
+---
+description: Design system colors, typography, and UI guidelines for 
+Leno
+---
+
+# 
+Leno Design System
+
+## Color Palette
+
+### Light Mode
+```dart
+// Main Background
+shellWhite: Color(0xFFFCFBFB)      // Soft, neutral white
+
+// Main Text
+darkGraphite: Color(0xFF2F2F2F)    // Primary text color
+
+// UI Panels (Cards, Navigation)
+panelWhite: Color(0xFFFFFFFF)      // Pure white
+
+// Accent Color (Buttons, Links, Alerts)
+softCoral: Color(0xFFFF7A8A)       // Warm, friendly, represents "love"
+
+// Secondary Information
+mediumGray: Color(0xFF909090)      // Secondary text
+```
+
+### Dark Mode
+```dart
+// Main Background
+deepPlum: Color(0xFF1F1B1E)        // Deep black with subtle purple-red tone
+
+// Main Text
+softWhite: Color(0xFFEDEAEB)       // Soft white text
+
+// UI Panels (Cards, Navigation)
+darkGray: Color(0xFF2A2629)        // Same color family as background
+
+// Accent Color (same as light mode)
+softCoral: Color(0xFFFF7A8A)       // Stands out without being too sweet
+
+// Secondary Information (same as light mode)
+mediumGray: Color(0xFF909090)
+```
+
+## Typography
+- **Font Family**: System default (Inter-like on iOS, Roboto on Android)
+- **Hierarchy**:
+  - H1: 28-32px, Bold (Page titles)
+  - H2: 22-24px, Bold (Section headers)
+  - H3: 18-20px, SemiBold (Card titles)
+  - Body: 14-16px, Regular (Main content)
+  - Caption: 12-13px, Regular (Secondary info)
+
+## UI Components Style
+
+### Cards
+- Border Radius: 16-20px (rounded-2xl)
+- Shadow: Subtle, soft shadows
+- Padding: 16-20px
+- Background: panelWhite (light) / darkGray (dark)
+
+### Buttons
+- Primary: softCoral background, white text
+- Border Radius: Full (rounded-full for pills)
+- Active State: scale(0.95) transition
+- Shadow: Medium shadow for elevation
+
+### Icons
+- Size: 20-24px for UI elements
+- Color: mediumGray for inactive, softCoral for active
+- Style: Lucide icons (use similar Material/Cupertino icons)
+
+### Navigation
+- Bottom Tab Bar: 90px height
+- Backdrop Blur: 80% opacity with blur effect
+- Active Tab: softCoral color with bold text
+- Inactive Tab: mediumGray with regular text
+
+## Animation Guidelines
+- Transitions: 200-300ms duration
+- Easing: Ease-in-out for smooth feel
+- Micro-interactions: Button press, tab switch
+- Avoid: Excessive animations that distract
+
+## Layout Principles
+- Spacing: 8px base unit (multiples of 8)
+- Margins: 16-20px horizontal padding
+- Grid: 2-column for post cards, 3-column for image galleries
+- Safe Area: Respect iOS notch and Android system bars

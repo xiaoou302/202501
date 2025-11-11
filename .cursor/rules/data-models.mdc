@@ -1,0 +1,281 @@
+---
+description: Data model definitions and structure for 
+Leno app
+---
+
+# 
+Leno Data Models
+
+## Model Structure Guidelines
+- Plain Dart classes (NO freezed, NO part files)
+- Include `toJson()` and `fromJson()` methods
+- Use named parameters in constructors
+- Make fields final where possible
+- Handle nullable fields with `?`
+
+## Core Models
+
+### User Model
+```dart
+class User {
+  final String id;
+  final String username;
+  final String displayName;
+  final String? avatarUrl;
+  final String? bio;
+  final String? quote;
+  final DateTime createdAt;
+
+  User({
+    required this.id,
+    required this.username,
+    required this.displayName,
+    this.avatarUrl,
+    this.bio,
+    this.quote,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'username': username,
+      'displayName': displayName,
+      'avatarUrl': avatarUrl,
+      'bio': bio,
+      'quote': quote,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as String,
+      username: json['username'] as String,
+      displayName: json['displayName'] as String,
+      avatarUrl: json['avatarUrl'] as String?,
+      bio: json['bio'] as String?,
+      quote: json['quote'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+  }
+}
+```
+
+### Pet Model
+```dart
+class Pet {
+  final String id;
+  final String name;
+  final String species;        // 'dog', 'cat', 'hamster', etc.
+  final String breed;
+  final String gender;          // 'male', 'female'
+  final DateTime birthday;
+  final DateTime gotchaDay;     // Adoption/purchase date
+  final String? avatarUrl;
+  final String hobbies;
+  final bool isActive;          // false if archived
+  final DateTime createdAt;
+
+  Pet({
+    required this.id,
+    required this.name,
+    required this.species,
+    required this.breed,
+    required this.gender,
+    required this.birthday,
+    required this.gotchaDay,
+    this.avatarUrl,
+    required this.hobbies,
+    this.isActive = true,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory Pet.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+```
+
+### Post Model
+```dart
+class Post {
+  final String id;
+  final String userId;
+  final String? petId;
+  final String content;
+  final List<String> imageUrls;
+  final List<String> tags;      // ['#Dogs', '#Training', etc.]
+  final int likes;
+  final int comments;
+  final DateTime createdAt;
+
+  Post({
+    required this.id,
+    required this.userId,
+    this.petId,
+    required this.content,
+    this.imageUrls = const [],
+    this.tags = const [],
+    this.likes = 0,
+    this.comments = 0,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory Post.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+```
+
+### Reminder Model
+```dart
+class Reminder {
+  final String id;
+  final String petId;
+  final String title;
+  final String description;
+  final DateTime dueDate;
+  final bool isCompleted;
+  final ReminderType type;
+  final DateTime createdAt;
+
+  Reminder({
+    required this.id,
+    required this.petId,
+    required this.title,
+    required this.description,
+    required this.dueDate,
+    this.isCompleted = false,
+    required this.type,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory Reminder.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+
+enum ReminderType {
+  deworming,      // 驱虫
+  vetCheckup,     // 体检
+  vaccination,    // 疫苗
+  grooming,       // 美容
+  birthday,       // 生日
+  gotchaDay,      // 到家纪念日
+  custom,         // 自定义
+}
+```
+
+### Growth Track Model
+```dart
+class GrowthTrack {
+  final String id;
+  final String petId;
+  final String title;
+  final String description;
+  final DateTime date;
+  final List<String>? imageUrls;
+  final bool isArchived;
+  final DateTime createdAt;
+
+  GrowthTrack({
+    required this.id,
+    required this.petId,
+    required this.title,
+    required this.description,
+    required this.date,
+    this.imageUrls,
+    this.isArchived = false,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory GrowthTrack.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+```
+
+### Chat Message Model
+```dart
+class ChatMessage {
+  final String id;
+  final String content;
+  final bool isUser;            // true = user, false = AI
+  final DateTime timestamp;
+
+  ChatMessage({
+    required this.id,
+    required this.content,
+    required this.isUser,
+    required this.timestamp,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory ChatMessage.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+```
+
+### Quiz Question Model
+```dart
+class QuizQuestion {
+  final String id;
+  final String question;
+  final List<String> options;
+  final int currentAnswer;      // Index of selected option (-1 if none)
+
+  QuizQuestion({
+    required this.id,
+    required this.question,
+    required this.options,
+    this.currentAnswer = -1,
+  });
+}
+```
+
+### Quiz Result Model
+```dart
+class QuizResult {
+  final String recommendedPet;
+  final String reason;
+  final String? alternativePet;
+  final String? alternativeReason;
+  final DateTime completedAt;
+
+  QuizResult({
+    required this.recommendedPet,
+    required this.reason,
+    this.alternativePet,
+    this.alternativeReason,
+    required this.completedAt,
+  });
+
+  Map<String, dynamic> toJson() { /* ... */ }
+  factory QuizResult.fromJson(Map<String, dynamic> json) { /* ... */ }
+}
+```
+
+## Storage Keys (SharedPreferences)
+```dart
+// In app_constants.dart
+class StorageKeys {
+  static const String pets = 'pets_list';
+  static const String reminders = 'reminders_list';
+  static const String growthTracks = 'growth_tracks_list';
+  static const String chatHistory = 'chat_history';
+  static const String savedPosts = 'saved_posts';
+  static const String isDarkMode = 'is_dark_mode';
+  static const String notificationSettings = 'notification_settings';
+}
+```
+
+## JSON Serialization Pattern
+```dart
+// Saving list of models
+List<Pet> pets = [...];
+String json = jsonEncode(pets.map((p) => p.toJson()).toList());
+await prefs.setString(StorageKeys.pets, json);
+
+// Loading list of models
+String? json = prefs.getString(StorageKeys.pets);
+if (json != null) {
+  List<dynamic> decoded = jsonDecode(json);
+  List<Pet> pets = decoded.map((item) => Pet.fromJson(item)).toList();
+}
+```

@@ -1,0 +1,136 @@
+---
+description: Flutter app architecture and file organization for 
+Leno
+---
+
+# 
+Leno Architecture Guide
+
+## Project Structure
+
+```
+lib/
+├── main.dart                           # App entry point
+├── core/                               # Core layer
+│   ├── constants/
+│   │   └── app_constants.dart          # Colors, strings, sizes
+│   ├── theme/
+│   │   └── app_theme.dart              # Light/dark theme config
+│   ├── utils/
+│   │   ├── date_utils.dart             # Date formatting helpers
+│   │   └── validators.dart             # Input validation
+│   └── widgets/
+│       ├── custom_button.dart          # Reusable button
+│       ├── custom_card.dart            # Reusable card
+│       └── loading_indicator.dart      # Loading states
+├── data/                               # Data layer
+│   ├── models/
+│   │   ├── user_model.dart             # User data structure
+│   │   ├── pet_model.dart              # Pet data structure
+│   │   ├── post_model.dart             # Post data structure
+│   │   ├── reminder_model.dart         # Reminder data structure
+│   │   ├── growth_track_model.dart     # Growth track entry
+│   │   └── chat_message_model.dart     # AI chat message
+│   ├── repositories/
+│   │   ├── pet_repository.dart         # Pet CRUD operations
+│   │   ├── post_repository.dart        # Post data management
+│   │   └── settings_repository.dart    # Settings persistence
+│   └── services/
+│       ├── local_storage_service.dart  # SharedPreferences wrapper
+│       └── mock_data_service.dart      # Mock data generator
+├── features/                           # Feature modules
+│   ├── plaza/
+│   │   ├── plaza_screen.dart           # Main plaza page
+│   │   ├── widgets/
+│   │   │   ├── post_card.dart          # Post card widget
+│   │   │   ├── filter_chips.dart       # Category filter chips
+│   │   │   └── masonry_grid.dart       # Waterfall layout
+│   │   └── profile_screen.dart         # User profile page
+│   ├── pets/
+│   │   ├── pets_screen.dart            # Main pets page
+│   │   ├── pet_profile_screen.dart     # Single pet details
+│   │   ├── widgets/
+│   │   │   ├── pet_avatar_selector.dart # Pet switcher
+│   │   │   ├── reminder_card.dart       # Reminder item
+│   │   │   └── growth_timeline.dart     # Timeline widget
+│   │   ├── add_pet_screen.dart         # Add new pet
+│   │   ├── add_reminder_screen.dart    # Add reminder
+│   │   └── add_growth_track_screen.dart # Add growth entry
+│   ├── ai/
+│   │   ├── ai_screen.dart              # AI chat interface
+│   │   ├── pet_test_screen.dart        # Pet matching quiz
+│   │   └── widgets/
+│   │       ├── chat_bubble.dart        # Message bubble
+│   │       ├── quick_reply_chip.dart   # Preset topics
+│   │       └── quiz_option.dart        # Quiz answer option
+│   └── settings/
+│       ├── settings_screen.dart        # Main settings page
+│       ├── notifications_screen.dart   # Notification settings
+│       └── widgets/
+│           ├── settings_tile.dart      # Settings list item
+│           └── theme_toggle.dart       # Dark mode switch
+└── navigation/
+    ├── app_router.dart                 # Route definitions
+    └── bottom_nav_bar.dart             # Bottom navigation
+```
+
+## Architecture Principles
+
+### 1. Feature-First Organization
+- Each feature module is self-contained
+- Widgets specific to a feature stay in that feature's folder
+- Shared widgets go in `core/widgets/`
+
+### 2. Simple State Management
+- Use `StatefulWidget` with `setState`
+- Pass data down via constructors
+- Use callbacks for child-to-parent communication
+- For complex state, consider `ValueNotifier` or `ChangeNotifier`
+
+### 3. Data Flow
+```
+UI (Screen) → Repository → Service → Storage
+     ↓                                   ↑
+  setState ←─────────────────────────────┘
+```
+
+### 4. Model Classes
+- Plain Dart classes (no freezed, no code generation)
+- Include `toJson()` and `fromJson()` methods for persistence
+- Use named constructors for special cases
+- Keep models immutable where possible
+
+### 5. Repository Pattern
+- Repositories handle data operations
+- Abstract storage details from UI
+- Return models, not raw data
+- Handle error cases gracefully
+
+## File Naming Conventions
+- Screens: `*_screen.dart` (e.g., `plaza_screen.dart`)
+- Widgets: descriptive names (e.g., `post_card.dart`)
+- Models: `*_model.dart` (e.g., `pet_model.dart`)
+- Services: `*_service.dart` (e.g., `local_storage_service.dart`)
+- Repositories: `*_repository.dart` (e.g., `pet_repository.dart`)
+
+## Import Organization
+```dart
+// 1. Dart imports
+import 'dart:async';
+
+// 2. Flutter imports
+import 'package:flutter/material.dart';
+
+// 3. Package imports
+import 'package:shared_preferences/shared_preferences.dart';
+
+// 4. Project imports (use relative paths within same feature)
+import '../../core/constants/app_constants.dart';
+import '../models/pet_model.dart';
+```
+
+## Key Implementation Notes
+- Store data in SharedPreferences as JSON strings
+- Use mock data service for demo content (posts, users)
+- Generate unique IDs with `DateTime.now().millisecondsSinceEpoch.toString()`
+- Handle null safety properly with `?` and `??` operators

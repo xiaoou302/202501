@@ -1,0 +1,464 @@
+---
+globs: *.dart
+description: Dart and Flutter coding standards for 
+Leno
+---
+
+# 
+Leno Coding Standards
+
+## General Dart Guidelines
+
+### Code Style
+- Use 2 spaces for indentation
+- Max line length: 80 characters (flexible for readability)
+- Use trailing commas for better formatting
+- Follow official Dart style guide
+
+### Naming Conventions
+```dart
+// Classes: PascalCase
+class PetRepository {}
+
+// Files: snake_case
+// pet_repository.dart
+
+// Variables/functions: camelCase
+String userName = 'Alex';
+void loadUserData() {}
+
+// Constants: lowerCamelCase
+const String apiBaseUrl = 'https://api.example.com';
+
+// Private members: prefix with underscore
+String _privateField;
+void _privateMethod() {}
+```
+
+### Comments
+```dart
+// Use // for single-line comments
+// Explain WHY, not WHAT
+
+/// Use /// for documentation comments
+/// This function calculates the pet's age in years
+String calculateAge(DateTime birthday) {
+  // Implementation
+}
+
+// TODO: Add error handling
+// FIXME: This breaks on leap years
+```
+
+## Flutter-Specific Guidelines
+
+### Widget Structure
+```dart
+class MyWidget extends StatelessWidget {
+  // 1. Constructor parameters (final fields)
+  final String title;
+  final VoidCallback? onTap;
+
+  // 2. Constructor
+  const MyWidget({
+    Key? key,
+    required this.title,
+    this.onTap,
+  }) : super(key: key);
+
+  // 3. Build method
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Widget tree
+    );
+  }
+
+  // 4. Private helper methods
+  void _handleTap() {
+    onTap?.call();
+  }
+}
+```
+
+### StatefulWidget Pattern
+```dart
+class MyStatefulWidget extends StatefulWidget {
+  final String initialValue;
+
+  const MyStatefulWidget({
+    Key? key,
+    required this.initialValue,
+  }) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  // 1. State variables
+  late String _currentValue;
+  bool _isLoading = false;
+
+  // 2. Lifecycle methods
+  @override
+  void initState() {
+    super.initState();
+    _currentValue = widget.initialValue;
+    _loadData();
+  }
+
+  @override
+  void dispose() {
+    // Clean up controllers, listeners
+    super.dispose();
+  }
+
+  // 3. Build method
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  // 4. Private methods
+  Future<void> _loadData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    // Load data
+    setState(() {
+      _isLoading = false;
+    });
+  }
+}
+```
+
+### BuildContext Usage
+```dart
+// Access theme
+final theme = Theme.of(context);
+final isDark = theme.brightness == Brightness.dark;
+
+// Access MediaQuery
+final size = MediaQuery.of(context).size;
+final padding = MediaQuery.of(context).padding;
+
+// Navigation
+Navigator.push(context, MaterialPageRoute(builder: (_) => NewScreen()));
+Navigator.pop(context);
+Navigator.pop(context, result);
+```
+
+## State Management with setState
+
+### Simple State Updates
+```dart
+void _updateValue(String newValue) {
+  setState(() {
+    _currentValue = newValue;
+  });
+}
+```
+
+### Async Operations
+```dart
+Future<void> _loadData() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    final data = await repository.fetchData();
+    setState(() {
+      _data = data;
+      _isLoading = false;
+    });
+  } catch (e) {
+    setState(() {
+      _error = e.toString();
+      _isLoading = false;
+    });
+  }
+}
+```
+
+### Conditional setState
+```dart
+void _updateIfMounted(VoidCallback fn) {
+  if (mounted) {
+    setState(fn);
+  }
+}
+```
+
+## Error Handling
+
+### Try-Catch Pattern
+```dart
+Future<void> _saveData() async {
+  try {
+    await repository.save(data);
+    _showSuccessMessage();
+  } catch (e) {
+    _showErrorMessage(e.toString());
+  }
+}
+```
+
+### Null Safety
+```dart
+// Use ? for nullable types
+String? optionalValue;
+
+// Use ?? for default values
+String displayName = user.name ?? 'Unknown';
+
+// Use ?. for safe navigation
+int? length = user.pets?.length;
+
+// Use ! only when absolutely certain
+String name = user.name!; // Avoid if possible
+```
+
+## UI Best Practices
+
+### Responsive Design
+```dart
+// Use MediaQuery for responsive sizing
+final screenWidth = MediaQuery.of(context).size.width;
+final isTablet = screenWidth > 600;
+
+// Use LayoutBuilder for adaptive layouts
+LayoutBuilder(
+  builder: (context, constraints) {
+    if (constraints.maxWidth > 600) {
+      return TabletLayout();
+    }
+    return MobileLayout();
+  },
+)
+```
+
+### Theme Access
+```dart
+// Access custom colors
+final theme = Theme.of(context);
+final primaryColor = theme.primaryColor;
+final textColor = theme.textTheme.bodyLarge?.color;
+
+// Use theme-aware colors
+Container(
+  color: theme.brightness == Brightness.dark
+    ? AppConstants.darkGray
+    : AppConstants.panelWhite,
+)
+```
+
+### Spacing and Sizing
+```dart
+// Use SizedBox for spacing
+SizedBox(height: 16),
+SizedBox(width: 8),
+
+// Use EdgeInsets for padding
+Padding(
+  padding: EdgeInsets.all(16),
+  child: child,
+)
+
+// Use consistent spacing
+const double kSpacingSmall = 8.0;
+const double kSpacingMedium = 16.0;
+const double kSpacingLarge = 24.0;
+```
+
+## Performance Tips
+
+### Const Constructors
+```dart
+// Use const when possible
+const SizedBox(height: 16)
+const Text('Static text')
+const Icon(Icons.home)
+```
+
+### Avoid Rebuilds
+```dart
+// Extract static widgets
+class _StaticHeader extends StatelessWidget {
+  const _StaticHeader();
+  
+  @override
+  Widget build(BuildContext context) {
+    return Text('Header');
+  }
+}
+
+// Use in parent
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: [
+      const _StaticHeader(), // Won't rebuild
+      DynamicContent(data: _data),
+    ],
+  );
+}
+```
+
+### ListView Performance
+```dart
+// Use ListView.builder for long lists
+ListView.builder(
+  itemCount: items.length,
+  itemBuilder: (context, index) {
+    return ItemWidget(item: items[index]);
+  },
+)
+
+// Use ListView.separated for dividers
+ListView.separated(
+  itemCount: items.length,
+  itemBuilder: (context, index) => ItemWidget(items[index]),
+  separatorBuilder: (context, index) => Divider(),
+)
+```
+
+## Testing Considerations
+
+### Testable Code Structure
+```dart
+// Separate business logic from UI
+class PetService {
+  Future<List<Pet>> getPets() async {
+    // Logic here
+  }
+}
+
+// UI just calls service
+class PetsScreen extends StatefulWidget {
+  final PetService service;
+  
+  const PetsScreen({required this.service});
+}
+```
+
+### Mock-Friendly Design
+```dart
+// Use abstract classes for repositories
+abstract class PetRepository {
+  Future<List<Pet>> getAll();
+  Future<void> add(Pet pet);
+}
+
+// Concrete implementation
+class PetRepositoryImpl implements PetRepository {
+  @override
+  Future<List<Pet>> getAll() async {
+    // Implementation
+  }
+}
+```
+
+## Common Patterns
+
+### Loading States
+```dart
+if (_isLoading) {
+  return Center(child: CircularProgressIndicator());
+}
+
+if (_error != null) {
+  return Center(child: Text('Error: $_error'));
+}
+
+return ContentWidget(data: _data);
+```
+
+### Empty States
+```dart
+if (_items.isEmpty) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.inbox, size: 64, color: Colors.grey),
+        SizedBox(height: 16),
+        Text('No items yet'),
+      ],
+    ),
+  );
+}
+```
+
+### Dialogs
+```dart
+Future<bool?> _showConfirmDialog() async {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Confirm'),
+      content: Text('Are you sure?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text('Confirm'),
+        ),
+      ],
+    ),
+  );
+}
+```
+
+## Avoid These Patterns
+
+❌ **Don't use BuildContext after async gap without checking mounted**
+```dart
+// Bad
+Future<void> _loadData() async {
+  await Future.delayed(Duration(seconds: 1));
+  Navigator.pop(context); // Context might be invalid
+}
+
+// Good
+Future<void> _loadData() async {
+  await Future.delayed(Duration(seconds: 1));
+  if (mounted) {
+    Navigator.pop(context);
+  }
+}
+```
+
+❌ **Don't call setState in build method**
+```dart
+// Bad
+@override
+Widget build(BuildContext context) {
+  setState(() { /* ... */ }); // Never do this
+  return Container();
+}
+```
+
+❌ **Don't forget to dispose controllers**
+```dart
+// Bad
+class _MyState extends State<MyWidget> {
+  final _controller = TextEditingController();
+  // No dispose method
+}
+
+// Good
+class _MyState extends State<MyWidget> {
+  final _controller = TextEditingController();
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+```

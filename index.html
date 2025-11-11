@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+Leno App Prototype</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 引入Inter字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind 自定义配置 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // 启用暗色模式切换
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // 1. 亮色模式 (Light Mode)
+                        'shell-white': '#FCFBFB',    // 主背景
+                        'dark-graphite': '#2F2F2F',   // 主文本
+                        'panel-white': '#FFFFFF',    // UI 面板 (卡片, 导航栏)
+                        'soft-coral': '#FF7A8A',     // 核心点缀色
+                        'medium-gray': '#909090',    // 次要信息
+
+                        // 2. 暗色模式 (Dark Mode)
+                        'deep-plum': '#1F1B1E',      // 主背景
+                        'soft-white': '#EDEAEB',     // 主文本
+                        'dark-gray': '#2A2629',      // UI 面板 (卡片, 导航栏)
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- 内部CSS样式 -->
+    <style>
+        body {
+            /* 桌面背景，用于衬托手机模型 */
+            background-color: #333;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* 隐藏滚动条，使其更像App */
+        .phone-screen::-webkit-scrollbar {
+            display: none;
+        }
+        .phone-screen {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 模拟iOS的toggle开关样式 */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #FF7A8A;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #FF7A8A;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 md:p-8 bg-gray-200 dark:bg-gray-800">
+
+    <!-- 
+      =============================================================
+      iPhone 15 Pro 手机模型外壳
+      =============================================================
+    -->
+    <div class="w-full max-w-[430px] h-[932px] md:h-[880px] md:max-w-[410px] bg-dark-graphite rounded-[60px] p-2.5 shadow-2xl border-4 border-gray-500 dark:border-gray-700">
+        <div class="w-full h-full bg-shell-white dark:bg-deep-plum rounded-[50px] overflow-hidden relative">
+            
+            <!-- 
+              =============================================================
+              iOS 顶部状态栏 (模拟)
+              =============================================================
+            -->
+            <div class="absolute top-0 left-0 right-0 z-50 px-8 pt-5 pb-3 bg-shell-white/80 dark:bg-deep-plum/80 backdrop-blur-sm">
+                <div class="flex justify-between items-center">
+                    <span class="text-base font-semibold text-dark-graphite dark:text-soft-white">9:41</span>
+                    <!-- 动态岛/刘海 模拟 -->
+                    <div class="w-28 h-7 bg-dark-graphite rounded-full"></div>
+                    <div class="flex items-center space-x-1.5">
+                        <svg class="w-4 h-4 text-dark-graphite dark:text-soft-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20.25a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h.008a.75.75 0 01-.75-.75v-.008a.75.75 0 01.75-.75h-.008zM4.875 12.124a12.012 12.012 0 0114.25 0"></path></svg>
+                        <svg class="w-4 h-4 text-dark-graphite dark:text-soft-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.042 21.37a.75.75 0 01-.75.75H9.708a.75.75 0 01-.75-.75V2.63a.75.75 0 01.75-.75h4.584a.75.75 0 01.75.75v18.74z"></path></svg>
+                        <svg class="w-6 h-6 text-dark-graphite dark:text-soft-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 3a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1H6zm2 12a1 1 0 100 2h4a1 1 0 100-2H8z" clip-rule="evenodd"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+              =============================================================
+              App 可滚动内容区域
+              =============================================================
+            -->
+            <div id="phone-screen" class="phone-screen w-full h-full overflow-y-auto pt-[80px] pb-[90px] bg-shell-white dark:bg-deep-plum text-dark-graphite dark:text-soft-white scroll-smooth">
+                
+                <!-- 
+                  =============================================================
+                  界面一：爪印广场 (Paws Plaza)
+                  =============================================================
+                -->
+                <section id="page-plaza" class="w-full min-h-full px-5 py-4">
+                    <header class="flex justify-between items-center mb-4">
+                        <h1 class="text-3xl font-bold">Paws Plaza</h1>
+                        <i data-lucide="search" class="w-6 h-6 text-medium-gray"></i>
+                    </header>
+                    
+                    <!-- 内容筛选标签 -->
+                    <div class="flex space-x-2 overflow-x-auto pb-4 mb-4 whitespace-nowrap" style="-ms-overflow-style: none; scrollbar-width: none;">
+                        <a href="#page-plaza" class="inline-block bg-soft-coral text-white rounded-full px-4 py-1.5 text-sm font-semibold shadow-sm">All</a>
+                        <a href="#page-plaza" class="inline-block bg-panel-white dark:bg-dark-gray rounded-full px-4 py-1.5 text-sm font-semibold">#Dogs</a>
+                        <a href="#page-plaza" class="inline-block bg-panel-white dark:bg-dark-gray rounded-full px-4 py-1.5 text-sm font-semibold">#Cats</a>
+                        <a href="#page-plaza" class="inline-block bg-panel-white dark:bg-dark-gray rounded-full px-4 py-1.5 text-sm font-semibold">#NewbieGuide</a>
+                        <a href="#page-plaza" class="inline-block bg-panel-white dark:bg-dark-gray rounded-full px-4 py-1.5 text-sm font-semibold">#CutePics</a>
+                        <a href="#page-plaza" class="inline-block bg-panel-white dark:bg-dark-gray rounded-full px-4 py-1.5 text-sm font-semibold">#Training</a>
+                    </div>
+                    
+                    <!-- 瀑布流内容 (用CSS Grid模拟) -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- 帖子 1 -->
+                        <div class="space-y-3">
+                            <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Cute Corgi" class="w-full h-auto object-cover">
+                                <div class="p-3">
+                                    <p class="text-sm font-medium truncate">My training tips for a perfect 'sit'!</p>
+                                    <a href="#page-friend-profile" class="flex items-center space-x-1.5 mt-2">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Avatar" class="w-5 h-5 rounded-full object-cover">
+                                        <span class="text-xs text-medium-gray">@DogLover_Mark</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 帖子 2 -->
+                            <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1598133894008-61f75d5958e1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Cat in a box" class="w-full h-auto object-cover">
+                                <div class="p-3">
+                                    <p class="text-sm font-medium truncate">Why do they love boxes so much?</p>
+                                    <a href="#page-friend-profile" class="flex items-center space-x-1.5 mt-2">
+                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Avatar" class="w-5 h-5 rounded-full object-cover">
+                                        <span class="text-xs text-medium-gray">@CatMom_Sarah</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 帖子 3 -->
+                        <div class="space-y-3">
+                            <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Dog with glasses" class="w-full h-auto object-cover">
+                                <div class="p-3">
+                                    <p class="text-sm font-medium truncate">Feeling cute, might delete later.</p>
+                                    <a href="#page-friend-profile" class="flex items-center space-x-1.5 mt-2">
+                                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Avatar" class="w-5 h-5 rounded-full object-cover">
+                                        <span class="text-xs text-medium-gray">@StylishPaws</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 帖子 4 -->
+                            <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Two cats" class="w-full h-auto object-cover">
+                                <div class="p-3">
+                                    <p class="text-sm font-medium truncate">Our first successful playdate!</p>
+                                    <a href="#page-friend-profile" class="flex items-center space-x-1.5 mt-2">
+                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Avatar" class="w-5 h-5 rounded-full object-cover">
+                                        <span class="text-xs text-medium-gray">@CatMom_Sarah</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 
+                  =============================================================
+                  子页面：好友主页 (Friend Profile)
+                  =============================================================
+                -->
+                <section id="page-friend-profile" class="w-full min-h-full bg-shell-white dark:bg-deep-plum">
+                    <header class="px-5 py-4 flex items-center space-x-4">
+                        <a href="#page-plaza" class="text-soft-coral">
+                            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                        </a>
+                        <h1 class="text-xl font-bold">@CatMom_Sarah</h1>
+                    </header>
+                    
+                    <!-- 博主简介 -->
+                    <div class="px-5 py-4 flex flex-col items-center text-center">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Avatar" class="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-panel-white dark:border-dark-gray">
+                        <h2 class="text-2xl font-bold mt-3">Sarah Jenkins</h2>
+                        <p class="text-medium-gray text-sm mt-1">Lover of all things feline. Documenting my life with Mochi and Boba.</p>
+                        <p class="mt-3 text-sm">"Our pets make our lives whole."</p>
+                        <button class="mt-4 bg-soft-coral text-white px-8 py-2 rounded-full font-semibold shadow-md active:scale-95 transition">Follow</button>
+                    </div>
+
+                    <!-- 分隔符 -->
+                    <div class="h-2.5 bg-gray-100 dark:bg-black/20 my-4"></div>
+
+                    <!-- 博主帖子合集 -->
+                    <div class="px-5 pb-4">
+                        <h3 class="text-lg font-semibold mb-3">All Posts</h3>
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <img src="https://images.unsplash.com/photo-1598133894008-61f75d5958e1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Post" class="w-full h-28 object-cover rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Post" class="w-full h-28 object-cover rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Post" class="w-full h-28 object-cover rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1519014816548-bf57b63c89a6?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Post" class="w-full h-28 object-cover rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Post" class="w-full h-28 object-cover rounded-lg">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 
+                  =============================================================
+                  界面二：我的萌宠 (My Pets)
+                  =============================================================
+                -->
+                <section id="page-pets" class="w-full min-h-full">
+                    <header class="flex justify-between items-center mb-4 px-5 pt-4">
+                        <h1 class="text-3xl font-bold">My Pets</h1>
+                        <button class="text-soft-coral">
+                            <i data-lucide="plus-circle" class="w-7 h-7"></i>
+                        </button>
+                    </header>
+                    
+                    <!-- 多宠物管理 -->
+                    <div class="flex space-x-4 overflow-x-auto p-5 pt-0 whitespace-nowrap" style="-ms-overflow-style: none; scrollbar-width: none;">
+                        <!-- Pet 1 (Active) -->
+                        <div class="flex flex-col items-center space-y-2 flex-shrink-0">
+                            <div class="w-20 h-20 rounded-full p-1 ring-4 ring-soft-coral">
+                                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Pet Avatar" class="w-full h-full rounded-full object-cover">
+                            </div>
+                            <span class="font-semibold">Buddy</span>
+                        </div>
+                        <!-- Pet 2 -->
+                        <div class="flex flex-col items-center space-y-2 flex-shrink-0 opacity-60">
+                            <div class="w-20 h-20 rounded-full p-1">
+                                <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Pet Avatar" class="w-full h-full rounded-full object-cover">
+                            </div>
+                            <span class="font-semibold">Smokey</span>
+                        </div>
+                        <!-- Add Pet -->
+                        <div class="flex flex-col items-center justify-center space-y-2 flex-shrink-0 w-20 h-20">
+                            <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-dark-gray flex items-center justify-center border-2 border-dashed border-medium-gray">
+                                <i data-lucide="plus" class="w-6 h-6 text-medium-gray"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 宠物档案详情 -->
+                    <div class="px-5 pb-4">
+                        <!-- 宠物信息 -->
+                        <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm p-4 text-center">
+                            <h2 class="text-2xl font-bold">Buddy</h2>
+                            <p class="text-medium-gray text-sm">Golden Retriever, Male</p>
+                            <p class="mt-2 text-sm font-medium">Hobbies: Chasing tennis balls, belly rubs, and naps.</p>
+                            <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
+                                <div class="bg-shell-white dark:bg-deep-plum p-2 rounded-lg">
+                                    <span class="text-xs text-medium-gray block">Birthday</span>
+                                    <span class="font-semibold">Oct 10, 2023</span>
+                                </div>
+                                <div class="bg-shell-white dark:bg-deep-plum p-2 rounded-lg">
+                                    <span class="text-xs text-medium-gray block">Gotcha Day</span>
+                                    <span class="font-semibold">Dec 25, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 提醒 -->
+                        <div class="mt-5">
+                            <h3 class="text-lg font-semibold mb-3">Reminders</h3>
+                            <div class="space-y-2">
+                                <div class="bg-panel-white dark:bg-dark-gray rounded-xl p-4 flex justify-between items-center shadow-sm">
+                                    <div>
+                                        <p class="font-semibold text-soft-coral">Next: Monthly Deworming</p>
+                                        <p class="text-sm text-medium-gray">Due: Nov 15, 2025</p>
+                                    </div>
+                                    <i data-lucide="bell" class="w-5 h-5 text-soft-coral"></i>
+                                </div>
+                                <div class="bg-panel-white dark:bg-dark-gray rounded-xl p-4 flex justify-between items-center shadow-sm">
+                                    <div>
+                                        <p class="font-semibold">Annual Vet Checkup</p>
+                                        <p class="text-sm text-medium-gray">Due: Jan 20, 2026</p>
+                                    </div>
+                                    <i data-lucide="bell" class="w-5 h-5 text-medium-gray"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 成长轨迹 (The Growth Track) -->
+                        <div class="mt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold">Growth Track</h3>
+                                <button class="bg-soft-coral text-white rounded-full p-2 shadow-md active:scale-95 transition">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- 时间轴 -->
+                            <div class="relative pl-6 border-l-2 border-soft-coral/50">
+                                <!-- 轨迹点 1 -->
+                                <div class="mb-8 relative">
+                                    <div class="absolute -left-[33px] top-1 w-4 h-4 bg-soft-coral rounded-full border-4 border-shell-white dark:border-deep-plum"></div>
+                                    <p class="text-sm font-semibold text-medium-gray">Oct 2, 2025</p>
+                                    <h4 class="font-bold text-lg mt-1">First Beach Trip!</h4>
+                                    <p class="text-sm mt-1">He was nervous about the waves at first, but then he loved digging in the sand!</p>
+                                    <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Beach trip" class="w-full h-auto object-cover rounded-xl mt-3">
+                                </div>
+                                
+                                <!-- 轨迹点 2 -->
+                                <div class="mb-8 relative">
+                                    <div class="absolute -left-[33px] top-1 w-4 h-4 bg-soft-coral rounded-full border-4 border-shell-white dark:border-deep-plum"></div>
+                                    <p class="text-sm font-semibold text-medium-gray">Sep 15, 2025</p>
+                                    <h4 class="font-bold text-lg mt-1">Learned 'Shake'</h4>
+                                    <p class="text-sm mt-1">Took him 3 days, but my smart boy finally got it. So proud!</p>
+                                </div>
+                                
+                                <!-- 轨迹点 3 (封存演示) -->
+                                <div class="mb-8 relative">
+                                    <div class="absolute -left-[33px] top-1 w-4 h-4 bg-gray-400 rounded-full border-4 border-shell-white dark:border-deep-plum"></div>
+                                    <p class="text-sm font-semibold text-medium-gray">Dec 25, 2023</p>
+                                    <h4 class="font-bold text-lg mt-1">Welcome Home, Buddy</h4>
+                                    <p class="text-sm mt-1">The best Christmas gift ever. Our family is complete.</p>
+                                    <img src="https://images.unsplash.com/photo-1588618331343-9b6f3b751d33?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="Welcome home" class="w-full h-auto object-cover rounded-xl mt-3">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 封存功能 -->
+                        <div class="mt-8 text-center">
+                            <button class="text-medium-gray text-sm underline hover:text-soft-coral">End Record for Buddy...</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 
+                  =============================================================
+                  界面三：AI 伙伴 (AI Pal)
+                  =============================================================
+                -->
+                <section id="page-ai" class="w-full min-h-full flex flex-col">
+                    <header class="px-5 pt-4 mb-4">
+                        <h1 class="text-3xl font-bold text-center">AI Pal</h1>
+                    </header>
+                    
+                    <div class="flex-1 px-5 pb-4 space-y-5">
+                        <!-- 核心测试功能 -->
+                        <a href="#page-pet-test" class="block bg-soft-coral/10 dark:bg-soft-coral/20 p-5 rounded-2xl shadow-sm transition hover:shadow-md">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-soft-coral p-3 rounded-full shadow-lg">
+                                    <i data-lucide="clipboard-check" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-soft-coral">What pet suits me?</h3>
+                                    <p class="text-sm text-medium-gray">Take our quiz to find your perfect match!</p>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-medium-gray ml-auto"></i>
+                            </div>
+                        </a>
+                        
+                        <!-- 聊天界面 -->
+                        <div class="space-y-4">
+                            <!-- 预设话题 -->
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <span class="bg-panel-white dark:bg-dark-gray text-sm px-3 py-1.5 rounded-full shadow-sm">Why do dogs eat grass?</span>
+                                <span class="bg-panel-white dark:bg-dark-gray text-sm px-3 py-1.5 rounded-full shadow-sm">Ease separation anxiety</span>
+                            </div>
+                        
+                            <!-- 聊天记录 -->
+                            <div class="space-y-4">
+                                <!-- AI 消息 -->
+                                <div class="flex justify-start">
+                                    <div class="max-w-[75%] bg-panel-white dark:bg-dark-gray p-3 rounded-t-2xl rounded-br-2xl shadow-sm">
+                                        <p class="text-sm">Hi there! I'm 
+Leno's AI Pal. Feel free to ask me anything about pet care, or just tell me about your day! 🐾</p>
+                                    </div>
+                                </div>
+                                <!-- 用户消息 -->
+                                <div class="flex justify-end">
+                                    <div class="max-w-[75%] bg-soft-coral text-white p-3 rounded-t-2xl rounded-bl-2xl shadow-sm">
+                                        <p class="text-sm">My cat seems bored. Any ideas for new toys?</p>
+                                    </div>
+                                </div>
+                                <!-- AI 消息 -->
+                                <div class="flex justify-start">
+                                    <div class="max-w-[75%] bg-panel-white dark:bg-dark-gray p-3 rounded-t-2xl rounded-br-2xl shadow-sm">
+                                        <p class="text-sm">Great question! Cats love variety. Have you tried puzzle feeders? They engage their hunting instincts. Interactive wand toys are also a classic hit!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 聊天输入框 (在可滚动区域底部) -->
+                    <div class="sticky bottom-[90px] left-0 right-0 p-4 pt-2 bg-shell-white dark:bg-deep-plum">
+                        <div class="flex items-center space-x-2 bg-panel-white dark:bg-dark-gray rounded-full p-2 shadow-inner">
+                            <input type="text" placeholder="Ask AI Pal anything..." class="flex-1 bg-transparent px-3 py-2 text-sm focus:outline-none">
+                            <button class="p-2 text-medium-gray hover:text-soft-coral">
+                                <i data-lucide="mic" class="w-5 h-5"></i>
+                            </button>
+                            <button class="bg-soft-coral text-white rounded-full p-2.5 shadow-sm active:scale-95 transition">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 
+                  =============================================================
+                  子页面：宠物测试问卷
+                  =============================================================
+                -->
+                <section id="page-pet-test" class="w-full min-h-full bg-shell-white dark:bg-deep-plum">
+                    <header class="px-5 py-4 flex items-center space-x-4">
+                        <a href="#page-ai" class="text-soft-coral">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </a>
+                        <h1 class="text-xl font-bold">Pet Match Quiz</h1>
+                    </header>
+
+                    <!-- 进度条 -->
+                    <div class="px-5 mb-6">
+                        <div class="w-full bg-gray-200 dark:bg-dark-gray rounded-full h-2">
+                            <div class="bg-soft-coral h-2 rounded-full" style="width: 25%"></div>
+                        </div>
+                        <p class="text-xs text-medium-gray text-right mt-1">Question 1 of 4</p>
+                    </div>
+
+                    <!-- 问卷内容 -->
+                    <div class="px-5 pb-4 space-y-6">
+                        <h2 class="text-2xl font-bold">What's your living space like?</h2>
+                        <div class="space-y-3">
+                            <label class="flex items-center bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm border-2 border-transparent hover:border-soft-coral transition-all">
+                                <input type="radio" name="space" class="form-radio text-soft-coral focus:ring-soft-coral">
+                                <span class="ml-4 font-medium">Apartment (Small)</span>
+                            </label>
+                            <label class="flex items-center bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm border-2 border-transparent hover:border-soft-coral transition-all">
+                                <input type="radio" name="space" class="form-radio text-soft-coral focus:ring-soft-coral">
+                                <span class="ml-4 font-medium">House (Medium)</span>
+                            </label>
+                            <label class="flex items-center bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm border-2 border-transparent hover:border-soft-coral transition-all">
+                                <input type="radio" name="space" class="form-radio text-soft-coral focus:ring-soft-coral">
+                                <span class="ml-4 font-medium">House with Yard (Large)</span>
+                            </label>
+                        </div>
+                        
+                        <button class="w-full bg-soft-coral text-white py-4 rounded-full font-bold text-lg shadow-lg active:scale-95 transition">Next</button>
+                    </div>
+                    
+                    <!-- 
+                      (原型演示：这是点击 "Next" 后的AI分析报告)
+                    -->
+                    <div class="px-5 pb-4 mt-8 space-y-6 hidden">
+                        <h2 class="text-2xl font-bold text-center">Your Pet Match Report!</h2>
+                        <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-lg p-5 text-center">
+                            <i data-lucide="paw-print" class="w-16 h-16 text-soft-coral mx-auto"></i>
+                            <h3 class="text-xl font-bold mt-3">Top Match: Cat</h3>
+                            <p class="text-sm mt-2 text-medium-gray">Based on your apartment living and busy schedule...</p>
+                            <p class="mt-3 font-medium">Cats are independent, clean, and perfect for smaller spaces. They provide great companionship without needing constant high-energy exercise.</p>
+                        </div>
+                        <div class="bg-panel-white dark:bg-dark-gray rounded-2xl shadow-sm p-5 text-center opacity-70">
+                            <i data-lucide="wind" class="w-16 h-16 text-medium-gray mx-auto"></i>
+                            <h3 class="text-xl font-bold mt-3">Also Consider: Hamster</h3>
+                            <p class="text-sm mt-2 text-medium-gray">If you want a dog, we recommend a low-energy breed like a French Bulldog.</p>
+                        </div>
+                        <button class="w-full bg-dark-graphite dark:bg-soft-white text-shell-white dark:text-deep-plum py-4 rounded-full font-bold text-lg active:scale-95 transition">Done</button>
+                    </div>
+                    
+                </section>
+
+                <!-- 
+                  =============================================================
+                  界面四：设置 (Settings)
+                  =============================================================
+                -->
+                <section id="page-settings" class="w-full min-h-full px-5 py-4">
+                    <header class="mb-6">
+                        <h1 class="text-3xl font-bold">Settings</h1>
+                    </header>
+                    
+                    <!-- 用户账户 -->
+                    <div class="flex items-center space-x-4 mb-8">
+                        <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjM2NTI5fQ" alt="User Avatar" class="w-20 h-20 rounded-full object-cover shadow-lg">
+                        <div>
+                            <h2 class="text-2xl font-bold">Alex Johnson</h2>
+                            <p class="text-medium-gray text-sm">alex.johnson@email.com</p>
+                        </div>
+                    </div>
+
+                    <!-- 功能菜单 -->
+                    <div class="space-y-3">
+                        <!-- 我的收藏 -->
+                        <a href="#page-plaza" class="flex items-center justify-between bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm transition-transform active:scale-[0.98]">
+                            <div class="flex items-center space-x-3.5">
+                                <i data-lucide="bookmark" class="w-5 h-5 text-soft-coral"></i>
+                                <span class="font-semibold">My Collections</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-medium-gray"></i>
+                        </a>
+
+                        <!-- 通知管理 -->
+                        <div class="bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3.5">
+                                    <i data-lucide="bell" class="w-5 h-5 text-soft-coral"></i>
+                                    <span class="font-semibold">Notifications</span>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-medium-gray"></i>
+                            </div>
+                            <div class="mt-4 pl-8 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">Pet Birthday Reminders</span>
+                                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                        <input type="checkbox" name="toggle-1" id="toggle-1" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                                        <label for="toggle-1" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">Deworming Reminders</span>
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-soft-coral rounded focus:ring-soft-coral" checked>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm">Community Activity</span>
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-soft-coral rounded focus:ring-soft-coral">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 主题与外观 -->
+                        <div class="flex items-center justify-between bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm">
+                            <div class="flex items-center space-x-3.5">
+                                <i data-lucide="sun" class="w-5 h-5 text-soft-coral dark:hidden"></i>
+                                <i data-lucide="moon" class="w-5 h-5 text-soft-coral hidden dark:inline"></i>
+                                <span class="font-semibold">Dark Mode</span>
+                            </div>
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="theme-toggle" id="theme-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                <label for="theme-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        
+                        <!-- 数据管理 -->
+                        <a href="#" class="flex items-center justify-between bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm transition-transform active:scale-[0.98]">
+                            <div class="flex items-center space-x-3.5">
+                                <i data-lucide="download" class="w-5 h-5 text-soft-coral"></i>
+                                <span class="font-semibold">Export Growth Track</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-medium-gray"></i>
+                        </a>
+
+                        <!-- 关于我们 -->
+                        <a href="#" class="flex items-center justify-between bg-panel-white dark:bg-dark-gray p-4 rounded-xl shadow-sm transition-transform active:scale-[0.98]">
+                            <div class="flex items-center space-x-3.5">
+                                <i data-lucide="info" class="w-5 h-5 text-soft-coral"></i>
+                                <span class="font-semibold">About Us</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-medium-gray"></i>
+                        </a>
+                        
+                        <!-- 登出 -->
+                        <button class="w-full mt-6 bg-red-100 dark:bg-red-900/30 text-red-500 py-3 rounded-xl font-bold shadow-sm active:scale-95 transition">
+                            Log Out
+                        </button>
+                    </div>
+
+                </section>
+            </div>
+
+            <!-- 
+              =============================================================
+              iOS 底部导航栏 (Tab Bar)
+              =============================================================
+            -->
+            <nav class="absolute bottom-0 left-0 right-0 z-50 h-[90px] bg-panel-white/80 dark:bg-dark-gray/80 backdrop-blur-md border-t border-gray-200 dark:border-dark-graphite">
+                <div class="flex justify-around items-center h-full px-4 pt-2">
+                    <!-- Tab 1: Paws Plaza -->
+                    <a href="#page-plaza" class="flex flex-col items-center justify-center space-y-1 text-soft-coral" data-page="page-plaza">
+                        <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                        <span class="text-xs font-bold">Plaza</span>
+                    </a>
+                    <!-- Tab 2: My Pets -->
+                    <a href="#page-pets" class="flex flex-col items-center justify-center space-y-1 text-medium-gray" data-page="page-pets">
+                        <i data-lucide="book-user" class="w-6 h-6"></i>
+                        <span class="text-xs font-medium">My Pets</span>
+                    </a>
+                    <!-- Tab 3: AI Pal -->
+                    <a href="#page-ai" class="flex flex-col items-center justify-center space-y-1 text-medium-gray" data-page="page-ai">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                        <span class="text-xs font-medium">AI Pal</span>
+                    </a>
+                    <!-- Tab 4: Settings -->
+                    <a href="#page-settings" class="flex flex-col items-center justify-center space-y-1 text-medium-gray" data-page="page-settings">
+                        <i data-lucide="settings" class="w-6 h-6"></i>
+                        <span class="text-xs font-medium">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- 
+      =============================================================
+      JavaScript 交互
+      =============================================================
+    -->
+    <script>
+        // 渲染所有 Lucide 图标
+        lucide.createIcons();
+
+        // --- 主题切换 ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // 检查本地存储
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            if (themeToggle) themeToggle.checked = true;
+        } else {
+            htmlElement.classList.remove('dark');
+            if (themeToggle) themeToggle.checked = false;
+        }
+
+        // 切换按钮事件
+        if (themeToggle) {
+            themeToggle.addEventListener('change', () => {
+                if (themeToggle.checked) {
+                    htmlElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    htmlElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+                // 重新渲染图标以适应新主题（如果需要）
+                lucide.createIcons();
+            });
+        }
+        
+        // --- 底部导航栏 Tab 切换 (高亮) ---
+        const navLinks = document.querySelectorAll('nav a');
+        const phoneScreen = document.getElementById('phone-screen');
+        const sections = document.querySelectorAll('#phone-screen > section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // 移除所有链接的激活状态
+                navLinks.forEach(l => {
+                    l.classList.remove('text-soft-coral');
+                    l.classList.add('text-medium-gray');
+                    l.querySelector('span').classList.add('font-medium');
+                    l.querySelector('span').classList.remove('font-bold');
+                });
+                
+                // 为当前链接添加激活状态
+                link.classList.add('text-soft-coral');
+                link.classList.remove('text-medium-gray');
+                link.querySelector('span').classList.remove('font-medium');
+                link.querySelector('span').classList.add('font-bold');
+
+                // 滚动到页面顶部
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // 我们不使用 e.preventDefault() 和 targetElement.scrollIntoView()
+                    // 因为这会导致整个电脑浏览器滚动
+                    // 我们只滚动手机内部的屏幕
+                    // 但是，由于这是“平铺”原型，点击Tab只是为了高亮
+                    // 真实的滚动将由锚点链接 `href="#page-..."` 自动处理
+                    // 为了平滑滚动，我们确保 'scroll-smooth' 在 'phone-screen' 上
+                    
+                    // 确保我们滚动的是手机屏幕，而不是整个页面
+                    e.preventDefault();
+                    phoneScreen.scrollTo({
+                        top: targetElement.offsetTop - 80, // 减去状态栏高度
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // (可选) 监听手机屏幕滚动，自动高亮Tab
+        phoneScreen.addEventListener('scroll', () => {
+            let currentSectionId = 'page-plaza';
+            const scrollThreshold = phoneScreen.scrollTop + phoneScreen.clientHeight / 2;
+
+            sections.forEach(section => {
+                if (section.offsetTop <= scrollThreshold) {
+                    currentSectionId = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                const linkPageId = link.dataset.page;
+                if (linkPageId === currentSectionId || (currentSectionId === 'page-friend-profile' && linkPageId === 'page-plaza') || (currentSectionId === 'page-pet-test' && linkPageId === 'page-ai')) {
+                    link.classList.add('text-soft-coral');
+                    link.classList.remove('text-medium-gray');
+                    link.querySelector('span').classList.remove('font-medium');
+                    link.querySelector('span').classList.add('font-bold');
+                } else {
+                    link.classList.remove('text-soft-coral');
+                    link.classList.add('text-medium-gray');
+                    link.querySelector('span').classList.add('font-medium');
+                    link.querySelector('span').classList.remove('font-bold');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

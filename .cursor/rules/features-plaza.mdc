@@ -1,0 +1,161 @@
+---
+globs: lib/features/plaza/**/*.dart
+description: Paws Plaza feature implementation guidelines
+---
+
+# Paws Plaza Feature
+
+## Overview
+The Paws Plaza is the main social feed where users discover pet content from the community. It features a waterfall/masonry grid layout with filtering capabilities.
+
+## Screen Structure
+
+### PlazaScreen (Main)
+- **Location**: `lib/features/plaza/plaza_screen.dart`
+- **Components**:
+  - App bar with title "Paws Plaza" and search icon
+  - Horizontal scrolling filter chips (All, #Dogs, #Cats, #NewbieGuide, #CutePics, #Training)
+  - Masonry grid of post cards (2 columns)
+  - Pull-to-refresh functionality
+
+### ProfileScreen (Sub-page)
+- **Location**: `lib/features/plaza/profile_screen.dart`
+- **Components**:
+  - Back button
+  - User avatar (large, circular)
+  - Username and display name
+  - Bio and quote
+  - Follow button (softCoral)
+  - Grid of user's posts (3 columns)
+
+## Key Widgets
+
+### PostCard
+```dart
+// lib/features/plaza/widgets/post_card.dart
+// Displays a single post with image, caption, and author info
+// Tappable to navigate to ProfileScreen
+// Properties:
+// - Post post
+// - VoidCallback onTap
+```
+
+### FilterChips
+```dart
+// lib/features/plaza/widgets/filter_chips.dart
+// Horizontal scrolling category filters
+// Active chip: softCoral background
+// Inactive chip: panelWhite/darkGray background
+```
+
+### MasonryGrid
+```dart
+// lib/features/plaza/widgets/masonry_grid.dart
+// 2-column staggered grid layout
+// Use ListView with alternating columns
+// Or use flutter_staggered_grid_view package if needed
+```
+
+## Data Flow
+
+### Mock Data
+- Generate 20-30 sample posts in `mock_data_service.dart`
+- Use Unsplash URLs for images:
+  - Dogs: `https://images.unsplash.com/photo-[id]?w=400`
+  - Cats: Similar pattern
+- Sample usernames: @DogLover_Mark, @CatMom_Sarah, @StylishPaws
+
+### Filtering Logic
+```dart
+List<Post> filterPosts(List<Post> posts, String filter) {
+  if (filter == 'All') return posts;
+  return posts.where((post) => post.tags.contains(filter)).toList();
+}
+```
+
+### State Management
+```dart
+class _PlazaScreenState extends State<PlazaScreen> {
+  List<Post> _allPosts = [];
+  List<Post> _filteredPosts = [];
+  String _selectedFilter = 'All';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPosts();
+  }
+
+  void _loadPosts() async {
+    // Load from MockDataService
+    setState(() {
+      _allPosts = MockDataService.getPosts();
+      _filteredPosts = _allPosts;
+      _isLoading = false;
+    });
+  }
+
+  void _onFilterChanged(String filter) {
+    setState(() {
+      _selectedFilter = filter;
+      _filteredPosts = filterPosts(_allPosts, filter);
+    });
+  }
+}
+```
+
+## Navigation
+
+### To Profile Screen
+```dart
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ProfileScreen(userId: post.userId),
+  ),
+);
+```
+
+## UI Specifications
+
+### Post Card
+- Border radius: 16px
+- Shadow: soft, subtle
+- Image: AspectRatio varies (natural image size)
+- Content padding: 12px
+- Caption: 14px, medium weight, 1-2 lines max (ellipsis)
+- Author row: 12px text, 20px avatar, 8px spacing
+
+### Filter Chips
+- Height: 32px
+- Padding: 12px horizontal
+- Border radius: 16px (full pill)
+- Font: 14px, semibold
+- Active: softCoral bg, white text
+- Inactive: panelWhite/darkGray bg, default text
+
+### Profile Screen
+- Avatar: 96px diameter
+- Name: 24px, bold
+- Bio: 14px, mediumGray
+- Quote: 14px, italic
+- Follow button: 48px height, full rounded, softCoral
+- Post grid: 3 columns, 4px gap, square aspect ratio
+
+## Sample Tags
+```dart
+const List<String> availableTags = [
+  'All',
+  '#Dogs',
+  '#Cats',
+  '#NewbieGuide',
+  '#CutePics',
+  '#Training',
+];
+```
+
+## Error Handling
+- Show loading indicator while fetching posts
+- Display empty state if no posts match filter
+- Handle image loading errors with placeholder

@@ -1,0 +1,232 @@
+---
+globs: lib/features/pets/**/*.dart
+description: My Pets feature implementation guidelines
+---
+
+# My Pets Feature
+
+## Overview
+The My Pets section is the core private functionality where users create digital profiles for their pets and record their growth journey through a timeline.
+
+## Screen Structure
+
+### PetsScreen (Main)
+- **Location**: `lib/features/pets/pets_screen.dart`
+- **Components**:
+  - Header with "My Pets" title and "+" button
+  - Horizontal scrolling pet avatar selector
+  - Pet profile card (info, birthday, gotcha day)
+  - Reminders section
+  - Growth Track timeline
+  - Archive button at bottom
+
+### AddPetScreen
+- **Location**: `lib/features/pets/add_pet_screen.dart`
+- **Form Fields**:
+  - Pet name (required)
+  - Species (dropdown: Dog, Cat, Hamster, etc.)
+  - Breed (text input)
+  - Gender (radio: Male, Female)
+  - Birthday (date picker)
+  - Gotcha Day (date picker)
+  - Hobbies (multiline text)
+  - Avatar URL (text input for demo)
+
+### AddReminderScreen
+- **Location**: `lib/features/pets/add_reminder_screen.dart`
+- **Form Fields**:
+  - Title (required)
+  - Description
+  - Due date (date picker)
+  - Type (dropdown: ReminderType enum)
+
+### AddGrowthTrackScreen
+- **Location**: `lib/features/pets/add_growth_track_screen.dart`
+- **Form Fields**:
+  - Title (required)
+  - Description (multiline)
+  - Date (date picker)
+  - Image URLs (text input, comma-separated for demo)
+
+## Key Widgets
+
+### PetAvatarSelector
+```dart
+// lib/features/pets/widgets/pet_avatar_selector.dart
+// Horizontal scrolling list of pet avatars
+// Active pet: 4px softCoral ring
+// Inactive pets: 60% opacity
+// Add button: dashed border circle with "+" icon
+```
+
+### ReminderCard
+```dart
+// lib/features/pets/widgets/reminder_card.dart
+// Displays a single reminder
+// Urgent (due soon): softCoral text and icon
+// Normal: default text, mediumGray icon
+// Tappable to mark as complete
+```
+
+### GrowthTimeline
+```dart
+// lib/features/pets/widgets/growth_timeline.dart
+// Vertical timeline with dots and connecting line
+// Active entries: softCoral dot
+// Archived entries: gray dot
+// Line: 2px, softCoral/50% opacity
+// Each entry: date, title, description, optional image
+```
+
+## Data Management
+
+### Pet Repository
+```dart
+// lib/data/repositories/pet_repository.dart
+class PetRepository {
+  final LocalStorageService _storage;
+
+  Future<List<Pet>> getAllPets();
+  Future<Pet?> getPetById(String id);
+  Future<void> addPet(Pet pet);
+  Future<void> updatePet(Pet pet);
+  Future<void> archivePet(String petId);
+  
+  Future<List<Reminder>> getRemindersForPet(String petId);
+  Future<void> addReminder(Reminder reminder);
+  Future<void> completeReminder(String reminderId);
+  
+  Future<List<GrowthTrack>> getGrowthTracksForPet(String petId);
+  Future<void> addGrowthTrack(GrowthTrack track);
+}
+```
+
+### State Management
+```dart
+class _PetsScreenState extends State<PetsScreen> {
+  List<Pet> _pets = [];
+  Pet? _selectedPet;
+  List<Reminder> _reminders = [];
+  List<GrowthTrack> _growthTracks = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final pets = await _petRepository.getAllPets();
+    setState(() {
+      _pets = pets;
+      _selectedPet = pets.isNotEmpty ? pets.first : null;
+      _isLoading = false;
+    });
+    if (_selectedPet != null) {
+      _loadPetDetails(_selectedPet!.id);
+    }
+  }
+
+  Future<void> _loadPetDetails(String petId) async {
+    final reminders = await _petRepository.getRemindersForPet(petId);
+    final tracks = await _petRepository.getGrowthTracksForPet(petId);
+    setState(() {
+      _reminders = reminders;
+      _growthTracks = tracks;
+    });
+  }
+
+  void _onPetSelected(Pet pet) {
+    setState(() {
+      _selectedPet = pet;
+    });
+    _loadPetDetails(pet.id);
+  }
+}
+```
+
+## UI Specifications
+
+### Pet Avatar Selector
+- Avatar size: 80px diameter
+- Ring: 4px width, softCoral
+- Spacing: 16px between avatars
+- Add button: 64px circle, dashed border
+
+### Pet Profile Card
+- Border radius: 16px
+- Padding: 16px
+- Background: panelWhite/darkGray
+- Name: 24px, bold
+- Breed/Gender: 14px, mediumGray
+- Info grid: 2 columns, 8px gap
+- Each info box: shellWhite/deepPlum bg, 12px padding, 12px radius
+
+### Reminder Card
+- Border radius: 12px
+- Padding: 16px
+- Height: auto
+- Icon: 20px, right side
+- Title: 16px, semibold
+- Due date: 14px, mediumGray
+
+### Growth Timeline
+- Left padding: 24px (space for line)
+- Line position: -33px from left
+- Dot: 16px diameter, absolute positioned
+- Dot border: 4px shellWhite/deepPlum
+- Entry spacing: 32px bottom margin
+- Date: 12px, semibold, mediumGray
+- Title: 18px, bold
+- Description: 14px, regular
+- Image: full width, 12px radius, 12px top margin
+
+### Archive Button
+- Text: "End Record for [Pet Name]..."
+- Style: underline, mediumGray
+- Hover: softCoral
+- Confirmation dialog before archiving
+
+## Date Calculations
+
+### Age Calculation
+```dart
+String calculateAge(DateTime birthday) {
+  final now = DateTime.now();
+  final difference = now.difference(birthday);
+  final years = difference.inDays ~/ 365;
+  final months = (difference.inDays % 365) ~/ 30;
+  
+  if (years > 0) {
+    return '$years year${years > 1 ? 's' : ''} old';
+  } else {
+    return '$months month${months > 1 ? 's' : ''} old';
+  }
+}
+```
+
+### Days Until Reminder
+```dart
+String daysUntilDue(DateTime dueDate) {
+  final now = DateTime.now();
+  final difference = dueDate.difference(now).inDays;
+  
+  if (difference < 0) return 'Overdue';
+  if (difference == 0) return 'Today';
+  if (difference == 1) return 'Tomorrow';
+  return 'In $difference days';
+}
+```
+
+## Automatic Reminders
+When a pet is added, automatically create:
+1. Birthday reminder (annual, on birthday)
+2. Gotcha Day reminder (annual, on gotcha day)
+
+## Archive Functionality
+- Show confirmation dialog
+- Set `pet.isActive = false`
+- Keep all data (reminders, growth tracks)
+- Show archived pets in a separate section (optional)
+- Archived pets are read-only

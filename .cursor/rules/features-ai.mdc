@@ -1,0 +1,370 @@
+---
+globs: lib/features/ai/**/*.dart
+description: AI Pal feature implementation guidelines
+---
+
+# AI Pal Feature
+
+## Overview
+The AI Pal is an intelligent chat assistant that helps users with pet care questions and provides a pet matching quiz to recommend suitable pets based on lifestyle.
+
+## Screen Structure
+
+### AIScreen (Main)
+- **Location**: `lib/features/ai/ai_screen.dart`
+- **Components**:
+  - Header with "AI Pal" title (centered)
+  - Featured quiz card (prominent, softCoral accent)
+  - Quick reply chips (preset topics)
+  - Chat message list (scrollable)
+  - Input bar (sticky at bottom, above nav bar)
+
+### PetTestScreen (Quiz)
+- **Location**: `lib/features/ai/pet_test_screen.dart`
+- **Components**:
+  - Close button (X icon, top-left)
+  - Progress bar (shows current question / total)
+  - Question text (large, bold)
+  - Multiple choice options (radio buttons)
+  - Next/Submit button (softCoral)
+  - Result screen (shows after completion)
+
+## Key Widgets
+
+### ChatBubble
+```dart
+// lib/features/ai/widgets/chat_bubble.dart
+// User message: softCoral bg, white text, right-aligned
+// AI message: panelWhite/darkGray bg, default text, left-aligned
+// Border radius: top-2xl, opposite bottom corner 2xl
+// Max width: 75% of screen
+// Padding: 12px
+```
+
+### QuickReplyChip
+```dart
+// lib/features/ai/widgets/quick_reply_chip.dart
+// Small pill-shaped buttons with preset questions
+// Background: panelWhite/darkGray
+// Tappable to send message to AI
+// Examples:
+// - "Why do dogs eat grass?"
+// - "Ease separation anxiety"
+// - "Best toys for cats"
+```
+
+### QuizOption
+```dart
+// lib/features/ai/widgets/quiz_option.dart
+// Radio button with label
+// Background: panelWhite/darkGray
+// Border: 2px transparent, becomes softCoral on hover/select
+// Padding: 16px
+// Border radius: 12px
+```
+
+## Chat Logic
+
+### Mock AI Responses
+```dart
+// lib/data/services/ai_service.dart
+class AIService {
+  static Future<String> getResponse(String userMessage) async {
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 1));
+    
+    // Simple keyword matching for demo
+    final message = userMessage.toLowerCase();
+    
+    if (message.contains('grass')) {
+      return 'Dogs eat grass for various reasons: to aid digestion, '
+             'because they like the taste, or due to nutritional deficiency. '
+             'It\'s usually harmless unless they do it excessively.';
+    }
+    
+    if (message.contains('separation') || message.contains('anxiety')) {
+      return 'To ease separation anxiety, try: gradual desensitization, '
+             'leaving comfort items, creating a calm departure routine, '
+             'and ensuring plenty of exercise before you leave.';
+    }
+    
+    if (message.contains('toy') || message.contains('play')) {
+      return 'Great question! Cats love variety. Puzzle feeders engage '
+             'their hunting instincts. Interactive wand toys are also a '
+             'classic hit! Rotate toys weekly to keep things interesting.';
+    }
+    
+    // Default response
+    return 'That\'s an interesting question! While I\'m a demo AI, '
+           'I recommend consulting with your veterinarian for specific '
+           'pet care advice. Is there anything else I can help with?';
+  }
+}
+```
+
+### Chat State Management
+```dart
+class _AIScreenState extends State<AIScreen> {
+  final List<ChatMessage> _messages = [];
+  final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool _isAITyping = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _addWelcomeMessage();
+    _loadChatHistory();
+  }
+
+  void _addWelcomeMessage() {
+    final welcomeMsg = ChatMessage(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      content: 'Hi there! I\'m 
+Leno\'s AI Pal. Feel free to ask me '
+               'anything about pet care, or just tell me about your day! 🐾',
+      isUser: false,
+      timestamp: DateTime.now(),
+    );
+    setState(() {
+      _messages.add(welcomeMsg);
+    });
+  }
+
+  Future<void> _sendMessage(String text) async {
+    if (text.trim().isEmpty) return;
+
+    // Add user message
+    final userMsg = ChatMessage(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      content: text,
+      isUser: true,
+      timestamp: DateTime.now(),
+    );
+    
+    setState(() {
+      _messages.add(userMsg);
+      _isAITyping = true;
+    });
+    
+    _textController.clear();
+    _scrollToBottom();
+
+    // Get AI response
+    final response = await AIService.getResponse(text);
+    
+    final aiMsg = ChatMessage(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      content: response,
+      isUser: false,
+      timestamp: DateTime.now(),
+    );
+    
+    setState(() {
+      _messages.add(aiMsg);
+      _isAITyping = false;
+    });
+    
+    _scrollToBottom();
+    _saveChatHistory();
+  }
+
+  void _scrollToBottom() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+  }
+}
+```
+
+## Pet Matching Quiz
+
+### Quiz Questions
+```dart
+// lib/data/services/quiz_service.dart
+class QuizService {
+  static List<QuizQuestion> getQuestions() {
+    return [
+      QuizQuestion(
+        id: '1',
+        question: 'What\'s your living space like?',
+        options: [
+          'Apartment (Small)',
+          'House (Medium)',
+          'House with Yard (Large)',
+        ],
+      ),
+      QuizQuestion(
+        id: '2',
+        question: 'How much time can you dedicate daily?',
+        options: [
+          'Less than 1 hour',
+          '1-2 hours',
+          'More than 2 hours',
+        ],
+      ),
+      QuizQuestion(
+        id: '3',
+        question: 'What\'s your activity level?',
+        options: [
+          'Low (Prefer quiet time)',
+          'Moderate (Some outdoor activities)',
+          'High (Very active lifestyle)',
+        ],
+      ),
+      QuizQuestion(
+        id: '4',
+        question: 'Do you have any allergies?',
+        options: [
+          'No allergies',
+          'Mild pet allergies',
+          'Severe allergies',
+        ],
+      ),
+    ];
+  }
+
+  static QuizResult analyzeResults(List<int> answers) {
+    // Simple scoring logic for demo
+    int spaceScore = answers[0];
+    int timeScore = answers[1];
+    int activityScore = answers[2];
+    int allergyScore = answers[3];
+
+    // Cat recommendation (small space, less time)
+    if (spaceScore == 0 && timeScore <= 1) {
+      return QuizResult(
+        recommendedPet: 'Cat',
+        reason: 'Based on your apartment living and busy schedule, '
+                'cats are independent, clean, and perfect for smaller '
+                'spaces. They provide great companionship without needing '
+                'constant high-energy exercise.',
+        alternativePet: 'Small Dog',
+        alternativeReason: 'If you prefer dogs, consider low-energy breeds '
+                           'like French Bulldogs or Pugs.',
+        completedAt: DateTime.now(),
+      );
+    }
+
+    // Dog recommendation (more space, more time)
+    if (spaceScore >= 1 && timeScore >= 1 && activityScore >= 1) {
+      return QuizResult(
+        recommendedPet: 'Dog',
+        reason: 'You have the space, time, and energy for a dog! '
+                'Dogs are loyal, active companions that thrive with '
+                'regular exercise and attention.',
+        alternativePet: 'Active Cat',
+        alternativeReason: 'Bengal or Abyssinian cats are very active '
+                           'and playful if you want a more independent pet.',
+        completedAt: DateTime.now(),
+      );
+    }
+
+    // Small pet recommendation (allergies or limited space/time)
+    return QuizResult(
+      recommendedPet: 'Small Pet (Hamster/Guinea Pig)',
+      reason: 'Based on your situation, small pets are ideal! '
+              'They need minimal space, are hypoallergenic, and '
+              'require less daily commitment.',
+      alternativePet: 'Fish',
+      alternativeReason: 'Aquarium fish are beautiful, calming, '
+                         'and require minimal interaction.',
+      completedAt: DateTime.now(),
+    );
+  }
+}
+```
+
+### Quiz State Management
+```dart
+class _PetTestScreenState extends State<PetTestScreen> {
+  List<QuizQuestion> _questions = [];
+  int _currentQuestionIndex = 0;
+  List<int> _answers = [];
+  QuizResult? _result;
+
+  @override
+  void initState() {
+    super.initState();
+    _questions = QuizService.getQuestions();
+    _answers = List.filled(_questions.length, -1);
+  }
+
+  void _selectAnswer(int optionIndex) {
+    setState(() {
+      _answers[_currentQuestionIndex] = optionIndex;
+    });
+  }
+
+  void _nextQuestion() {
+    if (_answers[_currentQuestionIndex] == -1) {
+      // Show error: must select an answer
+      return;
+    }
+
+    if (_currentQuestionIndex < _questions.length - 1) {
+      setState(() {
+        _currentQuestionIndex++;
+      });
+    } else {
+      _submitQuiz();
+    }
+  }
+
+  void _submitQuiz() {
+    final result = QuizService.analyzeResults(_answers);
+    setState(() {
+      _result = result;
+    });
+  }
+}
+```
+
+## UI Specifications
+
+### Chat Input Bar
+- Position: Sticky bottom, 16px above bottom nav bar
+- Background: panelWhite/darkGray
+- Border radius: 24px (full pill)
+- Height: 48px
+- Components: text input, mic button, send button
+- Send button: softCoral circle, 40px diameter
+
+### Quiz Card (Featured)
+- Background: softCoral/10% opacity
+- Border radius: 16px
+- Padding: 20px
+- Icon: clipboard-check, softCoral circle bg
+- Title: 18px, bold, softCoral
+- Subtitle: 14px, mediumGray
+- Chevron right icon
+
+### Progress Bar
+- Height: 8px
+- Background: gray-200/darkGray
+- Fill: softCoral
+- Border radius: 4px (full)
+- Text: "Question X of Y" (12px, mediumGray, right-aligned)
+
+### Result Card
+- Border radius: 16px
+- Padding: 20px
+- Icon: paw-print, 64px, softCoral
+- Title: 20px, bold
+- Reason: 14px, regular
+- Alternative section: 70% opacity
+
+## Preset Topics
+```dart
+const List<String> presetTopics = [
+  'Why do dogs eat grass?',
+  'Ease separation anxiety',
+  'Best toys for cats',
+  'How to train a puppy',
+  'Cat litter box tips',
+];
+```
