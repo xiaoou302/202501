@@ -1,0 +1,199 @@
+---
+alwaysApply: true
+description: State management patterns and guidelines using setState only
+---
+
+# State Management Guidelines
+
+## Core Principle
+**Use setState ONLY** - No Provider, Riverpod, Bloc, GetX, or any other state management library.
+
+## State Organization Patterns
+
+### 1. StatefulWidget for Screens
+All screens should be StatefulWidgets that manage their own state:
+
+```dart
+class GameScreen extends StatefulWidget {
+  const GameScreen({Key? key}) : super(key: key);
+  
+  @override
+  State<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> {
+  // State variables
+  int _score = 0;
+  bool _isPaused = false;
+  
+  // State update methods
+  void _updateScore(int points) {
+    setState(() {
+      _score += points;
+    });
+  }
+}
+```
+
+### 2. Callback Pattern for Child-to-Parent Communication
+Pass callbacks to child widgets for state updates:
+
+```dart
+// Parent widget
+CardWidget(
+  onFlip: _handleCardFlip,
+  onMatch: _handleMatch,
+)
+
+// Child widget
+class CardWidget extends StatelessWidget {
+  final VoidCallback onFlip;
+  final Function(int) onMatch;
+  
+  const CardWidget({
+    required this.onFlip,
+    required this.onMatch,
+  });
+}
+```
+
+### 3. Game Controller Pattern (Optional)
+For complex game logic, create a separate controller class:
+
+```dart
+class GameController {
+  int score = 0;
+  int timeLeft = 0;
+  List<CardModel> cards = [];
+  
+  void flipCard(int index) {
+    // Complex logic here
+  }
+  
+  bool checkMatch(CardModel a, CardModel b) {
+    return a.icon == b.icon;
+  }
+}
+
+// In StatefulWidget
+class _GameScreenState extends State<GameScreen> {
+  late GameController _controller;
+  
+  @override
+  void initState() {
+    super.initState();
+    _controller = GameController();
+  }
+  
+  void _handleGameUpdate() {
+    setState(() {
+      // Controller updates trigger rebuild
+    });
+  }
+}
+```
+
+## State Lifecycle Management
+
+### Always Dispose Resources
+```dart
+@override
+void dispose() {
+  _timer?.cancel();
+  _animationController?.dispose();
+  super.dispose();
+}
+```
+
+### Initialize State Properly
+```dart
+@override
+void initState() {
+  super.initState();
+  _loadGameData();
+  _startTimer();
+}
+```
+
+## State Update Best Practices
+
+1. **Keep setState calls minimal** - Only wrap the changing data
+2. **Batch updates** - Update multiple values in single setState
+3. **Avoid setState in build()** - Never call setState inside build method
+4. **Use local state** - Keep state as close to where it's used as possible
+5. **Prevent unnecessary rebuilds** - Use const constructors for static widgets
+
+## Anti-Patterns to Avoid
+
+❌ **Don't use global state**
+```dart
+// BAD
+class Globals {
+  static int score = 0;
+}
+```
+
+❌ **Don't use ChangeNotifier without proper disposal**
+❌ **Don't use InheritedWidget for this project**
+❌ **Don't install Provider, Riverpod, Bloc, etc.**
+
+## Example: Complete Game State Management
+
+```dart
+class _GameScreenState extends State<GameScreen> {
+  // Game state
+  int _currentLevel = 1;
+  int _score = 0;
+  int _timeLeft = 60;
+  int _matchedPairs = 0;
+  int _moves = 0;
+  bool _isPaused = false;
+  bool _isLocked = false;
+  
+  List<CardModel> _cards = [];
+  List<CardModel> _flippedCards = [];
+  
+  Timer? _timer;
+  
+  @override
+  void initState() {
+    super.initState();
+    _initializeGame();
+  }
+  
+  void _initializeGame() {
+    setState(() {
+      _cards = _generateCards();
+      _startTimer();
+    });
+  }
+  
+  void _updateGameState() {
+    setState(() {
+      // All state updates here
+    });
+  }
+  
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          HudWidget(
+            score: _score,
+            timeLeft: _timeLeft,
+            onPause: _togglePause,
+          ),
+          // More widgets...
+        ],
+      ),
+    );
+  }
+}
+```

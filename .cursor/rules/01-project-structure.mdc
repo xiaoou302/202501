@@ -1,0 +1,53 @@
+---
+alwaysApply: true
+description: Core project structure and file organization rules for Membly
+---
+
+# Membly Project Structure
+
+## Entry Point
+The application starts at [main.dart](mdc:lib/main.dart) which initializes the app theme and routing.
+
+## Core Layer (`lib/core/`)
+Foundation classes that are used throughout the app:
+
+- [app_constants.dart](mdc:lib/core/constants/app_constants.dart) - Game configuration, color definitions, icon lists
+- [app_theme.dart](mdc:lib/core/themes/app_theme.dart) - ThemeData configuration with cyberpunk color scheme
+- [haptic_utils.dart](mdc:lib/core/utils/haptic_utils.dart) - Vibration feedback utilities
+- [format_utils.dart](mdc:lib/core/utils/format_utils.dart) - Time and score formatting
+
+## Data Layer (`lib/data/`)
+Data models and local storage:
+
+- [level_model.dart](mdc:lib/data/models/level_model.dart) - Level configuration model
+- [card_model.dart](mdc:lib/data/models/card_model.dart) - Card state model
+- [game_state_model.dart](mdc:lib/data/models/game_state_model.dart) - Complete game state
+- [local_storage.dart](mdc:lib/data/local/local_storage.dart) - SharedPreferences wrapper
+
+## Presentation Layer (`lib/presentation/`)
+UI components organized by type:
+
+### Screens
+- [home_screen.dart](mdc:lib/presentation/screens/home_screen.dart) - Main menu
+- [game_screen.dart](mdc:lib/presentation/screens/game_screen.dart) - Game play area
+- Result and pause overlays are shown as modals within game_screen
+
+### Widgets
+- [card_widget.dart](mdc:lib/presentation/widgets/card_widget.dart) - Flippable card component
+- [timer_bar.dart](mdc:lib/presentation/widgets/timer_bar.dart) - Animated progress bar
+- [hud_widget.dart](mdc:lib/presentation/widgets/hud_widget.dart) - Game stats display
+- [particle_background.dart](mdc:lib/presentation/widgets/particle_background.dart) - Animated background
+- [combo_indicator.dart](mdc:lib/presentation/widgets/combo_indicator.dart) - Floating combo text
+
+## File Naming Convention
+- Use snake_case for file names
+- Suffix widgets with `_widget.dart`
+- Suffix screens with `_screen.dart`
+- Suffix models with `_model.dart`
+- Suffix utils with `_utils.dart`
+
+## Import Order
+1. Dart/Flutter SDK imports
+2. Package imports
+3. Local imports (relative paths)
+4. Separate groups with blank line

@@ -1,0 +1,551 @@
+---
+globs: lib/presentation/widgets/*.dart
+description: Reusable widget components and implementation guidelines
+---
+
+# Widget Components Library
+
+## Widget Organization Principles
+
+1. **Stateless by Default**: Use StatelessWidget unless state is absolutely needed
+2. **Single Responsibility**: Each widget should do one thing well
+3. **Composition Over Inheritance**: Build complex widgets from simple ones
+4. **Const Constructors**: Use const whenever possible for performance
+5. **Named Parameters**: Use named parameters for clarity
+
+## Core Widgets
+
+### 1. CardWidget - Flippable Game Card
+```dart
+// lib/presentation/widgets/card_widget.dart
+
+class CardWidget extends StatefulWidget {
+  final CardModel card;
+  final VoidCallback onTap;
+  final bool isLocked;
+  
+  const CardWidget({
+    Key? key,
+    required this.card,
+    required this.onTap,
+    this.isLocked = false,
+  }) : super(key: key);
+  
+  @override
+  State<CardWidget> createState() => _CardWidgetState();
+}
+
+// See 06-animations.mdc for implementation details
+```
+
+**Usage:**
+```dart
+CardWidget(
+  card: cardModel,
+  isLocked: _isGameLocked,
+  onTap: () => _handleCardTap(cardModel),
+)
+```
+
+### 2. TimerBar - Animated Progress Bar
+```dart
+// lib/presentation/widgets/timer_bar.dart
+
+class TimerBar extends StatelessWidget {
+  final int timeLeft;
+  final int totalTime;
+  
+  const TimerBar({
+    Key? key,
+    required this.timeLeft,
+    required this.totalTime,
+  }) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    final percentage = (timeLeft / totalTime).clamp(0.0, 1.0);
+    final isLowTime = percentage < 0.3;
+    
+    return Column(
+      children: [
+        _buildHeader(isLowTime),
+        const SizedBox(height: 8),
+        _buildProgressBar(context, percentage, isLowTime),
+      ],
+    );
+  }
+  
+  Widget _buildHeader(bool isLowTime) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'SYNC STABILITY',
+          style: AppTextStyles.label.copyWith(
+            color: isLowTime ? AppColors.danger : AppColors.mint,
+          ),
+        ),
+        Text(
+          '${timeLeft}s',
+          style: AppTextStyles.label.copyWith(
+            color: isLowTime ? AppColors.danger : AppColors.mint,
+          ),
+        ),
+      ],
+    );
+  }
+  
+  Widget _buildProgressBar(
+    BuildContext context,
+    double percentage,
+    bool isLowTime,
+  ) {
+    return Container(
+      height: 8,
+      decoration: BoxDecoration(
+        color: AppColors.slate,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: AnimatedContainer(
+        duration: const Duration(seconds: 1),
+        curve: Curves.linear,
+        width: MediaQuery.of(context).size.width * percentage * 0.85,
+        decoration: BoxDecoration(
+          gradient: isLowTime
+              ? null
+              : const LinearGradient(
+                  colors: [AppColors.mint, AppColors.electric],
+                ),
+          color: isLowTime ? AppColors.danger : null,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 3. HudWidget - Game Stats Display
+```dart
+// lib/presentation/widgets/hud_widget.dart
+
+class HudWidget extends StatelessWidget {
+  final int levelId;
+  final int pairs;
+  final int matchedPairs;
+  final int moves;
+  final int score;
+  final int timeLeft;
+  final int totalTime;
+  final VoidCallback onPause;
+  
+  const HudWidget({
+    Key? key,
+    required this.levelId,
+    required this.pairs,
+    required this.matchedPairs,
+    required this.moves,
+    required this.score,
+    required this.timeLeft,
+    required this.totalTime,
+    required this.onPause,
+  }) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 56, // Account for status bar
+        left: 24,
+        right: 24,
+        bottom: 16,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.midnight,
+            AppColors.midnight.withOpacity(0),
+          ],
+        ),
+      ),
+      child: Column(
+        children: [
+          _buildTopRow(),
+          const SizedBox(height: 16),
+          TimerBar(timeLeft: timeLeft, totalTime: totalTime),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildTopRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _buildLevelDisplay(),
+        const Spacer(),
+        _buildPauseButton(),
+      ],
+    );
+  }
+  
+  Widget _buildLevelDisplay() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'SECTOR',
+          style: AppTextStyles.label,
+        ),
+        Text(
+          'LVL ${levelId.toString().padLeft(2, '0')}',
+          style: AppTextStyles.h2,
+        ),
+      ],
+    );
+  }
+  
+  Widget _buildPauseButton() {
+    return GestureDetector(
+      onTap: onPause,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: AppColors.slate,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Icon(
+          Icons.pause,
+          color: AppColors.mica,
+          size: 20,
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 4. StatsFooter - Bottom Stats Display
+```dart
+// lib/presentation/widgets/stats_footer.dart
+
+class StatsFooter extends StatelessWidget {
+  final int matchedPairs;
+  final int totalPairs;
+  final int moves;
+  final int score;
+  
+  const StatsFooter({
+    Key? key,
+    required this.matchedPairs,
+    required this.totalPairs,
+    required this.moves,
+    required this.score,
+  }) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 64,
+      decoration: BoxDecoration(
+        color: AppColors.slate.withOpacity(0.3),
+        border: Border(
+          top: BorderSide(
+            color: Colors.white.withOpacity(0.05),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildStat('PAIRS', '$matchedPairs/$totalPairs', AppColors.mica),
+          _buildStat('MOVES', moves.toString(), AppColors.mica),
+          _buildStat('SCORE', score.toString(), AppColors.mint),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildStat(String label, String value, Color valueColor) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(label, style: AppTextStyles.label),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: AppTextStyles.stat.copyWith(color: valueColor),
+        ),
+      ],
+    );
+  }
+}
+```
+
+### 5. ParticleBackground - Animated Background
+```dart
+// lib/presentation/widgets/particle_background.dart
+
+class ParticleBackground extends StatefulWidget {
+  const ParticleBackground({Key? key}) : super(key: key);
+  
+  @override
+  State<ParticleBackground> createState() => _ParticleBackgroundState();
+}
+
+class _ParticleBackgroundState extends State<ParticleBackground>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  final List<Particle> _particles = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    
+    // Generate particles
+    for (int i = 0; i < 20; i++) {
+      _particles.add(Particle.random());
+    }
+    
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return CustomPaint(
+            painter: ParticlePainter(
+              particles: _particles,
+              animationValue: _controller.value,
+            ),
+            size: Size.infinite,
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Particle {
+  final Offset position;
+  final double size;
+  final double speed;
+  final double opacity;
+  
+  const Particle({
+    required this.position,
+    required this.size,
+    required this.speed,
+    required this.opacity,
+  });
+  
+  factory Particle.random() {
+    final random = Random();
+    return Particle(
+      position: Offset(
+        random.nextDouble(),
+        random.nextDouble(),
+      ),
+      size: random.nextDouble() * 4 + 2,
+      speed: random.nextDouble() * 0.5 + 0.5,
+      opacity: random.nextDouble() * 0.3 + 0.1,
+    );
+  }
+}
+
+class ParticlePainter extends CustomPainter {
+  final List<Particle> particles;
+  final double animationValue;
+  
+  ParticlePainter({
+    required this.particles,
+    required this.animationValue,
+  });
+  
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (var particle in particles) {
+      final paint = Paint()
+        ..color = AppColors.electric.withOpacity(particle.opacity)
+        ..style = PaintingStyle.fill;
+      
+      final x = particle.position.dx * size.width;
+      final y = (particle.position.dy + animationValue * particle.speed) % 1.0 * size.height;
+      
+      canvas.drawCircle(
+        Offset(x, y),
+        particle.size,
+        paint,
+      );
+    }
+  }
+  
+  @override
+  bool shouldRepaint(ParticlePainter oldDelegate) => true;
+}
+```
+
+### 6. ComboIndicator - Floating Combo Text
+```dart
+// lib/presentation/widgets/combo_indicator.dart
+
+class ComboIndicator extends StatefulWidget {
+  final int combo;
+  
+  const ComboIndicator({
+    Key? key,
+    required this.combo,
+  }) : super(key: key);
+  
+  @override
+  State<ComboIndicator> createState() => _ComboIndicatorState();
+}
+
+// See 06-animations.mdc for full implementation
+```
+
+### 7. GlowButton - Primary Action Button
+```dart
+// lib/presentation/widgets/glow_button.dart
+
+class GlowButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final Color? color;
+  final Color? textColor;
+  final IconData? icon;
+  final bool isSecondary;
+  
+  const GlowButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.color,
+    this.textColor,
+    this.icon,
+    this.isSecondary = false,
+  }) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    final buttonColor = color ?? 
+        (isSecondary ? AppColors.slate : AppColors.electric);
+    final textCol = textColor ?? 
+        (isSecondary ? AppColors.mica : Colors.white);
+    
+    return GestureDetector(
+      onTap: onPressed,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: AppRadius.button,
+          boxShadow: isSecondary 
+              ? null 
+              : AppShadows.glowElectric,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              FaIcon(icon, color: textCol, size: 20),
+              const SizedBox(width: 12),
+            ],
+            Text(
+              text.toUpperCase(),
+              style: AppTextStyles.h3.copyWith(
+                color: textCol,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Widget Best Practices
+
+### 1. Extract Sub-Widgets
+```dart
+// BAD: Everything in build()
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: [
+      Container(/* 50 lines of code */),
+      Row(/* 30 lines of code */),
+      // etc...
+    ],
+  );
+}
+
+// GOOD: Extract to methods or widgets
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: [
+      _buildHeader(),
+      _buildContent(),
+      _buildFooter(),
+    ],
+  );
+}
+```
+
+### 2. Use const Constructors
+```dart
+const SizedBox(height: 16),
+const Spacer(),
+const Divider(color: AppColors.slate),
+```
+
+### 3. Parameterize for Reusability
+```dart
+class StatDisplay extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color? valueColor;
+  
+  const StatDisplay({
+    required this.label,
+    required this.value,
+    this.valueColor,
+  });
+}
+```
+
+### 4. Handle Null Safety Properly
+```dart
+final color = widget.color ?? AppColors.electric;
+final text = widget.text?.toUpperCase() ?? '';
+```
+
+## Widget Testing Tips
+
+1. Extract widgets to separate files for easier testing
+2. Use Keys for finding widgets in tests
+3. Keep widgets pure (no side effects in build)
+4. Test widget variations with different parameters

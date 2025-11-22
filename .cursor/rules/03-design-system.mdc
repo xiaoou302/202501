@@ -1,0 +1,224 @@
+---
+alwaysApply: true
+description: Design system colors, typography, and styling guidelines
+---
+
+# Design System - Static Flow (Deep Focus)
+
+## Color Palette
+
+### Primary Colors (Use these exact hex values)
+```dart
+// lib/core/constants/app_constants.dart
+class AppColors {
+  // Backgrounds
+  static const Color midnight = Color(0xFF1A1D26);  // Main background
+  static const Color slate = Color(0xFF353B48);     // Card back, secondary surfaces
+  
+  // Brand Colors
+  static const Color electric = Color(0xFF6C5CE7);  // Primary actions, buttons
+  static const Color mint = Color(0xFF00CEC9);      // Accents, highlights, success
+  
+  // Text
+  static const Color mica = Color(0xFFDFE6E9);      // Primary text
+  static const Color textSecondary = Color(0xFF95A5A6); // Secondary text
+  
+  // Status Colors
+  static const Color danger = Color(0xFFFF4757);    // Error, time warning
+  static const Color success = Color(0xFF00CEC9);   // Same as mint
+  
+  // Opacity Variants (for overlays)
+  static final Color overlay = midnight.withOpacity(0.95);
+  static final Color cardOverlay = slate.withOpacity(0.3);
+}
+```
+
+### Card Icon Colors
+Use vibrant neon colors for card icons:
+```dart
+class CardColors {
+  static const List<Color> neonColors = [
+    Color(0xFFF1C40F), // Yellow
+    Color(0xFFE74C3C), // Red
+    Color(0xFF3498DB), // Blue
+    Color(0xFF2ECC71), // Green
+    Color(0xFF9B59B6), // Purple
+    Color(0xFFE67E22), // Orange
+    Color(0xFF1ABC9C), // Turquoise
+    Color(0xFFF39C12), // Gold
+  ];
+}
+```
+
+## Typography
+
+### Font Setup (Google Fonts)
+```yaml
+# pubspec.yaml
+dependencies:
+  google_fonts: ^6.1.0
+```
+
+### Font Styles
+```dart
+class AppTextStyles {
+  // Headers - Rajdhani (Tech/Display font)
+  static TextStyle h1 = GoogleFonts.rajdhani(
+    fontSize: 48,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mica,
+    letterSpacing: 2.0,
+  );
+  
+  static TextStyle h2 = GoogleFonts.rajdhani(
+    fontSize: 32,
+    fontWeight: FontWeight.w600,
+    color: AppColors.mica,
+    letterSpacing: 1.5,
+  );
+  
+  static TextStyle h3 = GoogleFonts.rajdhani(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.mica,
+    letterSpacing: 1.2,
+  );
+  
+  // Body Text - Inter
+  static TextStyle body = GoogleFonts.inter(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.mica,
+  );
+  
+  static TextStyle bodySmall = GoogleFonts.inter(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textSecondary,
+  );
+  
+  // Labels - Rajdhani (uppercase, tracking)
+  static TextStyle label = GoogleFonts.rajdhani(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textSecondary,
+    letterSpacing: 1.5,
+  );
+  
+  // Stats/Numbers - Rajdhani
+  static TextStyle stat = GoogleFonts.rajdhani(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mica,
+  );
+}
+```
+
+## Visual Effects
+
+### Shadows and Glows
+```dart
+class AppShadows {
+  static List<BoxShadow> cardShadow = [
+    BoxShadow(
+      color: Colors.black.withOpacity(0.3),
+      blurRadius: 10,
+      offset: const Offset(0, 4),
+    ),
+  ];
+  
+  static List<BoxShadow> glowMint = [
+    BoxShadow(
+      color: AppColors.mint.withOpacity(0.3),
+      blurRadius: 20,
+      spreadRadius: 2,
+    ),
+  ];
+  
+  static List<BoxShadow> glowElectric = [
+    BoxShadow(
+      color: AppColors.electric.withOpacity(0.3),
+      blurRadius: 20,
+      spreadRadius: 2,
+    ),
+  ];
+}
+```
+
+### Border Radius Standards
+```dart
+class AppRadius {
+  static const BorderRadius small = BorderRadius.all(Radius.circular(8));
+  static const BorderRadius medium = BorderRadius.all(Radius.circular(12));
+  static const BorderRadius large = BorderRadius.all(Radius.circular(16));
+  static const BorderRadius xl = BorderRadius.all(Radius.circular(24));
+  
+  // For cards
+  static const BorderRadius card = BorderRadius.all(Radius.circular(12));
+  
+  // For buttons
+  static const BorderRadius button = BorderRadius.all(Radius.circular(12));
+  
+  // For modals
+  static const BorderRadius modal = BorderRadius.all(Radius.circular(24));
+}
+```
+
+## Spacing System
+```dart
+class AppSpacing {
+  static const double xs = 4.0;
+  static const double sm = 8.0;
+  static const double md = 16.0;
+  static const double lg = 24.0;
+  static const double xl = 32.0;
+  static const double xxl = 48.0;
+}
+```
+
+## Animation Durations
+```dart
+class AppDurations {
+  static const Duration fast = Duration(milliseconds: 200);
+  static const Duration normal = Duration(milliseconds: 300);
+  static const Duration cardFlip = Duration(milliseconds: 500);
+  static const Duration slow = Duration(milliseconds: 800);
+}
+```
+
+## Usage Examples
+
+### Styled Button
+```dart
+ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: AppColors.electric,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(
+      horizontal: AppSpacing.lg,
+      vertical: AppSpacing.md,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: AppRadius.button,
+    ),
+  ),
+  onPressed: () {},
+  child: Text('START', style: AppTextStyles.h3),
+)
+```
+
+### Styled Container with Glow
+```dart
+Container(
+  decoration: BoxDecoration(
+    color: AppColors.slate,
+    borderRadius: AppRadius.card,
+    border: Border.all(
+      color: AppColors.mint,
+      width: 2,
+    ),
+    boxShadow: AppShadows.glowMint,
+  ),
+  child: // content
+)
+```

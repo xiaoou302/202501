@@ -1,0 +1,116 @@
+# Membly Flutter Project Rules
+
+## Project Overview
+Membly is a memory card matching game with a cyberpunk/tech aesthetic theme. Players act as "Data Repair Technicians" fixing corrupted data by matching cards within time limits.
+
+## Core Technical Constraints
+- **NO freezed package or part syntax**
+- **State Management**: Use setState only (no Provider, Riverpod, Bloc, etc.)
+- **Data Storage**: shared_preferences for local storage only
+- **NO local image assets** (assets/images/)
+- **NO cached_network_image**
+- **NO user account features**
+- **NO external custom fonts** (use system fonts only)
+- **Icons**: Use font_awesome_flutter package
+
+## Architecture Guidelines
+Follow simplified Clean Architecture:
+```
+lib/
+├── main.dart
+├── core/
+│   ├── constants/
+│   ├── utils/
+│   └── themes/
+├── data/
+│   ├── models/
+│   └── local/
+├── domain/
+│   └── entities/
+└── presentation/
+    ├── screens/
+    ├── widgets/
+    └── providers/
+```
+
+## Design System
+**Theme**: Static Flow (Deep Focus) - Cyberpunk/Tech aesthetic
+
+### Colors (Hex Codes)
+- Primary Background: `#1A1D26` (Midnight Blue)
+- Card Background: `#353B48` (Slate Gray)
+- Primary Action: `#6C5CE7` (Electric Purple)
+- Accent/Highlight: `#00CEC9` (Mint Green)
+- Text: `#DFE6E9` (Mica White)
+- Danger/Warning: `#FF4757` (Red)
+
+### Typography
+- Primary Font: Rajdhani (tech/display) - weights: 400, 600, 700
+- Body Font: Inter - weights: 300, 400, 600
+- Use Google Fonts package
+
+## Game Mechanics Summary
+- **5 Levels** with increasing difficulty (3×4 to 6×5 grids)
+- **Time-based challenges** (45s to 120s)
+- **Combo system** for consecutive matches
+- **Star rating** based on remaining time (1-3 stars)
+- **Haptic feedback** for match success/failure
+- **Observation phase** (optional first level only)
+
+## Code Style Requirements
+1. Use descriptive variable names (English)
+2. Add comments for complex logic in English
+3. Keep widget build methods under 100 lines (extract sub-widgets)
+4. Use const constructors where possible for performance
+5. Implement proper dispose() for Timers and controllers
+6. Handle edge cases (pausing, rapid tapping, etc.)
+
+## Animation Guidelines
+- Card flip: 500ms duration with cubic bezier easing
+- Combo indicator: Pop-in animation with fade out
+- Timer bar: Smooth 1s transitions, color shift at <30% time
+- Result modal: Fade in with scale animation
+- All animations should feel snappy but not rushed
+
+## State Management Pattern
+Since we only use setState:
+- Game logic should be in StatefulWidget classes
+- Complex game state can be in a separate GameController class
+- Use callbacks for child-to-parent communication
+- Keep state as local as possible
+
+## Data Persistence
+Use shared_preferences for:
+- Level unlock status (bool per level)
+- Best scores per level (int)
+- Star ratings per level (int, 0-3)
+- Settings (sound, vibration, language)
+- Total games played, achievements
+
+## Performance Considerations
+- Dispose timers properly
+- Use RepaintBoundary for particle effects
+- Optimize card grid rendering with Keys
+- Avoid rebuilding entire screen on timer tick
+
+## UI/UX Requirements
+- iPhone 15 Pro frame simulation (390×844px)
+- Dynamic Island at top
+- Status bar with time and icons
+- Home indicator bar at bottom
+- Particle background effect
+- Smooth screen transitions
+- Lock interactions during animations
+
+## Testing Checklist
+Before committing code, verify:
+- [ ] No freezed/part syntax used
+- [ ] Only setState for state management
+- [ ] No image assets referenced
+- [ ] Timers are disposed
+- [ ] Rapid tap handling works
+- [ ] Pause/resume functions correctly
+- [ ] Local storage saves/loads properly
+- [ ] All animations are smooth
+- [ ] Color scheme matches design system
+

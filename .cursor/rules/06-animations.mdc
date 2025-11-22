@@ -1,0 +1,430 @@
+---
+globs: *.dart
+description: Animation guidelines and implementation patterns
+---
+
+# Animation Guidelines
+
+## Animation Philosophy
+- **Snappy but not rushed**: 300-500ms for most interactions
+- **Purposeful**: Every animation should enhance UX, not distract
+- **Performant**: Use Transform and Opacity for GPU acceleration
+- **Consistent**: Use predefined durations and curves
+
+## Standard Durations
+```dart
+// lib/core/constants/app_constants.dart
+class AnimationDurations {
+  static const Duration instant = Duration(milliseconds: 100);
+  static const Duration fast = Duration(milliseconds: 200);
+  static const Duration normal = Duration(milliseconds: 300);
+  static const Duration cardFlip = Duration(milliseconds: 500);
+  static const Duration slow = Duration(milliseconds: 800);
+  static const Duration timerTick = Duration(seconds: 1);
+}
+```
+
+## Animation Curves
+```dart
+class AnimationCurves {
+  static const Curve easeOut = Curves.easeOut;
+  static const Curve easeInOut = Curves.easeInOut;
+  static const Curve bounceOut = Curves.bounceOut;
+  static const Curve elasticOut = Curves.elasticOut;
+  
+  // Custom cubic bezier for card flip
+  static const Curve cardFlip = Cubic(0.4, 0.0, 0.2, 1.0);
+}
+```
+
+## Card Flip Animation
+
+### 3D Flip Effect
+```dart
+class CardWidget extends StatefulWidget {
+  final CardModel card;
+  final VoidCallback onTap;
+  
+  const CardWidget({
+    required this.card,
+    required this.onTap,
+  });
+  
+  @override
+  State<CardWidget> createState() => _CardWidgetState();
+}
+
+class _CardWidgetState extends State<CardWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: AnimationDurations.cardFlip,
+      vsync: this,
+    );
+    
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: AnimationCurves.cardFlip,
+      ),
+    );
+  }
+  
+  @override
+  void didUpdateWidget(CardWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    // Animate when flip state changes
+    if (widget.card.isFlipped != oldWidget.card.isFlipped) {
+      if (widget.card.isFlipped) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    }
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          final angle = _animation.value * pi;
+          final transform = Matrix4.identity()
+            ..setEntry(3, 2, 0.001) // Perspective
+            ..rotateY(angle);
+          
+          return Transform(
+            transform: transform,
+            alignment: Alignment.center,
+            child: angle <= pi / 2
+                ? _buildCardBack()
+                : Transform(
+                    transform: Matrix4.identity()..rotateY(pi),
+                    alignment: Alignment.center,
+                    child: _buildCardFront(),
+                  ),
+          );
+        },
+      ),
+    );
+  }
+  
+  Widget _buildCardBack() {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.slate,
+        borderRadius: AppRadius.card,
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
+      ),
+      child: Center(
+        child: FaIcon(
+          FontAwesomeIcons.fingerprint,
+          color: Colors.white.withOpacity(0.1),
+          size: 32,
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildCardFront() {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.midnight,
+        borderRadius: AppRadius.card,
+        border: Border.all(
+          color: widget.card.isMatched ? AppColors.mint : AppColors.electric,
+          width: 2,
+        ),
+        boxShadow: widget.card.isMatched ? AppShadows.glowMint : null,
+      ),
+      child: Center(
+        child: FaIcon(
+          widget.card.icon,
+          color: widget.card.color,
+          size: 36,
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Combo Indicator Animation
+
+### Pop and Fade
+```dart
+class ComboIndicator extends StatefulWidget {
+  final int combo;
+  final VoidCallback onComplete;
+  
+  const ComboIndicator({
+    required this.combo,
+    required this.onComplete,
+  });
+  
+  @override
+  State<ComboIndicator> createState() => _ComboIndicatorState();
+}
+
+class _ComboIndicatorState extends State<ComboIndicator>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _slideAnimation;
+  
+  @override
+  void initState() {
+    super.initState();
+    
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    
+    _scaleAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: 1.2).chain(
+          CurveTween(curve: Curves.elasticOut),
+        ),
+        weight: 40,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.2, end: 1.0),
+        weight: 60,
+      ),
+    ]).animate(_controller);
+    
+    _opacityAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: 1.0),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: ConstantTween(1.0),
+        weight: 60,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 0.0),
+        weight: 20,
+      ),
+    ]).animate(_controller);
+    
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(0, -0.5),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+    
+    _controller.forward().then((_) => widget.onComplete());
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _opacityAnimation.value,
+          child: Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Transform.translate(
+              offset: Offset(0, _slideAnimation.value.dy * 50),
+              child: Text(
+                'COMBO x${widget.combo}!',
+                style: AppTextStyles.h2.copyWith(
+                  color: AppColors.electric,
+                  shadows: [
+                    Shadow(
+                      color: AppColors.electric.withOpacity(0.5),
+                      blurRadius: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+## Timer Bar Animation
+
+### Smooth Progress Bar
+```dart
+class TimerBar extends StatelessWidget {
+  final int timeLeft;
+  final int totalTime;
+  
+  const TimerBar({
+    required this.timeLeft,
+    required this.totalTime,
+  });
+  
+  @override
+  Widget build(BuildContext context) {
+    final percentage = (timeLeft / totalTime).clamp(0.0, 1.0);
+    final isLowTime = percentage < 0.3;
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'SYNC STABILITY',
+              style: AppTextStyles.label.copyWith(
+                color: isLowTime ? AppColors.danger : AppColors.mint,
+              ),
+            ),
+            Text(
+              '${timeLeft}s',
+              style: AppTextStyles.label.copyWith(
+                color: isLowTime ? AppColors.danger : AppColors.mint,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Container(
+          height: 8,
+          decoration: BoxDecoration(
+            color: AppColors.slate,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: AnimatedContainer(
+            duration: AnimationDurations.timerTick,
+            curve: Curves.linear,
+            width: MediaQuery.of(context).size.width * percentage,
+            decoration: BoxDecoration(
+              gradient: isLowTime
+                  ? null
+                  : const LinearGradient(
+                      colors: [AppColors.mint, AppColors.electric],
+                    ),
+              color: isLowTime ? AppColors.danger : null,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+```
+
+## Screen Transitions
+
+### Fade Transition
+```dart
+Route _createRoute(Widget destination) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
+    transitionDuration: AnimationDurations.normal,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
+}
+```
+
+### Slide Transition
+```dart
+Route _createSlideRoute(Widget destination) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
+    transitionDuration: AnimationDurations.normal,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
+      
+      var tween = Tween(begin: begin, end: end).chain(
+        CurveTween(curve: curve),
+      );
+      
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+```
+
+## Modal Animations
+
+### Result Modal
+```dart
+void _showResultModal() {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: false,
+    barrierColor: AppColors.midnight.withOpacity(0.95),
+    transitionDuration: AnimationDurations.normal,
+    pageBuilder: (context, anim1, anim2) {
+      return ResultScreen(
+        stars: _stars,
+        score: _score,
+        timeRemaining: _timeLeft,
+      );
+    },
+    transitionBuilder: (context, anim1, anim2, child) {
+      return Transform.scale(
+        scale: Curves.easeOutBack.transform(anim1.value),
+        child: Opacity(
+          opacity: anim1.value,
+          child: child,
+        ),
+      );
+    },
+  );
+}
+```
+
+## Performance Tips
+
+1. **Use AnimatedBuilder**: More efficient than rebuilding entire widget tree
+2. **Use Transform**: GPU-accelerated, better than changing layout properties
+3. **Dispose Controllers**: Always dispose AnimationControllers
+4. **const Constructors**: Use for static children in animated widgets
+5. **RepaintBoundary**: Wrap expensive-to-paint widgets
+6. **Avoid Opacity on Complex Trees**: Use AnimatedOpacity or FadeTransition instead
+
+## Animation Checklist
+
+- [ ] Duration matches design system constants
+- [ ] Curve is appropriate for animation type
+- [ ] Controller is disposed in dispose()
+- [ ] Animation doesn't block user interaction unnecessarily
+- [ ] Performance is smooth (60fps) on target devices
+- [ ] Animation respects accessibility settings (if applicable)

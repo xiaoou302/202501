@@ -1,0 +1,26 @@
+name: membly
+description: "A memory card matching game - Data Repair Protocol"
+publish_to: 'none'
+version: 1.0.4+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Styling
+  cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.6.0
+  
+  # Local Storage
+  shared_preferences: ^2.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

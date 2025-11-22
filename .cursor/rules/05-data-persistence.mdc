@@ -1,0 +1,310 @@
+---
+description: Local storage patterns using shared_preferences
+---
+
+# Data Persistence with SharedPreferences
+
+## Setup
+```yaml
+# pubspec.yaml
+dependencies:
+  shared_preferences: ^2.2.2
+```
+
+## Storage Service
+
+### Local Storage Class
+```dart
+// lib/data/local/local_storage.dart
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LocalStorage {
+  static SharedPreferences? _prefs;
+  
+  // Initialize on app start
+  static Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+  
+  // Storage Keys
+  static const String _keyPrefix = 'membly_';
+  static const String _keyLevelUnlocked = '${_keyPrefix}level_unlocked_';
+  static const String _keyLevelStars = '${_keyPrefix}level_stars_';
+  static const String _keyLevelBestScore = '${_keyPrefix}level_best_score_';
+  static const String _keyLevelBestTime = '${_keyPrefix}level_best_time_';
+  static const String _keyTotalGames = '${_keyPrefix}total_games';
+  static const String _keyTotalWins = '${_keyPrefix}total_wins';
+  static const String _keySoundEnabled = '${_keyPrefix}sound_enabled';
+  static const String _keyVibrationEnabled = '${_keyPrefix}vibration_enabled';
+  static const String _keyLanguage = '${_keyPrefix}language';
+  
+  // ========================================
+  // Level Progress
+  // ========================================
+  
+  static Future<bool> setLevelUnlocked(int levelId, bool unlocked) async {
+    return await _prefs?.setBool('$_keyLevelUnlocked$levelId', unlocked) ?? false;
+  }
+  
+  static bool isLevelUnlocked(int levelId) {
+    // Level 1 is always unlocked
+    if (levelId == 1) return true;
+    return _prefs?.getBool('$_keyLevelUnlocked$levelId') ?? false;
+  }
+  
+  static Future<bool> setLevelStars(int levelId, int stars) async {
+    return await _prefs?.setInt('$_keyLevelStars$levelId', stars) ?? false;
+  }
+  
+  static int getLevelStars(int levelId) {
+    return _prefs?.getInt('$_keyLevelStars$levelId') ?? 0;
+  }
+  
+  static Future<bool> setLevelBestScore(int levelId, int score) async {
+    int currentBest = getLevelBestScore(levelId);
+    if (score > currentBest) {
+      return await _prefs?.setInt('$_keyLevelBestScore$levelId', score) ?? false;
+    }
+    return false;
+  }
+  
+  static int getLevelBestScore(int levelId) {
+    return _prefs?.getInt('$_keyLevelBestScore$levelId') ?? 0;
+  }
+  
+  static Future<bool> setLevelBestTime(int levelId, int timeRemaining) async {
+    int currentBest = getLevelBestTime(levelId);
+    if (timeRemaining > currentBest) {
+      return await _prefs?.setInt('$_keyLevelBestTime$levelId', timeRemaining) ?? false;
+    }
+    return false;
+  }
+  
+  static int getLevelBestTime(int levelId) {
+    return _prefs?.getInt('$_keyLevelBestTime$levelId') ?? 0;
+  }
+  
+  // ========================================
+  // Game Statistics
+  // ========================================
+  
+  static Future<bool> incrementTotalGames() async {
+    int current = getTotalGames();
+    return await _prefs?.setInt(_keyTotalGames, current + 1) ?? false;
+  }
+  
+  static int getTotalGames() {
+    return _prefs?.getInt(_keyTotalGames) ?? 0;
+  }
+  
+  static Future<bool> incrementTotalWins() async {
+    int current = getTotalWins();
+    return await _prefs?.setInt(_keyTotalWins, current + 1) ?? false;
+  }
+  
+  static int getTotalWins() {
+    return _prefs?.getInt(_keyTotalWins) ?? 0;
+  }
+  
+  // ========================================
+  // Settings
+  // ========================================
+  
+  static Future<bool> setSoundEnabled(bool enabled) async {
+    return await _prefs?.setBool(_keySoundEnabled, enabled) ?? false;
+  }
+  
+  static bool getSoundEnabled() {
+    return _prefs?.getBool(_keySoundEnabled) ?? true;
+  }
+  
+  static Future<bool> setVibrationEnabled(bool enabled) async {
+    return await _prefs?.setBool(_keyVibrationEnabled, enabled) ?? false;
+  }
+  
+  static bool getVibrationEnabled() {
+    return _prefs?.getBool(_keyVibrationEnabled) ?? true;
+  }
+  
+  static Future<bool> setLanguage(String languageCode) async {
+    return await _prefs?.setString(_keyLanguage, languageCode) ?? false;
+  }
+  
+  static String getLanguage() {
+    return _prefs?.getString(_keyLanguage) ?? 'en';
+  }
+  
+  // ========================================
+  // Utility
+  // ========================================
+  
+  static Future<bool> clearAllData() async {
+    return await _prefs?.clear() ?? false;
+  }
+  
+  static Future<bool> resetLevelProgress() async {
+    // Remove only level-related keys
+    final keys = _prefs?.getKeys() ?? {};
+    for (String key in keys) {
+      if (key.startsWith(_keyLevelUnlocked) ||
+          key.startsWith(_keyLevelStars) ||
+          key.startsWith(_keyLevelBestScore) ||
+          key.startsWith(_keyLevelBestTime)) {
+        await _prefs?.remove(key);
+      }
+    }
+    return true;
+  }
+}
+```
+
+## Usage in main.dart
+```dart
+// lib/main.dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize local storage
+  await LocalStorage.init();
+  
+  runApp(const MyApp());
+}
+```
+
+## Usage Examples
+
+### Save Level Completion
+```dart
+void _handleLevelComplete(int levelId, int stars, int score, int timeRemaining) async {
+  // Save results
+  await LocalStorage.setLevelStars(levelId, stars);
+  await LocalStorage.setLevelBestScore(levelId, score);
+  await LocalStorage.setLevelBestTime(levelId, timeRemaining);
+  
+  // Unlock next level
+  if (levelId < 5) {
+    await LocalStorage.setLevelUnlocked(levelId + 1, true);
+  }
+  
+  // Update stats
+  await LocalStorage.incrementTotalGames();
+  await LocalStorage.incrementTotalWins();
+}
+```
+
+### Load Level Data
+```dart
+void _loadLevelData(int levelId) {
+  final isUnlocked = LocalStorage.isLevelUnlocked(levelId);
+  final stars = LocalStorage.getLevelStars(levelId);
+  final bestScore = LocalStorage.getLevelBestScore(levelId);
+  final bestTime = LocalStorage.getLevelBestTime(levelId);
+  
+  setState(() {
+    // Update UI with loaded data
+  });
+}
+```
+
+### Settings Management
+```dart
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _soundEnabled = true;
+  bool _vibrationEnabled = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+  
+  void _loadSettings() {
+    setState(() {
+      _soundEnabled = LocalStorage.getSoundEnabled();
+      _vibrationEnabled = LocalStorage.getVibrationEnabled();
+    });
+  }
+  
+  void _toggleSound(bool value) async {
+    await LocalStorage.setSoundEnabled(value);
+    setState(() {
+      _soundEnabled = value;
+    });
+  }
+  
+  void _toggleVibration(bool value) async {
+    await LocalStorage.setVibrationEnabled(value);
+    setState(() {
+      _vibrationEnabled = value;
+    });
+  }
+}
+```
+
+## Data Models for Storage
+
+### Level Result Model
+```dart
+class LevelResult {
+  final int levelId;
+  final int stars;
+  final int score;
+  final int timeRemaining;
+  final int moves;
+  final DateTime completedAt;
+  
+  const LevelResult({
+    required this.levelId,
+    required this.stars,
+    required this.score,
+    required this.timeRemaining,
+    required this.moves,
+    required this.completedAt,
+  });
+  
+  // Convert to/from JSON for complex storage if needed
+  Map<String, dynamic> toJson() => {
+    'levelId': levelId,
+    'stars': stars,
+    'score': score,
+    'timeRemaining': timeRemaining,
+    'moves': moves,
+    'completedAt': completedAt.toIso8601String(),
+  };
+  
+  factory LevelResult.fromJson(Map<String, dynamic> json) => LevelResult(
+    levelId: json['levelId'],
+    stars: json['stars'],
+    score: json['score'],
+    timeRemaining: json['timeRemaining'],
+    moves: json['moves'],
+    completedAt: DateTime.parse(json['completedAt']),
+  );
+}
+```
+
+## Best Practices
+
+1. **Initialize Early**: Call `LocalStorage.init()` in main() before runApp()
+2. **Handle Null**: Always provide default values when reading
+3. **Async Operations**: Use await for write operations
+4. **Key Naming**: Use consistent prefix to avoid conflicts
+5. **Validation**: Validate data before saving
+6. **Error Handling**: Wrap storage calls in try-catch if critical
+7. **Performance**: Don't call storage methods in build() - load in initState()
+
+## Storage Strategy
+
+### What to Store
+- ✅ Level unlock status
+- ✅ Star ratings per level
+- ✅ Best scores per level
+- ✅ Best time per level
+- ✅ Game settings
+- ✅ Total statistics
+
+### What NOT to Store
+- ❌ Current game state (handle with StatefulWidget state)
+- ❌ Temporary UI state
+- ❌ Animation state
+- ❌ Timer current value (recalculate on resume)
