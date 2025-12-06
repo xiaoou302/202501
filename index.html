@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paiko - Mahjong Memory</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@700&family=Lato:wght@400;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ink-green': '#0A2F23',
+                        'ink-green-light': '#143A2D',
+                        'sandalwood': '#3E2315',
+                        'sandalwood-light': '#5A3A26',
+                        'ivory': '#F2EBD9',     
+                        'ivory-dark': '#E6DCC3', 
+                        'vermillion': '#B7312C', 
+                        'jade-blue': '#1B4F72',  
+                        'jade-green': '#0E6655', 
+                        'antique-gold': '#C9A35C',
+                        'fluoro-green': '#7FFF00',
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'display': ['"Cinzel"', 'serif'],
+                        'sans': ['"Lato"', 'sans-serif'],
+                        'chinese': ['"Noto Serif SC"', 'serif'],
+                    },
+                    boxShadow: {
+                        'tile': '1px 2px 4px rgba(0,0,0,0.4), inset 0 2px 5px rgba(255,255,255,0.7), inset 0 -2px 5px rgba(0,0,0,0.1)',
+                        'inner-wood': 'inset 0 2px 10px rgba(0,0,0,0.6)',
+                        'gold-glow': '0 0 10px rgba(201, 163, 92, 0.5)',
+                        'engraved': 'inset 1px 1px 2px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.5)', 
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'hint-pulse': 'hintPulse 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        },
+                        hintPulse: {
+                            '0%': { boxShadow: '0 0 0 0 rgba(127, 255, 0, 0.7)' },
+                            '70%': { boxShadow: '0 0 0 10px rgba(127, 255, 0, 0)' },
+                            '100%': { boxShadow: '0 0 0 0 rgba(127, 255, 0, 0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #111;
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bg-felt {
+            background-color: #0A2F23;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+        }
+
+        .bg-wood {
+            background: #3E2315;
+            background-image: linear-gradient(90deg, rgba(255,255,255,.05) 50%, transparent 50%),
+            linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+            linear-gradient(90deg, transparent 50%, rgba(255,255,255,.05) 50%),
+            linear-gradient(90deg, transparent 50%, rgba(255,255,255,.07) 50%);
+            background-size: 10px 100%, 20px 100%, 35px 100%, 55px 100%;
+        }
+
+        /* --- 3D Flip Card Styles --- */
+        .tile-container {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .tile-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* When 'revealed' class is added, rotate to show front */
+        .tile-container.revealed .tile-inner {
+            transform: rotateY(180deg);
+        }
+        
+        /* Hint animation for hidden tiles */
+        .tile-container.hint-active .tile-back {
+            animation: hintPulse 2s infinite;
+            border-color: #7FFF00;
+        }
+
+        .tile-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 6px;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Back Face (Green Pattern) */
+        .tile-back {
+            background-color: #0E6655;
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(255,255,255,0.1) 0px,
+                rgba(255,255,255,0.1) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            border: 2px solid rgba(255,255,255,0.1);
+            transform: rotateY(0deg); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tile-back::after {
+            content: '';
+            width: 70%;
+            height: 80%;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        /* Front Face (Mahjong Content) */
+        .tile-front {
+            background: linear-gradient(135deg, #F9F3E3 0%, #F2EBD9 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-col: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tile-front::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #0b4f42; 
+            opacity: 0.8;
+            border-radius: 0 0 6px 6px;
+            transform: translateZ(-1px); 
+        }
+
+        .dot {
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        .bamboo-bar {
+            border-radius: 4px;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .sage-bubble { animation: fadeIn 0.5s ease-out; }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #C9A35C;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .screen { display: none; height: 100%; width: 100%; flex-direction: column; animation: fadeIn 0.3s ease-out; }
+        .screen.active { display: flex; }
+        
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-neutral-900">
+
+    <div class="relative w-[393px] h-[852px] bg-neutral-950 rounded-[55px] shadow-2xl border-[8px] border-neutral-800 overflow-hidden ring-1 ring-white/10">
+        
+        <!-- Status Bar -->
+        <div class="absolute top-0 w-full h-12 z-50 flex justify-between items-center px-6 text-white text-xs font-medium pointer-events-none">
+            <span>9:41</span>
+            <div class="flex items-center gap-1.5">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full text-lg"></i>
+            </div>
+        </div>
+        <div class="absolute top-3 left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-full z-50 pointer-events-none"></div>
+
+        <div id="app-container" class="w-full h-full relative bg-felt text-ivory">
+
+            <!-- HOME SCREEN -->
+            <div id="screen-home" class="screen active relative z-10 items-center justify-between pt-28 pb-16">
+                <div class="absolute inset-0 z-[-1] opacity-20 bg-[url('https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center grayscale mix-blend-overlay"></div>
+
+                <div class="flex flex-col items-center animate-slide-up">
+                    <div class="w-24 h-32 bg-ivory rounded-lg shadow-2xl border border-white/20 flex items-center justify-center mb-6 relative overflow-hidden">
+                         <div class="absolute inset-0 bg-[#0E6655] opacity-10"></div>
+                         <div class="flex flex-col items-center justify-center z-10">
+                            <span class="text-5xl text-vermillion font-chinese font-black mb-1">🀄</span>
+                         </div>
+                    </div>
+                    <h1 class="text-6xl font-display text-antique-gold drop-shadow-md mb-2 tracking-wider">PAIKO</h1>
+                    <p class="text-sm tracking-[0.3em] text-ivory/60 font-serif uppercase">Mahjong Solitaire</p>
+                </div>
+
+                <div class="flex flex-col items-center w-full px-8 animate-slide-up" style="animation-delay: 0.1s;">
+                    <button onclick="startGame(1)" class="w-64 h-14 bg-ivory text-ink-green font-bold text-lg rounded-full shadow-lg flex items-center justify-center gap-3 transition active:scale-95 border-2 border-transparent hover:border-antique-gold mb-4 font-sans">
+                        <i class="fas fa-play text-vermillion"></i> Start Game
+                    </button>
+                    <button class="w-64 h-12 bg-sandalwood-light text-antique-gold font-bold text-base rounded-full shadow-lg flex items-center justify-center gap-3 transition active:scale-95 border border-antique-gold/30 hover:bg-sandalwood mb-3 font-sans">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- GAME SCREEN -->
+            <div id="screen-game" class="screen h-full flex flex-col relative">
+                
+                <header class="bg-wood h-28 pt-12 pb-2 px-6 flex justify-between items-end shadow-lg z-20 border-b border-yellow-900/30 shrink-0">
+                    <div class="flex flex-col items-start">
+                        <button onclick="router.show('home')" class="text-antique-gold/70 hover:text-white mb-1 flex items-center gap-1 active:scale-95 transition">
+                             <i class="fas fa-chevron-left text-sm"></i>
+                             <span class="text-xs font-bold uppercase tracking-widest font-sans">Home</span>
+                        </button>
+                        <span class="text-ivory font-display text-xl drop-shadow-md" id="level-title">Level 1</span>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-antique-gold text-xs uppercase tracking-widest mb-1 font-sans">Score</span>
+                        <span class="text-ivory font-display text-3xl tabular-nums drop-shadow-md" id="score-display">0</span>
+                    </div>
+                </header>
+
+                <main class="flex-1 bg-felt relative overflow-hidden flex flex-col items-center justify-start pt-8" id="game-area">
+                    
+                    <!-- Notification Area -->
+                    <div id="game-status" class="absolute top-2 left-0 w-full text-center z-40 pointer-events-none transition-opacity duration-300 opacity-0">
+                         <span class="bg-black/60 text-ivory px-4 py-1.5 rounded-full text-sm font-serif backdrop-blur-sm tracking-wide" id="status-text">Memorize!</span>
+                    </div>
+
+                    <!-- Sage Message -->
+                    <div id="sage-message" class="absolute top-12 left-4 right-4 z-40 hidden">
+                        <div class="bg-black/80 backdrop-blur-md text-antique-gold p-4 rounded-xl border border-antique-gold/30 shadow-2xl sage-bubble flex gap-3 items-start">
+                             <div class="text-2xl mt-1">🧙‍♂️</div>
+                             <div class="flex-1">
+                                 <div id="sage-text" class="text-sm font-serif italic leading-relaxed text-ivory">Thinking...</div>
+                             </div>
+                             <button onclick="hideSage()" class="text-white/50 hover:text-white"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Grid: 5 columns -->
+                    <div id="grid-container" class="grid grid-cols-5 gap-3 p-4 w-full max-w-[370px] z-10 transition-opacity duration-300">
+                        <!-- Tiles Generated Here -->
+                    </div>
+                </main>
+
+                <!-- Hand Tile Area -->
+                <div class="absolute bottom-[100px] left-0 w-full flex flex-col items-center justify-center z-30 pointer-events-none">
+                    <div class="text-antique-gold/60 text-xs mb-2 tracking-widest font-serif">Current Hand</div>
+                    
+                    <div id="hand-tile-container" class="relative group cursor-pointer touch-auto pointer-events-auto">
+                        <div class="absolute inset-0 bg-antique-gold blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                        <!-- Hand Tile (Always Face Up) -->
+                        <div class="w-20 h-28 bg-gradient-to-br from-[#F9F3E3] to-[#F2EBD9] rounded-lg shadow-2xl flex flex-col items-center justify-center relative ring-2 ring-antique-gold/50" id="hand-tile-face">
+                            <!-- Content injected by JS -->
+                        </div>
+                        <!-- Hand Tile Thickness -->
+                        <div class="absolute -bottom-1 left-0 right-0 h-2 bg-[#0E6655] rounded-b-lg -z-10"></div>
+                        
+                        <!-- Streak Indicator -->
+                        <div id="streak-badge" class="absolute -top-4 -right-8 bg-vermillion text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg opacity-0 transition-all duration-300 scale-0">
+                             Streak!
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="bg-wood h-[100px] flex items-center justify-around px-6 pb-4 shadow-inner-wood border-t border-yellow-900/30 z-20 shrink-0">
+                    <button onclick="manualShuffle()" class="flex flex-col items-center gap-1 group active:scale-95 transition">
+                        <div class="w-12 h-12 rounded-full border border-antique-gold/30 bg-sandalwood-light shadow-inner flex items-center justify-center group-hover:border-antique-gold transition">
+                            <i class="fas fa-random text-antique-gold text-lg"></i>
+                        </div>
+                        <span class="text-[10px] text-antique-gold/70 font-sans">Shuffle</span>
+                    </button>
+                    
+                    <!-- AI HINT BUTTON -->
+                    <button onclick="askSage()" class="flex flex-col items-center gap-1 group active:scale-95 transition -mt-8 relative">
+                        <div class="w-14 h-14 rounded-full border-2 border-antique-gold bg-gradient-to-br from-indigo-900 to-indigo-700 shadow-lg flex items-center justify-center group-hover:shadow-gold-glow transition overflow-hidden">
+                             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
+                            <i id="sage-icon" class="fas fa-wand-magic-sparkles text-ivory text-xl animate-pulse-slow"></i>
+                            <div id="sage-loader" class="loading-spinner hidden"></div>
+                        </div>
+                        <span class="text-[10px] text-antique-gold font-bold font-sans">Ask Sage</span>
+                    </button>
+
+                    <button class="flex flex-col items-center gap-1 group opacity-50 cursor-not-allowed">
+                        <div class="w-12 h-12 rounded-full border border-antique-gold/30 bg-sandalwood-light shadow-inner flex items-center justify-center">
+                            <i class="fas fa-undo text-antique-gold text-lg"></i>
+                        </div>
+                        <span class="text-[10px] text-antique-gold/70 font-sans">Undo</span>
+                    </button>
+                </footer>
+            </div>
+            
+            <!-- Victory Modal -->
+            <div id="victory-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center backdrop-blur-sm animate-fade-in">
+                <div class="w-[85%] bg-ivory rounded-xl p-6 text-center shadow-2xl border-4 border-antique-gold relative overflow-hidden">
+                    <div class="absolute -top-10 -left-10 w-24 h-24 bg-vermillion rounded-full opacity-40 blur-2xl"></div>
+                    <div class="absolute top-0 right-0 w-full h-2 bg-gradient-to-r from-transparent via-antique-gold to-transparent"></div>
+                    
+                    <h2 class="text-3xl font-display text-ink-green mb-1">Victory!</h2>
+                    <div class="text-5xl font-display text-vermillion mb-6 animate-bounce" id="final-score">10,000</div>
+                    
+                    <!-- AI Content Area -->
+                    <div class="bg-paper bg-amber-50 p-4 rounded-lg border border-amber-200 mb-6 relative">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-2 text-xs text-amber-600 font-bold uppercase tracking-widest border border-amber-200 rounded-full">Zen Fortune</div>
+                        <div id="fortune-text" class="text-ink-green/80 font-serif italic text-sm min-h-[60px] flex items-center justify-center">
+                            <div class="loading-spinner border-amber-300 border-l-amber-600"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <button onclick="router.show('home')" class="w-full bg-ink-green text-antique-gold py-3 rounded-lg font-bold shadow-lg active:scale-95 transition font-sans">Return Home</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        const apiKey = ""; // System provided
+
+        const router = {
+            show: function(id) {
+                document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+                document.getElementById(`screen-${id}`).classList.add('active');
+            }
+        };
+
+        const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const CHINESE_NUMS = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
+        
+        let state = {
+            score: 0,
+            gridTiles: [], // {id, type, number, active, revealed}
+            handTile: null,
+            isProcessing: false,
+            gameStarted: false,
+            suitStreak: 0,
+            idleTimer: null
+        };
+
+        const gridEl = document.getElementById('grid-container');
+        const handTileFace = document.getElementById('hand-tile-face');
+        const scoreEl = document.getElementById('score-display');
+        const statusEl = document.getElementById('game-status');
+        const statusText = document.getElementById('status-text');
+        const sageMsgEl = document.getElementById('sage-message');
+        const sageTextEl = document.getElementById('sage-text');
+        const streakBadge = document.getElementById('streak-badge');
+
+        function startGame(level) {
+            router.show('game');
+            initGame();
+        }
+
+        function initGame() {
+            state.score = 0;
+            state.suitStreak = 0;
+            scoreEl.innerText = '0';
+            state.isProcessing = true; 
+            state.gameStarted = false;
+            document.getElementById('victory-modal').classList.add('hidden');
+            hideSage();
+            resetIdleTimer();
+            
+            // 1. Generate Hand Tile
+            state.handTile = randomTile();
+            renderHandTile();
+            
+            // 2. Generate Grid
+            gridEl.innerHTML = '';
+            state.gridTiles = [];
+            for (let i = 0; i < 20; i++) {
+                const tile = { id: i, ...randomTile(), active: true, revealed: true };
+                state.gridTiles.push(tile);
+                createGridTileEl(tile);
+            }
+
+            // 3. Intro Sequence
+            showStatus("Memorize the board...");
+
+            setTimeout(() => {
+                state.gridTiles.forEach(t => {
+                    t.revealed = false;
+                    const el = document.getElementById(`tile-${t.id}`);
+                    if(el) el.classList.remove('revealed');
+                });
+                showStatus("Game Start!");
+                state.isProcessing = false;
+                state.gameStarted = true;
+                
+                checkDeadlock(); // Initial check just in case
+                
+                setTimeout(() => { statusEl.style.opacity = '0'; }, 1500);
+            }, 3000); 
+        }
+
+        function resetIdleTimer() {
+            if (state.idleTimer) clearTimeout(state.idleTimer);
+            // Remove existing hints
+            document.querySelectorAll('.tile-container').forEach(el => el.classList.remove('hint-active'));
+            
+            if (state.gameStarted) {
+                state.idleTimer = setTimeout(triggerSmartHint, 5000); // 5s idle hint
+            }
+        }
+
+        // --- Smart Hint: Visual Hint after 5s Idle ---
+        function triggerSmartHint() {
+            if (!state.gameStarted || state.isProcessing) return;
+            // Find a matching active hidden tile
+            const validMove = state.gridTiles.find(t => t.active && !t.revealed && isMatch(state.handTile.number, t.number));
+            
+            if (validMove) {
+                const el = document.getElementById(`tile-${validMove.id}`);
+                if (el) el.classList.add('hint-active');
+            }
+        }
+
+        function showStatus(text) {
+            statusText.innerText = text;
+            statusEl.style.opacity = '1';
+        }
+
+        function randomTile() {
+            const types = ['wan', 'tong', 'tiao'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const number = NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
+            return { type, number };
+        }
+
+        function createGridTileEl(tileData) {
+            const container = document.createElement('div');
+            container.id = `tile-${tileData.id}`;
+            container.className = `w-14 h-20 tile-container ${tileData.revealed ? 'revealed' : ''} relative select-none`;
+            container.onclick = () => handleTileClick(tileData.id);
+
+            const inner = document.createElement('div');
+            inner.className = 'tile-inner';
+
+            const backFace = document.createElement('div');
+            backFace.className = 'tile-face tile-back'; 
+            
+            const frontFace = document.createElement('div');
+            frontFace.className = 'tile-face tile-front';
+            
+            const numberColor = tileData.type === 'wan' ? 'text-vermillion' : (tileData.type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+            frontFace.innerHTML = `
+                <span class="absolute top-0.5 left-1 text-[10px] font-bold ${numberColor} font-sans opacity-60">${tileData.number}</span>
+                <div class="w-full h-full p-1.5 flex items-center justify-center">
+                    ${getTileContentHTML(tileData.type, tileData.number)}
+                </div>
+            `;
+
+            inner.appendChild(backFace);
+            inner.appendChild(frontFace);
+            container.appendChild(inner);
+            gridEl.appendChild(container);
+        }
+
+        function renderHandTile() {
+            const td = state.handTile;
+            const numberColor = td.type === 'wan' ? 'text-vermillion' : (td.type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+            handTileFace.innerHTML = `
+                <span class="absolute top-1 left-2 text-xs font-bold ${numberColor} font-sans opacity-70">${td.number}</span>
+                <div class="w-full h-full p-2 flex items-center justify-center scale-110">
+                     ${getTileContentHTML(td.type, td.number)}
+                </div>
+            `;
+        }
+
+        // --- Core Interaction Logic ---
+        function handleTileClick(id) {
+            if (state.isProcessing || !state.gameStarted) return;
+            
+            const tile = state.gridTiles.find(t => t.id === id);
+            if (!tile || !tile.active || tile.revealed) return;
+
+            resetIdleTimer(); // User interacted
+
+            // 1. Reveal Tile
+            state.isProcessing = true; 
+            tile.revealed = true;
+            const el = document.getElementById(`tile-${id}`);
+            el.classList.add('revealed');
+            el.classList.remove('hint-active'); // Clear hint if clicked
+
+            // 2. Wait for flip animation
+            setTimeout(() => {
+                checkMatch(tile, el);
+            }, 600);
+        }
+
+        function isMatch(handNum, tileNum) {
+            const diff = Math.abs(handNum - tileNum);
+            return (diff === 1 || diff === 8); // Neighbor or Wrap (9-1)
+        }
+
+        function checkMatch(tile, el) {
+            if (isMatch(state.handTile.number, tile.number)) {
+                // --- SUCCESS ---
+                
+                // Streak Logic
+                if (tile.type === state.handTile.type) {
+                    state.suitStreak++;
+                    showStreakBadge(state.suitStreak);
+                } else {
+                    state.suitStreak = 0;
+                    hideStreakBadge();
+                }
+
+                // Animate removal
+                el.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'scale(0.5)';
+                }, 200);
+
+                setTimeout(() => {
+                    state.handTile = { type: tile.type, number: tile.number };
+                    renderHandTile();
+                    
+                    tile.active = false;
+                    
+                    // Score: Base 100 + Streak Bonus
+                    const bonus = state.suitStreak * 50;
+                    updateScore(100 + bonus);
+                    
+                    // Check Win
+                    if (state.gridTiles.every(t => !t.active)) {
+                        setTimeout(showVictory, 500);
+                    } else {
+                        // Check Deadlock
+                        checkDeadlock();
+                    }
+                    
+                    state.isProcessing = false; 
+                    resetIdleTimer(); // Restart timer for next move
+                }, 500);
+
+            } else {
+                // --- FAIL ---
+                state.suitStreak = 0; // Break streak
+                hideStreakBadge();
+
+                el.classList.add('animate-shake');
+                
+                setTimeout(() => {
+                    el.classList.remove('revealed');
+                    el.classList.remove('animate-shake');
+                    tile.revealed = false;
+                    state.isProcessing = false; 
+                    resetIdleTimer();
+                }, 1000);
+            }
+        }
+
+        // --- Deadlock & Reshuffle Logic ---
+        function checkDeadlock() {
+            // Check if any ACTIVE & HIDDEN tile is a match for the current hand
+            const movesAvailable = state.gridTiles.some(t => t.active && isMatch(state.handTile.number, t.number));
+            
+            if (!movesAvailable && state.gridTiles.some(t => t.active)) {
+                // Deadlock detected!
+                showStatus("No moves! Auto-Shuffling...");
+                
+                setTimeout(() => {
+                    // Logic: Keep hand tile, regenerate all remaining active grid tiles
+                    // To ensure solvability, force at least one valid neighbor
+                    const activeIndices = state.gridTiles.map((t, i) => t.active ? i : -1).filter(i => i !== -1);
+                    
+                    if (activeIndices.length > 0) {
+                        // Reshuffle active tiles
+                        activeIndices.forEach(idx => {
+                            const newTile = randomTile();
+                            state.gridTiles[idx].type = newTile.type;
+                            state.gridTiles[idx].number = newTile.number;
+                            // Reset visual
+                            const el = document.getElementById(`tile-${state.gridTiles[idx].id}`);
+                            // Update content
+                             const frontFace = el.querySelector('.tile-front');
+                             const numberColor = newTile.type === 'wan' ? 'text-vermillion' : (newTile.type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+                             frontFace.innerHTML = `
+                                <span class="absolute top-0.5 left-1 text-[10px] font-bold ${numberColor} font-sans opacity-60">${newTile.number}</span>
+                                <div class="w-full h-full p-1.5 flex items-center justify-center">
+                                    ${getTileContentHTML(newTile.type, newTile.number)}
+                                </div>
+                            `;
+                        });
+
+                        // Force one tile to be valid match
+                        const luckyIdx = activeIndices[Math.floor(Math.random() * activeIndices.length)];
+                        const neighbor = Math.random() > 0.5 ? 
+                            (state.handTile.number === 9 ? 1 : state.handTile.number + 1) : 
+                            (state.handTile.number === 1 ? 9 : state.handTile.number - 1);
+                        
+                        state.gridTiles[luckyIdx].number = neighbor;
+                        // Re-render that one tile specifically
+                        const luckyTile = state.gridTiles[luckyIdx];
+                        const luckyEl = document.getElementById(`tile-${luckyTile.id}`).querySelector('.tile-front');
+                        const col = luckyTile.type === 'wan' ? 'text-vermillion' : (luckyTile.type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+                        luckyEl.innerHTML = `
+                                <span class="absolute top-0.5 left-1 text-[10px] font-bold ${col} font-sans opacity-60">${luckyTile.number}</span>
+                                <div class="w-full h-full p-1.5 flex items-center justify-center">
+                                    ${getTileContentHTML(luckyTile.type, luckyTile.number)}
+                                </div>
+                        `;
+
+                        showStatus("Reshuffled!");
+                        setTimeout(() => { statusEl.style.opacity = '0'; }, 1500);
+                    }
+                }, 1500);
+            }
+        }
+
+        function manualShuffle() {
+            if (state.isProcessing || !state.gameStarted) return;
+            state.score = Math.max(0, state.score - 500); // Penalty
+            scoreEl.innerText = state.score.toLocaleString();
+            
+            // Force deadlock check logic to trigger reshuffle
+            showStatus("Manual Shuffle (-500)");
+            setTimeout(() => {
+                // Re-use logic from checkDeadlock but without the condition check
+                 const activeIndices = state.gridTiles.map((t, i) => t.active ? i : -1).filter(i => i !== -1);
+                 activeIndices.forEach(idx => {
+                    const newTile = randomTile();
+                    state.gridTiles[idx].type = newTile.type;
+                    state.gridTiles[idx].number = newTile.number;
+                    const el = document.getElementById(`tile-${state.gridTiles[idx].id}`).querySelector('.tile-front');
+                    const numberColor = newTile.type === 'wan' ? 'text-vermillion' : (newTile.type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+                    el.innerHTML = `
+                        <span class="absolute top-0.5 left-1 text-[10px] font-bold ${numberColor} font-sans opacity-60">${newTile.number}</span>
+                        <div class="w-full h-full p-1.5 flex items-center justify-center">
+                            ${getTileContentHTML(newTile.type, newTile.number)}
+                        </div>
+                    `;
+                 });
+                 // Ensure solvable
+                 const luckyIdx = activeIndices[Math.floor(Math.random() * activeIndices.length)];
+                 const neighbor = state.handTile.number === 9 ? 1 : state.handTile.number + 1;
+                 state.gridTiles[luckyIdx].number = neighbor;
+                 const luckyEl = document.getElementById(`tile-${state.gridTiles[luckyIdx].id}`).querySelector('.tile-front');
+                 const col = state.gridTiles[luckyIdx].type === 'wan' ? 'text-vermillion' : (state.gridTiles[luckyIdx].type === 'tiao' ? 'text-jade-green' : 'text-jade-blue');
+                 luckyEl.innerHTML = `<span class="absolute top-0.5 left-1 text-[10px] font-bold ${col} font-sans opacity-60">${neighbor}</span><div class="w-full h-full p-1.5 flex items-center justify-center">${getTileContentHTML(state.gridTiles[luckyIdx].type, neighbor)}</div>`;
+
+                 setTimeout(() => { statusEl.style.opacity = '0'; }, 1000);
+            }, 500);
+        }
+
+        function updateScore(points) {
+            state.score += points;
+            scoreEl.innerText = state.score.toLocaleString();
+        }
+
+        function showStreakBadge(streak) {
+            if (streak > 1) {
+                streakBadge.innerText = `Streak x${streak}`;
+                streakBadge.classList.remove('scale-0', 'opacity-0');
+            }
+        }
+        function hideStreakBadge() {
+            streakBadge.classList.add('scale-0', 'opacity-0');
+        }
+
+        // --- Tile Graphics ---
+        function getTileContentHTML(type, number) {
+            if (type === 'wan') {
+                return `<div class="flex flex-col items-center justify-center h-full w-full"><span class="text-3xl font-chinese font-black text-vermillion leading-none mb-1 shadow-engraved" style="text-shadow: 0 1px 0 rgba(255,255,255,0.5)">${CHINESE_NUMS[number-1]}</span><span class="text-4xl font-chinese font-black text-vermillion leading-none shadow-engraved" style="text-shadow: 0 1px 0 rgba(255,255,255,0.5)">萬</span></div>`;
+            }
+            if (type === 'tong') {
+                let dotsHtml = '';
+                if (number === 1) return `<div class="flex items-center justify-center h-full w-full"><div class="dot w-8 h-8 bg-jade-green rounded-full flex items-center justify-center shadow-inner border-2 border-white/50"><div class="w-4 h-4 bg-vermillion rounded-full"></div></div></div>`;
+                let gridClass = "grid-cols-2 gap-1";
+                if (number === 7 || number === 9) gridClass = "grid-cols-3 gap-0.5";
+                for(let i=0; i<number; i++) {
+                    let color = 'bg-jade-blue';
+                    if (number === 7 && (i < 3)) color = 'bg-jade-green'; 
+                    dotsHtml += `<div class="dot w-2.5 h-2.5 ${color} mx-auto"></div>`;
+                }
+                let layout = `<div class="grid ${gridClass} gap-y-1 w-full px-1 justify-center items-center h-full content-center">${dotsHtml}</div>`;
+                if (number === 2) layout = `<div class="flex flex-col justify-center gap-4 h-full"><div class="dot w-3.5 h-3.5 bg-jade-blue mx-auto"></div><div class="dot w-3.5 h-3.5 bg-jade-green mx-auto"></div></div>`;
+                if (number === 3) layout = `<div class="flex flex-col justify-center gap-1 h-full rotate-45"><div class="dot w-2.5 h-2.5 bg-jade-blue mx-auto"></div><div class="dot w-2.5 h-2.5 bg-vermillion mx-auto"></div><div class="dot w-2.5 h-2.5 bg-jade-green mx-auto"></div></div>`;
+                if (number === 5) layout = `<div class="relative w-full h-full flex items-center justify-center"><div class="absolute inset-0 grid grid-cols-2 gap-3 p-2">${dotsHtml.replace(/5/g,'4')}</div><div class="absolute dot w-3 h-3 bg-vermillion"></div></div>`;
+                return layout;
+            }
+            if (type === 'tiao') {
+                if (number === 1) return `<div class="flex items-center justify-center h-full w-full"><i class="fas fa-dove text-3xl text-jade-green drop-shadow-sm"></i></div>`;
+                const stick = `<div class="bamboo-bar w-1 h-5 bg-jade-green mx-auto border-y-2 border-jade-green/50"></div>`;
+                let sticks = '';
+                for(let i=0; i<number; i++) sticks += stick;
+                let layout = `<div class="flex justify-center gap-1 h-full items-center">${sticks}</div>`; 
+                if (number === 2) layout = `<div class="flex flex-col justify-center gap-2 h-full"><div class="bamboo-bar w-1 h-6 bg-jade-green mx-auto"></div><div class="bamboo-bar w-1 h-6 bg-jade-green mx-auto"></div></div>`;
+                if (number === 3) layout = `<div class="flex flex-col justify-center gap-1 h-full"><div class="bamboo-bar w-1 h-5 bg-jade-green mx-auto"></div><div class="bamboo-bar w-1 h-5 bg-vermillion mx-auto"></div><div class="bamboo-bar w-1 h-5 bg-jade-green mx-auto"></div></div>`;
+                if (number === 4) layout = `<div class="flex justify-center gap-2 h-full items-center"><div class="flex flex-col gap-2">${stick}${stick}</div><div class="flex flex-col gap-2">${stick}${stick}</div></div>`;
+                if (number === 5) layout = `<div class="flex justify-center gap-1 h-full items-center"><div class="flex flex-col gap-2">${stick}${stick}</div><div class="flex flex-col gap-1 items-center justify-center h-full"><div class="bamboo-bar w-1 h-5 bg-vermillion"></div></div><div class="flex flex-col gap-2">${stick}${stick}</div></div>`;
+                if (number === 6) layout = `<div class="flex justify-center gap-2 h-full items-center"><div class="flex flex-col gap-1">${stick}${stick}${stick}</div><div class="flex flex-col gap-1">${stick}${stick}${stick}</div></div>`;
+                if (number === 8) layout = `<div class="flex justify-center gap-2 h-full items-center"><div class="flex flex-col gap-1">${stick}${stick}${stick}${stick}</div><div class="flex flex-col gap-1">${stick}${stick}${stick}${stick}</div></div>`;
+                if (number === 7 || number === 9) layout = `<div class="grid grid-cols-3 gap-0.5 w-full px-0.5 justify-center items-center h-full content-center">${sticks}</div>`;
+                return layout;
+            }
+        }
+
+        // --- Gemini API (Ask Sage) ---
+        async function askSage() {
+            if(!state.gameStarted) return;
+            const btnIcon = document.getElementById('sage-icon');
+            const btnLoader = document.getElementById('sage-loader');
+            btnIcon.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            
+            // Allow hints for matching HIDDEN active tiles
+            const validMove = state.gridTiles.find(t => t.active && !t.revealed && isMatch(state.handTile.number, t.number));
+            
+            let prompt = "";
+            if (!validMove) {
+                prompt = "You are a Mahjong sage. The player is stuck. Tell them to wait for a reshuffle or use shuffle manually. Max 15 words.";
+            } else {
+                const col = validMove.id % 5;
+                const row = Math.floor(validMove.id / 5);
+                let locHint = "";
+                if (row < 2) locHint = "skyward";
+                else if (row > 2) locHint = "earthward";
+                else locHint = "middle";
+                if (col < 2) locHint += " left";
+                else if (col > 2) locHint += " right";
+                
+                prompt = `Mahjong memory game. Player needs ${state.handTile.number}. Hidden match is at ${locHint}. Give cryptic hint. Max 15 words.`;
+            }
+
+            const hintText = await callGemini(prompt);
+            btnIcon.classList.remove('hidden');
+            btnLoader.classList.add('hidden');
+            showSageMessage(hintText);
+        }
+
+        async function callGemini(prompt) {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                return "The spirits are silent...";
+            }
+        }
+        
+        async function generateVictoryFortune() {
+             const fortuneEl = document.getElementById('fortune-text');
+             fortuneEl.innerHTML = '<div class="loading-spinner border-amber-300 border-l-amber-600"></div>';
+             const prompt = `Short zen fortune for mahjong winner. Score: ${state.score}. Max 15 words.`;
+             const fortune = await callGemini(prompt);
+             fortuneEl.innerText = `"${fortune.trim()}"`;
+        }
+
+        function showSageMessage(text) {
+            sageTextEl.innerText = text;
+            sageMsgEl.classList.remove('hidden');
+            setTimeout(hideSage, 6000);
+        }
+        function hideSage() { sageMsgEl.classList.add('hidden'); }
+        
+        function showVictory() {
+            document.getElementById('final-score').innerText = state.score.toLocaleString();
+            document.getElementById('victory-modal').classList.remove('hidden');
+            generateVictoryFortune();
+        }
+
+    </script>
+</body>
+</html>
