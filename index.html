@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeeMi - The MeeMi Prototypes</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        midnight: '#181818',      // 背景色：深邃炭黑
+                        surface: '#252525',       // 卡片色：深岩灰
+                        offwhite: '#E0E0E0',      // 主文字：米灰白
+                        metalgray: '#9E9E9E',     // 副文字：中灰
+                        gold: '#C9A66B',          // 强调色：哑光香槟金
+                        indigo: '#4A5F70',        // 用户气泡：莫兰迪黛蓝
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'Noto Serif SC', 'serif'], // 支持中文衬线
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(201, 166, 107, 0.15)',
+                        'inner-light': 'inset 0 1px 0 rgba(255,255,255,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 隐藏滚动条 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 手机外壳模拟 */
+        .iphone-frame {
+            width: 393px;
+            height: 852px;
+            border-radius: 55px;
+            box-shadow: 
+                0 0 0 12px #3a3a3a, 
+                0 0 0 14px #1a1a1a, 
+                20px 30px 50px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            background-color: #181818;
+            border: 8px solid #000;
+        }
+
+        .dynamic-island {
+            position: absolute;
+            top: 11px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 35px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-offwhite min-h-screen p-10 flex flex-wrap justify-center gap-16 font-sans antialiased">
+
+    <!-- ========================================== -->
+    <!-- SCREEN 1: GALLERY (HOME) -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative">
+        <!-- Status Bar -->
+        <div class="h-14 flex justify-between items-center px-8 pt-2 text-xs font-medium z-40 bg-gradient-to-b from-midnight to-transparent">
+            <span>9:41</span>
+            <div class="flex gap-2 text-white">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+        <div class="dynamic-island"></div>
+
+        <!-- Header -->
+        <div class="px-6 pb-4 pt-2 z-10 bg-midnight/90 backdrop-blur-sm sticky top-0">
+            <h1 class="font-serif text-3xl mb-4 text-offwhite tracking-wide">MeeMi</h1>
+            <!-- Filters -->
+            <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+                <button class="px-5 py-1.5 rounded-full bg-surface border border-gold text-gold text-xs whitespace-nowrap shadow-glow">全部</button>
+                <button class="px-5 py-1.5 rounded-full bg-transparent border border-surface text-metalgray text-xs whitespace-nowrap">油画</button>
+                <button class="px-5 py-1.5 rounded-full bg-transparent border border-surface text-metalgray text-xs whitespace-nowrap">素描</button>
+                <button class="px-5 py-1.5 rounded-full bg-transparent border border-surface text-metalgray text-xs whitespace-nowrap">印象派</button>
+            </div>
+        </div>
+
+        <!-- Content: Masonry Flow -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-4 pb-24 columns-2 gap-4 space-y-4">
+            
+            <!-- Art Card 1 -->
+            <div class="break-inside-avoid mb-4 relative group">
+                <div class="rounded-lg overflow-hidden border border-white/5 bg-surface">
+                    <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover" alt="Art">
+                </div>
+                <div class="mt-2 px-1">
+                    <h3 class="font-serif text-sm text-offwhite leading-tight">孤独的山峰</h3>
+                    <div class="flex items-center gap-1 mt-1 cursor-pointer">
+                        <p class="text-[10px] text-metalgray uppercase tracking-wider">A. Ivanov</p>
+                        <i class="fas fa-chevron-right text-[8px] text-gold opacity-0 group-hover:opacity-100 transition"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Art Card 2 -->
+            <div class="break-inside-avoid mb-4">
+                <div class="rounded-lg overflow-hidden border border-white/5 bg-surface">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover" alt="Art">
+                </div>
+                <div class="mt-2 px-1">
+                    <h3 class="font-serif text-sm text-offwhite leading-tight">玫瑰的忧郁</h3>
+                    <p class="text-[10px] text-metalgray mt-0.5 uppercase tracking-wider">佚名</p>
+                </div>
+            </div>
+
+            <!-- Art Card 3 -->
+            <div class="break-inside-avoid mb-4">
+                <div class="rounded-lg overflow-hidden border border-white/5 bg-surface">
+                    <img src="https://images.unsplash.com/photo-1549887552-93f8efb4133f?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover" alt="Art">
+                </div>
+                <div class="mt-2 px-1">
+                    <h3 class="font-serif text-sm text-offwhite leading-tight">冬之息</h3>
+                    <p class="text-[10px] text-metalgray mt-0.5 uppercase tracking-wider">K. Monet</p>
+                </div>
+            </div>
+
+             <!-- Art Card 4 -->
+             <div class="break-inside-avoid mb-4">
+                <div class="rounded-lg overflow-hidden border border-white/5 bg-surface">
+                    <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover" alt="Art">
+                </div>
+                <div class="mt-2 px-1">
+                    <h3 class="font-serif text-sm text-offwhite leading-tight">手部习作</h3>
+                    <p class="text-[10px] text-metalgray mt-0.5 uppercase tracking-wider">达芬奇 (摹本)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="absolute bottom-0 w-full h-20 bg-midnight/95 backdrop-blur-md border-t border-white/5 flex justify-around items-center pb-4 z-50">
+            <div class="flex flex-col items-center gap-1 text-gold">
+                <i class="fas fa-landmark text-lg"></i>
+                <span class="text-[10px]">画廊</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray hover:text-offwhite transition">
+                <i class="fas fa-feather-alt text-lg"></i>
+                <span class="text-[10px]">艺语</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray hover:text-offwhite transition">
+                <i class="fas fa-book-open text-lg"></i>
+                <span class="text-[10px]">手札</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray hover:text-offwhite transition">
+                <i class="far fa-user text-lg"></i>
+                <span class="text-[10px]">我的</span>
+            </div>
+        </div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: ARTWORK DETAIL -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative bg-midnight">
+        <div class="dynamic-island"></div>
+        
+        <!-- Back Button Overlay -->
+        <div class="absolute top-12 left-6 z-40 w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white border border-white/10">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+
+        <!-- Full Image Area -->
+        <div class="h-[60%] w-full relative">
+            <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Detail Art">
+            <div class="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Bottom Sheet (Reading Mode) -->
+        <div class="absolute bottom-0 w-full h-[45%] bg-surface rounded-t-[2.5rem] p-8 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex flex-col items-center border-t border-white/5">
+            <div class="w-12 h-1 bg-white/10 rounded-full mb-6"></div>
+
+            <!-- Title & Artist Link -->
+            <div class="text-center mb-6">
+                <h2 class="font-serif text-2xl text-offwhite mb-1">寂静之海</h2>
+                <button class="flex items-center gap-2 mx-auto mt-2 px-3 py-1 rounded-full bg-white/5 border border-white/5 hover:border-gold/50 transition">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" class="w-5 h-5 rounded-full object-cover">
+                    <p class="text-xs text-gold uppercase tracking-widest">Marcus Art > </p>
+                </button>
+            </div>
+
+            <!-- Poem Area -->
+            <div class="flex-1 overflow-y-auto no-scrollbar w-full text-center">
+                <p class="font-serif italic text-metalgray text-lg leading-loose">
+                    "水波低语着秘密，<br>
+                    向着苍白的月颜，<br>
+                    映照灵魂深处，<br>
+                    那片静谧之地。"
+                </p>
+            </div>
+
+            <!-- CTA Button -->
+            <button class="w-full bg-gold text-midnight font-medium py-4 rounded-xl mt-6 flex items-center justify-center gap-2 shadow-glow hover:bg-[#d4b075] transition">
+                <i class="fas fa-plus text-sm"></i>
+                <span>加入临摹清单</span>
+            </button>
+        </div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: MUSE AI -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative">
+        <div class="dynamic-island"></div>
+        
+        <div class="h-28 bg-midnight/95 backdrop-blur border-b border-white/5 flex items-end pb-4 px-6 justify-between z-20">
+            <div>
+                <h1 class="font-serif text-2xl text-offwhite">Muse 艺语</h1>
+                <p class="text-[10px] text-gold uppercase tracking-widest mt-1 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span> 在线
+                </p>
+            </div>
+            <button class="text-metalgray hover:text-white"><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-4 pt-6 pb-24 space-y-6 bg-midnight">
+            <div class="flex justify-center">
+                <span class="text-[10px] text-white/20 uppercase tracking-widest">今日, 23:24</span>
+            </div>
+            <div class="flex flex-col items-start max-w-[85%]">
+                <div class="bg-surface p-4 rounded-r-2xl rounded-bl-2xl border-l-2 border-gold text-offwhite text-sm leading-relaxed shadow-sm">
+                    <p>观察维米尔作品中的光影游戏。注意到光源不仅仅是照明，它本身就是一个角色吗？</p>
+                </div>
+                <span class="text-[10px] text-metalgray mt-1 ml-1">Muse</span>
+            </div>
+            <div class="flex flex-col items-end max-w-[85%] self-end ml-auto">
+                <div class="bg-indigo p-4 rounded-l-2xl rounded-br-2xl text-offwhite text-sm leading-relaxed shadow-sm">
+                    <p>是的，感觉很柔和。窗户似乎是与外界唯一的连接。</p>
+                </div>
+                <span class="text-[10px] text-metalgray mt-1 mr-1 text-right">你</span>
+            </div>
+        </div>
+
+        <div class="absolute bottom-20 w-full px-4 z-20">
+            <div class="bg-surface rounded-full p-1 pl-4 flex items-center border border-white/5 shadow-lg">
+                <input type="text" placeholder="探讨美学..." class="bg-transparent flex-1 text-sm text-white placeholder-white/30 outline-none h-10">
+                <button class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-midnight shadow-glow">
+                    <i class="fas fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tab Bar (Inactive) -->
+        <div class="absolute bottom-0 w-full h-20 bg-midnight/95 backdrop-blur-md border-t border-white/5 flex justify-around items-center pb-4 z-10">
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-landmark text-lg"></i><span class="text-[10px]">画廊</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-gold">
+                <i class="fas fa-feather-alt text-lg"></i><span class="text-[10px]">艺语</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-book-open text-lg"></i><span class="text-[10px]">手札</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="far fa-user text-lg"></i><span class="text-[10px]">我的</span>
+            </div>
+        </div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: JOURNAL HUB (手札中心) -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative bg-midnight">
+        <div class="dynamic-island"></div>
+        
+        <!-- Header & Tabs -->
+        <div class="pt-16 px-6 pb-4 bg-midnight z-10 sticky top-0 border-b border-white/5">
+            <h1 class="font-serif text-3xl mb-6 text-offwhite">我的手札</h1>
+            <div class="flex p-1 bg-surface rounded-xl">
+                <button class="flex-1 py-2 rounded-lg bg-gold text-midnight font-medium text-sm shadow-md">我的创作</button>
+                <button class="flex-1 py-2 rounded-lg text-metalgray text-sm hover:text-white transition">待临摹</button>
+            </div>
+        </div>
+
+        <!-- Content: My Creations List -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-4 pt-4 pb-24 space-y-6">
+            
+            <!-- Add New Button -->
+            <button class="w-full py-4 border border-dashed border-white/20 rounded-xl flex items-center justify-center gap-2 text-metalgray hover:text-gold hover:border-gold/50 transition group">
+                <i class="fas fa-camera text-lg group-hover:scale-110 transition"></i>
+                <span class="text-sm">上传今日创作 (照片+诗)</span>
+            </button>
+
+            <!-- Journal Entry 1 -->
+            <div class="bg-surface rounded-2xl p-4 border border-white/5">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] text-gold uppercase tracking-wider">2023.10.24 · 临摹练习</span>
+                    <i class="fas fa-ellipsis-h text-metalgray text-xs"></i>
+                </div>
+                <!-- Uploaded Photo Simulation -->
+                <div class="aspect-[4/3] rounded-lg overflow-hidden mb-4 relative">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover" alt="User Drawing">
+                    <div class="absolute bottom-2 right-2 bg-black/50 px-2 py-1 rounded text-[10px] text-white backdrop-blur">实拍</div>
+                </div>
+                <!-- Poem -->
+                <div class="px-2">
+                    <p class="font-serif text-offwhite text-sm leading-loose italic">
+                        "笔触落下时，<br>心跳与画布共鸣。<br>不是复制，而是重生。"
+                    </p>
+                </div>
+            </div>
+
+            <!-- Journal Entry 2 -->
+            <div class="bg-surface rounded-2xl p-4 border border-white/5">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] text-gold uppercase tracking-wider">2023.10.20 · 灵感手记</span>
+                </div>
+                <div class="px-2">
+                    <p class="font-serif text-offwhite text-sm leading-loose italic mb-3">
+                        "深夜的蓝色，<br>比黑色更孤独。"
+                    </p>
+                </div>
+                <div class="aspect-video rounded-lg overflow-hidden relative opacity-80">
+                    <img src="https://images.unsplash.com/photo-1507643179173-442f01fc1253?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover" alt="Inspiration">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="absolute bottom-0 w-full h-20 bg-midnight/95 backdrop-blur-md border-t border-white/5 flex justify-around items-center pb-4 z-50">
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-landmark text-lg"></i><span class="text-[10px]">画廊</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-feather-alt text-lg"></i><span class="text-[10px]">艺语</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-gold">
+                <i class="fas fa-book-open text-lg"></i><span class="text-[10px]">手札</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="far fa-user text-lg"></i><span class="text-[10px]">我的</span>
+            </div>
+        </div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 5: FULL SCREEN REFERENCE (全屏临摹) -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative bg-black">
+        <div class="dynamic-island"></div>
+        
+        <!-- Controls Overlay (Visible on tap) -->
+        <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/80 to-transparent z-40 flex justify-between items-end px-6 pb-6">
+            <button class="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-white">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex gap-4">
+                 <button class="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-white">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button class="w-8 h-8 rounded-full bg-gold text-midnight backdrop-blur flex items-center justify-center font-bold text-xs">
+                    完成
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Image -->
+        <div class="w-full h-full flex items-center justify-center bg-black relative">
+            <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=800&auto=format&fit=crop" class="max-w-full max-h-full object-contain" alt="Reference Art">
+        </div>
+
+        <!-- Instruction Text (Fading) -->
+        <div class="absolute bottom-12 w-full text-center z-30 pointer-events-none">
+            <p class="text-white/50 text-xs bg-black/30 backdrop-blur px-4 py-2 rounded-full inline-block">
+                屏幕常亮模式开启 · 请在现实画布上开始临摹
+            </p>
+        </div>
+
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 6: ARTIST PROFILE (艺术家主页) -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative bg-midnight">
+        <div class="dynamic-island"></div>
+        
+        <!-- Back Button -->
+        <div class="absolute top-12 left-6 z-40 w-10 h-10 rounded-full bg-black/30 backdrop-blur flex items-center justify-center text-white border border-white/10">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+
+        <!-- Artist Header Info -->
+        <div class="pt-24 px-6 pb-6 border-b border-white/5 bg-surface">
+            <div class="flex items-start gap-5">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" class="w-20 h-20 rounded-full border-2 border-gold object-cover shadow-lg">
+                <div class="flex-1 pt-1">
+                    <h1 class="font-serif text-2xl text-offwhite">Marcus Art</h1>
+                    <p class="text-xs text-metalgray mt-1">独立画家 · 现居伦敦</p>
+                    <div class="flex gap-2 mt-3">
+                        <span class="px-2 py-0.5 border border-white/10 rounded text-[10px] text-gold">新古典主义</span>
+                        <span class="px-2 py-0.5 border border-white/10 rounded text-[10px] text-metalgray">油画</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aesthetic Insight (Philosophy) -->
+            <div class="mt-6 bg-midnight/50 p-4 rounded-xl border-l-2 border-gold relative">
+                <i class="fas fa-quote-left absolute top-3 left-3 text-white/5 text-2xl"></i>
+                <p class="font-serif text-sm text-offwhite/90 italic leading-relaxed pl-2 relative z-10">
+                    "我相信艺术不仅仅是视觉的复刻，而是对瞬间情绪的永恒封存。在光影交错的边缘，我们寻找真实的自我。"
+                </p>
+            </div>
+        </div>
+
+        <!-- Portfolio Stream -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-4 pt-6 pb-8 bg-midnight">
+            <h3 class="text-xs font-bold text-metalgray uppercase tracking-widest mb-4 px-2">历史作品</h3>
+            
+            <div class="columns-2 gap-4 space-y-4">
+                <div class="break-inside-avoid rounded-lg overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover">
+                </div>
+                <div class="break-inside-avoid rounded-lg overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1582201942988-13e60e4556ee?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover">
+                </div>
+                <div class="break-inside-avoid rounded-lg overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1576769046044-1f74817a021d?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover">
+                </div>
+                <div class="break-inside-avoid rounded-lg overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1578321272141-8f553be04f47?q=80&w=400&auto=format&fit=crop" class="w-full h-auto object-cover">
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 7: USER PROFILE (我的) -->
+    <!-- ========================================== -->
+    <div class="iphone-frame flex flex-col relative bg-midnight">
+        <div class="dynamic-island"></div>
+        
+        <div class="absolute top-0 w-full h-64 bg-gradient-to-b from-surface to-midnight z-0"></div>
+
+        <div class="relative z-10 pt-24 px-6 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-gold to-surface mb-4 shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=200&auto=format&fit=crop" class="w-full h-full rounded-full object-cover border-4 border-midnight" alt="User">
+            </div>
+            <h1 class="font-serif text-2xl text-offwhite">Elena Void</h1>
+            <p class="text-xs text-gold uppercase tracking-widest mt-1">美学探索者</p>
+
+            <div class="flex w-full justify-between mt-8 px-8">
+                <div class="text-center">
+                    <div class="text-xl font-serif text-white">12</div>
+                    <div class="text-[10px] text-metalgray uppercase tracking-wider">创作</div>
+                </div>
+                <div class="w-px bg-white/10"></div>
+                <div class="text-center">
+                    <div class="text-xl font-serif text-white">45</div>
+                    <div class="text-[10px] text-metalgray uppercase tracking-wider">临摹</div>
+                </div>
+                <div class="w-px bg-white/10"></div>
+                <div class="text-center">
+                    <div class="text-xl font-serif text-white">8h</div>
+                    <div class="text-[10px] text-metalgray uppercase tracking-wider">艺语时长</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-6 mt-10 relative z-10">
+            <h3 class="text-xs font-bold text-metalgray uppercase tracking-widest mb-4 border-b border-white/5 pb-2">我的美学词云</h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-surface border border-white/5 rounded text-xs text-offwhite">明暗对照法</span>
+                <span class="px-3 py-1 bg-surface border border-white/5 rounded text-xs text-offwhite">印象派</span>
+                <span class="px-3 py-1 bg-surface border border-gold/30 text-gold rounded text-xs">忧郁</span>
+                <span class="px-3 py-1 bg-surface border border-white/5 rounded text-xs text-offwhite">黄金分割</span>
+                <span class="px-3 py-1 bg-surface border border-white/5 rounded text-xs text-offwhite">维米尔</span>
+                <span class="px-3 py-1 bg-surface border border-white/5 rounded text-xs text-offwhite">极简主义</span>
+            </div>
+        </div>
+
+        <div class="px-6 mt-8 flex-1 relative z-10">
+            <div class="space-y-1">
+                <button class="w-full flex justify-between items-center py-4 border-b border-white/5 group">
+                    <div class="flex items-center gap-4">
+                        <i class="fas fa-cog text-metalgray w-5"></i>
+                        <span class="text-sm text-offwhite group-hover:text-gold transition">设置</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs text-white/20"></i>
+                </button>
+                <button class="w-full flex justify-between items-center py-4 border-b border-white/5 group">
+                    <div class="flex items-center gap-4">
+                        <i class="fas fa-lock text-metalgray w-5"></i>
+                        <span class="text-sm text-offwhite group-hover:text-gold transition">隐私与安全</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs text-white/20"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 w-full h-20 bg-midnight/95 backdrop-blur-md border-t border-white/5 flex justify-around items-center pb-4 z-50">
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-landmark text-lg"></i><span class="text-[10px]">画廊</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-feather-alt text-lg"></i><span class="text-[10px]">艺语</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-metalgray">
+                <i class="fas fa-book-open text-lg"></i><span class="text-[10px]">手札</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-gold">
+                <i class="far fa-user text-lg"></i><span class="text-[10px]">我的</span>
+            </div>
+        </div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50"></div>
+    </div>
+
+</body>
+</html>
