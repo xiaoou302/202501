@@ -1,0 +1,1852 @@
+你是一个专业的flutter ios app开发者。请修改下面代码的报错，并参考readme和index文件中的内容，补充完整的app。如歌代码有新增或者修改,请给我修改或新增后完整的代码，每个文件分别给我
+
+---
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/main.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/app/app.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/core/constants/app_colors.dart ---
+```dart
+import 'package:flutter/material.dart';
+
+class AppColors {
+  static const Color primary = Color(0xFF1E3A8A);
+  static const Color secondary = Color(0xFFF9FAFB);
+  static const Color accent = Color(0xFF10B981);
+  static const Color neutralDark = Color(0xFF4B5563);
+  static const Color neutralLight = Color(0xFFD1D5DB);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/core/constants/app_values.dart ---
+```dart
+class AppValues {
+  static const double padding = 16.0;
+  static const double padding_small = 8.0;
+  static const double padding_large = 24.0;
+
+  static const double margin = 16.0;
+  static const double margin_small = 8.0;
+  static const double margin_large = 24.0;
+
+  static const double radius = 12.0;
+  static const double radius_small = 8.0;
+  static const double radius_large = 24.0;
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/app/app.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/app/app_theme.dart';
+import 'package:zenithsprint/app/app_routes.dart';
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Zenith Sprint',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.darkTheme,
+      initialRoute: AppRoutes.splash,
+      onGenerateRoute: AppRoutes.generateRoute,
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/app/app_routes.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/splash/splash_screen.dart';
+import 'package:zenithsprint/features/onboarding/onboarding_screen.dart';
+import 'package:zenithsprint/features/goal_selection/goal_selection_screen.dart';
+import 'package:zenithsprint/features/baseline_test/baseline_test_screen.dart';
+import 'package:zenithsprint/features/initial_report/initial_report_screen.dart';
+import 'package:zenithsprint/features/home/home_screen.dart';
+
+class AppRoutes {
+  static const String splash = '/';
+  static const String onboarding = '/onboarding';
+  static const String goalSelection = '/goal-selection';
+  static const String baselineTest = '/baseline-test';
+  static const String initialReport = '/initial-report';
+  static const String home = '/home';
+
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case splash:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case onboarding:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+      case goalSelection:
+        return MaterialPageRoute(builder: (_) => const GoalSelectionScreen());
+      case baselineTest:
+        return MaterialPageRoute(builder: (_) => const BaselineTestScreen());
+      case initialReport:
+        return MaterialPageRoute(builder: (_) => const InitialReportScreen());
+      case home:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
+      default:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+    }
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/app/app_theme.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/core/constants/app_colors.dart';
+
+class AppTheme {
+  static ThemeData get darkTheme {
+    return ThemeData(
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.primary,
+      fontFamily: 'Inter',
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(color: AppColors.white),
+        bodyMedium: TextStyle(color: AppColors.neutralLight),
+        titleLarge:
+            TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+        titleMedium:
+            TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.accent,
+          foregroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 14.0),
+        ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColors.primary,
+        selectedItemColor: AppColors.white,
+        unselectedItemColor: AppColors.neutralLight,
+        showUnselectedLabels: true,
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/insights/insights_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/core/constants/app_colors.dart';
+import 'package:zenithsprint/core/constants/app_values.dart';
+
+class InsightsScreen extends StatelessWidget {
+  const InsightsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primary,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(AppValues.padding_large),
+          children: [
+            Text(
+              'Cognitive Dashboard',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 32),
+            ),
+            const SizedBox(height: AppValues.margin_large),
+            _buildCognitiveProfileCard(context),
+            const SizedBox(height: AppValues.margin_large),
+            _buildTrendCard(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCognitiveProfileCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppValues.padding),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(AppValues.radius_large),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Cognitive Profile',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: AppValues.margin),
+          // Placeholder for Radar Chart
+          AspectRatio(
+            aspectRatio: 1.5,
+            child: Container(
+              decoration: BoxDecoration(
+                // A simple representation of a radar chart
+                shape: BoxShape.circle,
+                border: Border.all(
+                    color: AppColors.accent.withOpacity(0.5), width: 2),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.radar,
+                  color: AppColors.accent,
+                  size: 80,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrendCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppValues.padding),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(AppValues.radius_large),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Pressure Accuracy Trend',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: AppValues.margin_large),
+          // Placeholder for Bar Chart
+          SizedBox(
+            height: 150,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildBar(0.6),
+                _buildBar(0.65),
+                _buildBar(0.75),
+                _buildBar(0.72),
+                _buildBar(0.85),
+                _buildBar(0.92),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBar(double heightFactor) {
+    return Flexible(
+      child: FractionallySizedBox(
+        heightFactor: heightFactor,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: AppColors.accent.withOpacity(0.8),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(AppValues.radius_small),
+              topRight: Radius.circular(AppValues.radius_small),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/home/home_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/insights/insights_screen.dart';
+import 'package:zenithsprint/features/profile/profile_screen.dart';
+import 'package:zenithsprint/features/train/train_screen.dart';
+import 'package:zenithsprint/core/constants/app_colors.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeTab(),
+    const TrainScreen(),
+    const InsightsScreen(),
+    const ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // 保证item始终可见
+        backgroundColor: AppColors.primary,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_filled),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.fitness_center),
+            label: 'Train',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insights),
+            label: 'Insights',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.white,
+        unselectedItemColor: AppColors.neutralLight,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+// 主页的独立内容，参考原型 B1
+class HomeTab extends StatelessWidget {
+  const HomeTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Welcome back.',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 32),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Ready to get in gear?',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 18, color: AppColors.neutralLight),
+            ),
+            Expanded(
+              child: Center(
+                child: SizedBox(
+                  width: 250,
+                  height: 250,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Navigate to Sprint Screen
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white10,
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(20),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Start',
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '3-Min Sprint',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatCard(context, 'Fastest Reaction', '1.2s'),
+                _buildStatCard(context, 'Current Streak', '12 days'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(BuildContext context, String title, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AppColors.neutralLight),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style:
+                Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/splash/splash_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:zenithsprint/features/onboarding/onboarding_screen.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      const Duration(seconds: 3),
+      () => Navigator.of(context).pushReplacementNamed('/onboarding'),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.flash_on,
+              size: 100,
+              color: Colors.white,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Zenith Sprint',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'From Calculation to Instinct.',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/baseline_test/baseline_test_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/initial_report/initial_report_screen.dart';
+
+class BaselineTestScreen extends StatelessWidget {
+  const BaselineTestScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "Let's find your baseline.",
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 28),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'A quick 60-second test to calibrate your cognitive profile.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 18),
+            ),
+            const SizedBox(height: 48),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const InitialReportScreen(),
+                  ),
+                );
+              },
+              child: const Text('Start Baseline Test'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/initial_report/initial_report_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/home/home_screen.dart';
+
+class InitialReportScreen extends StatelessWidget {
+  const InitialReportScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Your Initial Report',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 28),
+            ),
+            const SizedBox(height: 48),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white10,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Your Cognitive Profile',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 24),
+                  // Placeholder for the radar chart
+                  const Icon(
+                    Icons.show_chart,
+                    size: 150,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    "This is your starting point. We'll build from here.",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 48),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const HomeScreen(),
+                  ),
+                );
+              },
+              child: const Text('Go to Home'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/profile/profile_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/core/constants/app_colors.dart';
+import 'package:zenithsprint/core/constants/app_values.dart';
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.secondary, // 使用浅色背景
+      body: SafeArea(
+        child: ListView(
+          padding:
+              const EdgeInsets.symmetric(vertical: AppValues.padding_large),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppValues.padding_large),
+              child: Text(
+                'Settings',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: AppColors.primary, // 在浅色背景上使用深色文字
+                      fontSize: 32,
+                    ),
+              ),
+            ),
+            const SizedBox(height: AppValues.margin_large),
+            _buildSettingsSection(
+              context,
+              items: [
+                _buildSettingsItem(context, '关于我们', () {}),
+                _buildSettingsItem(context, '用户协议', () {}),
+                _buildSettingsItem(context, '隐私协议', () {}),
+              ],
+            ),
+            const SizedBox(height: AppValues.margin_large),
+            _buildSettingsSection(
+              context,
+              items: [
+                _buildSettingsItem(context, '使用帮助', () {}),
+                _buildSettingsItem(context, '反馈和建议', () {}),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsSection(BuildContext context,
+      {required List<Widget> items}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: AppValues.margin_large),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(AppValues.radius),
+      ),
+      child: Column(
+        children: items,
+      ),
+    );
+  }
+
+  Widget _buildSettingsItem(
+      BuildContext context, String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(
+        title,
+        style: TextStyle(color: AppColors.neutralDark, fontSize: 16),
+      ),
+      trailing: const Icon(
+        Icons.chevron_right,
+        color: AppColors.neutralLight,
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/train/train_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/core/constants/app_colors.dart';
+import 'package:zenithsprint/core/constants/app_values.dart';
+
+class TrainScreen extends StatelessWidget {
+  const TrainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primary,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(AppValues.padding_large),
+          children: [
+            Text(
+              'Train',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 32),
+            ),
+            const SizedBox(height: AppValues.margin_large),
+            _buildPressureChamberCard(context),
+            const SizedBox(height: AppValues.margin_large),
+            Text(
+              '专项训练',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: AppColors.neutralLight),
+            ),
+            const SizedBox(height: AppValues.margin),
+            _buildTrainingItem(
+              context,
+              title: 'Core Arithmetic',
+              subtitle: '基础运算',
+              icon: Icons.calculate,
+            ),
+            const SizedBox(height: AppValues.margin_small),
+            _buildTrainingItem(
+              context,
+              title: 'Percentages & Fractions',
+              subtitle: '百分比与分数',
+              icon: Icons.percent,
+            ),
+            const SizedBox(height: AppValues.margin_small),
+            _buildTrainingItem(
+              context,
+              title: 'Estimation Drills',
+              subtitle: '估算练习',
+              icon: Icons.lightbulb_outline,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPressureChamberCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppValues.padding_large),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppValues.radius_large),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF10B981), Color(0xFF059669)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'The Pressure Chamber',
+            style:
+                Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22),
+          ),
+          const SizedBox(height: AppValues.margin_small),
+          Text(
+            'Simulate real-world high-stakes scenarios.',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AppColors.white.withOpacity(0.8)),
+          ),
+          const SizedBox(height: AppValues.margin),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.white.withOpacity(0.2),
+              foregroundColor: AppColors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppValues.radius_small),
+              ),
+            ),
+            child: const Text('Explore Scenarios'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrainingItem(BuildContext context,
+      {required String title,
+      required String subtitle,
+      required IconData icon}) {
+    return Container(
+      padding: const EdgeInsets.all(AppValues.padding),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(AppValues.radius),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.neutralLight),
+              ),
+            ],
+          ),
+          Icon(icon, color: AppColors.neutralLight),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/goal_selection/goal_selection_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/baseline_test/baseline_test_screen.dart';
+
+class GoalSelectionScreen extends StatefulWidget {
+  const GoalSelectionScreen({super.key});
+
+  @override
+  _GoalSelectionScreenState createState() => _GoalSelectionScreenState();
+}
+
+class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
+  String? _selectedGoal;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "What's your primary goal?",
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 28),
+            ),
+            const SizedBox(height: 48),
+            _buildGoalOption(
+              'Ace your interviews',
+              'Prepare for interviews',
+            ),
+            const SizedBox(height: 16),
+            _buildGoalOption(
+              'Boost job performance',
+              'Improve work efficiency',
+            ),
+            const SizedBox(height: 16),
+            _buildGoalOption(
+              'Prep for standardized tests',
+              'Prepare for standardized tests',
+            ),
+            const SizedBox(height: 48),
+            ElevatedButton(
+              onPressed: _selectedGoal != null
+                  ? () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const BaselineTestScreen(),
+                        ),
+                      );
+                    }
+                  : null,
+              child: const Text('Continue'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGoalOption(String title, String subtitle) {
+    final bool isSelected = _selectedGoal == title;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedGoal = title;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.white24 : Colors.white10,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? Colors.white : Colors.white24,
+            width: 2,
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/lib/features/onboarding/onboarding_screen.dart ---
+```dart
+import 'package:flutter/material.dart';
+import 'package:zenithsprint/features/goal_selection/goal_selection_screen.dart';
+
+class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        children: [
+          _buildPage(
+            context,
+            'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop',
+            'Turn Pressure into Power.',
+            'Translate pressure into strength.',
+          ),
+          _buildPage(
+            context,
+            null,
+            'Train Like a Pro. See Your Growth.',
+            'Train like an expert and witness your growth.',
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/goal-selection');
+        },
+        child: const Icon(Icons.arrow_forward),
+      ),
+    );
+  }
+
+  Widget _buildPage(
+      BuildContext context, String? imageUrl, String title, String subtitle) {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (imageUrl != null)
+            Image.network(
+              imageUrl,
+              height: 250,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            )
+          else
+            Container(
+              height: 250,
+              width: double.infinity,
+              color: Colors.white10,
+              child: const Icon(
+                Icons.bar_chart,
+                size: 100,
+                color: Colors.white,
+              ),
+            ),
+          const SizedBox(height: 48),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style:
+                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 28),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style:
+                Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 18),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/index.html ---
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Sprint - High-Fidelity Prototype</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 自定义基础样式 */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F2F5; /* 页面背景色，衬托手机模型 */
+        }
+
+        /* 定义设计系统中的颜色变量 */
+        :root {
+            --primary: #1E3A8A; /* 深邃海军蓝 */
+            --secondary: #F9FAFB; /* 极客白 */
+            --accent: #10B981; /* 活力翡翠绿 */
+            --neutral-dark: #4B5563;
+            --neutral-light: #D1D5DB;
+        }
+
+        /* 模拟 iPhone 15 Pro 的容器样式 */
+        .mobile-screen {
+            width: 393px;
+            height: 852px;
+            background-color: var(--primary);
+            border-radius: 50px; /* 模拟手机圆角 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 10px #1f2937; /* 手机外壳和阴影 */
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 模拟 iOS 状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 28px 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+        .status-bar-dark-text {
+             color: #1f2937;
+        }
+
+        /* 模拟底部导航栏 */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 0 25px 0; /* 适配底部安全区域 */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: var(--neutral-light);
+        }
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .nav-item.active {
+            color: white;
+        }
+        
+        /* 自定义按钮样式 */
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+        .btn-secondary:hover {
+             background-color: rgba(255, 255, 255, 0.2);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div class="max-w-screen-xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800">Zenith Sprint</h1>
+            <p class="text-lg text-gray-600 mt-2">高保真应用原型 (High-Fidelity Prototype)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 justify-items-center">
+
+            <!-- 辅助函数: 状态栏和底部导航 -->
+            <script>
+                const StatusBar = (isDarkText = false) => `
+                    <div class="status-bar ${isDarkText ? 'status-bar-dark-text' : ''}">
+                        <span>9:41</span>
+                        <div class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-signal"></i>
+                            <i class="fa-solid fa-wifi"></i>
+                            <i class="fa-solid fa-battery-full"></i>
+                        </div>
+                    </div>
+                `;
+
+                const BottomNav = (activeTab) => {
+                    const items = [
+                        { id: 'Home', icon: 'fa-chart-pie', label: 'Home' },
+                        { id: 'Train', icon: 'fa-dumbbell', label: 'Train' },
+                        { id: 'Insights', icon: 'fa-brain', label: 'Insights' },
+                        { id: 'Profile', icon: 'fa-user', label: 'Profile' }
+                    ];
+                    return `
+                        <div class="bottom-nav">
+                            ${items.map(item => `
+                                <div class="nav-item ${activeTab === item.id ? 'active' : ''}">
+                                    <i class="fa-solid ${item.icon}"></i>
+                                    <span>${item.label}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                };
+            </script>
+
+            <!-- 1. 启动页 (Splash Screen) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A1. 启动页 (Splash Screen)</h2>
+                <div class="mobile-screen justify-center items-center p-8">
+                    <div class="text-center">
+                        <svg class="w-24 h-24 mx-auto text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <h1 class="text-4xl font-bold text-white mt-4">Zenith Sprint</h1>
+                        <p class="text-lg text-gray-300 mt-2">From Calculation to Instinct.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 价值引导页 1 -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A2. 价值引导页 1</h2>
+                <div class="mobile-screen p-8 pt-24 text-white text-center">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop" class="w-full h-64 object-cover rounded-3xl opacity-80" alt="[一个商务人士在会议中自信发言的抽象图片]">
+                    <h2 class="text-3xl font-bold mt-12">Turn Pressure into Power.</h2>
+                    <p class="text-gray-300 mt-4 text-lg">将压力转化为力量。</p>
+                </div>
+            </div>
+
+            <!-- 3. 价值引导页 2 -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A3. 价值引导页 2</h2>
+                <div class="mobile-screen p-8 pt-24 text-white text-center">
+                    <div class="w-full h-64 bg-white/10 rounded-3xl p-4 flex justify-center items-center">
+                        <!-- 模拟雷达图 -->
+                        <svg viewBox="0 0 100 100" class="w-48 h-48">
+                            <polygon points="50,10 90,35 75,85 25,85 10,35" fill="rgba(16, 185, 129, 0.2)" stroke="rgba(16, 185, 129, 0.8)" stroke-width="1"/>
+                            <polygon points="50,20 70,40 65,70 35,70 30,40" fill="rgba(16, 185, 129, 0.7)"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold mt-12">Train Like a Pro. See Your Growth.</h2>
+                    <p class="text-gray-300 mt-4 text-lg">像专家一样训练，见证你的成长。</p>
+                </div>
+            </div>
+
+            <!-- 4. 初始内容设置 -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A4. 目标选择</h2>
+                <div class="mobile-screen p-8 pt-24 text-white">
+                    <h2 class="text-3xl font-bold text-center">What's your primary goal?</h2>
+                    <div class="space-y-4 mt-12">
+                        <div class="bg-white/10 p-4 rounded-xl border-2 border-white/50 text-left">
+                            <label class="flex items-center">
+                                <input type="radio" name="goal" class="hidden peer">
+                                <div class="w-full peer-checked:bg-white/20 p-3 rounded-lg">
+                                    <p class="font-semibold">备战面试</p>
+                                    <p class="text-sm text-gray-300">Ace your interviews</p>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/20 text-left">
+                            <label class="flex items-center">
+                                <input type="radio" name="goal" class="hidden peer">
+                                <div class="w-full peer-checked:bg-white/20 p-3 rounded-lg">
+                                    <p class="font-semibold">提升工作效率</p>
+                                    <p class="text-sm text-gray-300">Boost job performance</p>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/20 text-left">
+                            <label class="flex items-center">
+                                <input type="radio" name="goal" class="hidden peer">
+                                <div class="w-full peer-checked:bg-white/20 p-3 rounded-lg">
+                                    <p class="font-semibold">准备标准化考试</p>
+                                    <p class="text-sm text-gray-300">Prep for standardized tests</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                     <div class="mt-8 w-full">
+                        <a href="#" class="btn-accent w-full">Continue</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5. 基准测试 -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A5. 基准测试</h2>
+                <div class="mobile-screen p-8 flex flex-col justify-center items-center text-white text-center">
+                    <h2 class="text-3xl font-bold">Let's find your baseline.</h2>
+                    <p class="text-gray-300 mt-4 text-lg">A quick 60-second test to calibrate your cognitive profile.</p>
+                    <div class="mt-16 w-full">
+                        <a href="#" class="btn-accent w-full">Start Baseline Test</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 6. 初始报告 -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">A6. 初始报告</h2>
+                <div class="mobile-screen p-8 pt-24 text-white">
+                    <h2 class="text-3xl font-bold text-center">Your Initial Report</h2>
+                     <div class="w-full bg-white/10 rounded-3xl p-6 mt-8 flex flex-col items-center">
+                        <p class="text-gray-300">Your Cognitive Profile</p>
+                        <svg viewBox="0 0 100 100" class="w-48 h-48 mt-4">
+                            <polygon points="50,10 90,35 75,85 25,85 10,35" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1"/>
+                            <polygon points="50,30 65,45 60,65 40,65 35,45" fill="rgba(16, 185, 129, 0.7)"/>
+                            <text x="50" y="8" font-size="6" fill="white" text-anchor="middle">Speed</text>
+                            <text x="95" y="35" font-size="6" fill="white" text-anchor="middle">Accuracy</text>
+                            <text x="80" y="95" font-size="6" fill="white" text-anchor="middle">Estimation</text>
+                            <text x="20" y="95" font-size="6" fill="white" text-anchor="middle">Pressure</text>
+                            <text x="5" y="35" font-size="6" fill="white" text-anchor="middle">Memory</text>
+                        </svg>
+                        <p class="text-center mt-4 text-gray-300">This is your starting point. We'll build from here.</p>
+                    </div>
+                    <div class="mt-8 w-full">
+                        <a href="#" class="btn-accent w-full">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. 主页 (Home) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">B1. 主页 (Home)</h2>
+                <div id="home-screen" class="mobile-screen p-8 text-white">
+                    <!-- 状态栏 -->
+                    <script>document.getElementById('home-screen').innerHTML += StatusBar();</script>
+                    
+                    <div class="pt-20">
+                        <h1 class="text-3xl font-bold">Welcome back.</h1>
+                        <p class="text-gray-300 text-lg mt-1">Ready to get in gear?</p>
+                    </div>
+
+                    <div class="flex-grow flex items-center justify-center">
+                        <div class="relative w-64 h-64">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle class="text-white/10" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+                                <circle class="text-green-400" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="212" transform="rotate(-90 50 50)" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <button class="w-48 h-48 bg-white/10 rounded-full flex flex-col items-center justify-center hover:bg-white/20 transition-colors">
+                                    <span class="text-2xl font-bold">Start</span>
+                                    <span class="text-lg">3-Min Sprint</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pb-24">
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="bg-white/10 p-4 rounded-xl">
+                                <p class="text-gray-300 text-sm">Fastest Reaction</p>
+                                <p class="font-bold text-xl">1.2s</p>
+                            </div>
+                             <div class="bg-white/10 p-4 rounded-xl">
+                                <p class="text-gray-300 text-sm">Current Streak</p>
+                                <p class="font-bold text-xl">12 days</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部导航 -->
+                    <script>document.getElementById('home-screen').innerHTML += BottomNav('Home');</script>
+                </div>
+            </div>
+
+            <!-- 8. 训练 (Train) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">B2. 训练 (Train)</h2>
+                <div id="train-screen" class="mobile-screen p-8 text-white overflow-y-auto">
+                     <script>document.getElementById('train-screen').innerHTML += StatusBar();</script>
+                     <div class="pt-20 pb-24 space-y-6">
+                        <h1 class="text-3xl font-bold">Train</h1>
+                        
+                        <!-- 压力舱 -->
+                        <div class="bg-gradient-to-br from-green-500 to-emerald-600 p-6 rounded-2xl shadow-lg">
+                            <h2 class="text-2xl font-bold">The Pressure Chamber</h2>
+                            <p class="mt-2 opacity-80">Simulate real-world high-stakes scenarios.</p>
+                            <button class="mt-4 bg-white/20 px-4 py-2 rounded-lg font-semibold">Explore Scenarios</button>
+                        </div>
+
+                        <!-- 专项训练 -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-300 mb-3">专项训练</h3>
+                            <div class="space-y-3">
+                                <div class="bg-white/10 p-4 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Core Arithmetic</p>
+                                        <p class="text-sm text-gray-400">基础运算</p>
+                                    </div>
+                                    <i class="fa-solid fa-calculator text-gray-400"></i>
+                                </div>
+                                <div class="bg-white/10 p-4 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Percentages & Fractions</p>
+                                        <p class="text-sm text-gray-400">百分比与分数</p>
+                                    </div>
+                                    <i class="fa-solid fa-percent text-gray-400"></i>
+                                </div>
+                                <div class="bg-white/10 p-4 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Estimation Drills</p>
+                                        <p class="text-sm text-gray-400">估算练习</p>
+                                    </div>
+                                    <i class="fa-solid fa-lightbulb text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     <script>document.getElementById('train-screen').innerHTML += BottomNav('Train');</script>
+                </div>
+            </div>
+
+            <!-- 9. 洞察 (Insights) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">B3. 洞察 (Insights)</h2>
+                <div id="insights-screen" class="mobile-screen p-8 text-white overflow-y-auto">
+                     <script>document.getElementById('insights-screen').innerHTML += StatusBar();</script>
+                     <div class="pt-20 pb-24 space-y-6">
+                        <h1 class="text-3xl font-bold">Cognitive Dashboard</h1>
+                        
+                        <!-- 雷达图 -->
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <h3 class="font-semibold mb-2">Cognitive Profile</h3>
+                            <div class="flex justify-center items-center">
+                                <svg viewBox="0 0 100 100" class="w-48 h-48">
+                                    <polygon points="50,10 90,35 75,85 25,85 10,35" fill="rgba(16, 185, 129, 0.2)" stroke="rgba(16, 185, 129, 0.8)" stroke-width="1"/>
+                                    <polygon points="50,20 80,38 70,80 30,80 20,38" fill="rgba(16, 185, 129, 0.7)"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- 趋势线 -->
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <h3 class="font-semibold mb-2">Pressure Accuracy Trend</h3>
+                            <div class="h-40 flex items-end space-x-2 px-2">
+                                <!-- 模拟图表 -->
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 60%;"></div>
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 65%;"></div>
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 75%;"></div>
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 72%;"></div>
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 85%;"></div>
+                                <div class="w-full bg-green-500/50 rounded-t-sm" style="height: 92%;"></div>
+                            </div>
+                        </div>
+                     </div>
+                     <script>document.getElementById('insights-screen').innerHTML += BottomNav('Insights');</script>
+                </div>
+            </div>
+
+            <!-- 10. 设置 (Profile/Settings) - UPDATED -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">B4. 设置 (Settings)</h2>
+                <div id="profile-screen" class="mobile-screen bg-gray-50 text-gray-800 overflow-y-auto">
+                     <script>document.getElementById('profile-screen').innerHTML += StatusBar(true);</script>
+                     <div class="pt-20 pb-24">
+                        <h1 class="text-3xl font-bold px-8">Settings</h1>
+                        <div class="mt-8 px-6 space-y-2">
+                            <div class="bg-white rounded-xl shadow-sm">
+                                <a href="#" class="flex justify-between items-center p-4 border-b border-gray-200"><span>关于我们</span><i class="fa-solid fa-chevron-right text-gray-400"></i></a>
+                                <a href="#" class="flex justify-between items-center p-4 border-b border-gray-200"><span>用户协议</span><i class="fa-solid fa-chevron-right text-gray-400"></i></a>
+                                <a href="#" class="flex justify-between items-center p-4"><span>隐私协议</span><i class="fa-solid fa-chevron-right text-gray-400"></i></a>
+                            </div>
+                        </div>
+                        <div class="mt-6 px-6 space-y-2">
+                            <div class="bg-white rounded-xl shadow-sm">
+                                <a href="#" class="flex justify-between items-center p-4 border-b border-gray-200"><span>使用帮助</span><i class="fa-solid fa-chevron-right text-gray-400"></i></a>
+                                <a href="#" class="flex justify-between items-center p-4"><span>反馈和建议</span><i class="fa-solid fa-chevron-right text-gray-400"></i></a>
+                            </div>
+                        </div>
+                     </div>
+                     <script>document.getElementById('profile-screen').innerHTML += BottomNav('Profile');</script>
+                </div>
+            </div>
+
+            <!-- 11. 冲刺界面 (Sprint Interface) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">C1. 冲刺界面</h2>
+                <div class="mobile-screen flex flex-col p-4 text-white">
+                    <div class="flex justify-between items-center p-4">
+                        <span class="text-lg font-semibold">2:45</span>
+                        <div class="w-1/2 bg-white/20 h-2 rounded-full">
+                            <div class="bg-green-400 h-2 rounded-full" style="width: 91%;"></div>
+                        </div>
+                        <span class="text-lg font-semibold">12/15</span>
+                    </div>
+
+                    <div class="flex-grow flex items-center justify-center">
+                        <p class="text-6xl font-bold tracking-wider">125 x 16</p>
+                    </div>
+
+                    <div class="w-full bg-white/10 rounded-3xl p-4">
+                        <div class="text-right h-16 text-5xl font-light pr-4 mb-4">2000</div>
+                        <div class="grid grid-cols-3 gap-3 text-3xl">
+                            <button class="bg-white/20 h-16 rounded-xl">1</button>
+                            <button class="bg-white/20 h-16 rounded-xl">2</button>
+                            <button class="bg-white/20 h-16 rounded-xl">3</button>
+                            <button class="bg-white/20 h-16 rounded-xl">4</button>
+                            <button class="bg-white/20 h-16 rounded-xl">5</button>
+                            <button class="bg-white/20 h-16 rounded-xl">6</button>
+                            <button class="bg-white/20 h-16 rounded-xl">7</button>
+                            <button class="bg-white/20 h-16 rounded-xl">8</button>
+                            <button class="bg-white/20 h-16 rounded-xl">9</button>
+                            <button class="bg-white/20 h-16 rounded-xl col-span-2">0</button>
+                            <button class="bg-green-500 h-16 rounded-xl">↵</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. 结果页 (Results Screen) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">C2. 结果页</h2>
+                <div class="mobile-screen p-8 text-white text-center">
+                    <h2 class="text-4xl font-bold mt-20">Sprint Complete!</h2>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="bg-white/10 p-4 rounded-xl">
+                            <p class="text-gray-300">Accuracy</p>
+                            <p class="text-3xl font-bold">93%</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl">
+                            <p class="text-gray-300">Answered</p>
+                            <p class="text-3xl font-bold">14</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-gradient-to-br from-yellow-400 to-orange-500 p-6 rounded-2xl text-left">
+                        <h3 class="text-xl font-bold">Cognitive Tip Unlocked!</h3>
+                        <p class="mt-2 opacity-90">The Rule of 72: A simple way to estimate an investment's doubling time.</p>
+                    </div>
+
+                    <div class="mt-16 space-y-4">
+                        <a href="#" class="btn-accent w-full">View Full Insights</a>
+                        <a href="#" class="btn-secondary w-full">Start Another Sprint</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW SCREENS START HERE -->
+            <!-- 13. 关于我们 (About Us) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">D1. 关于我们</h2>
+                <div id="about-screen" class="mobile-screen bg-gray-50 text-gray-800">
+                    <script>document.getElementById('about-screen').innerHTML += StatusBar(true);</script>
+                    <div class="p-4 pt-20">
+                        <div class="flex items-center">
+                            <button class="w-10 h-10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                            <h1 class="text-xl font-bold flex-grow text-center pr-10">关于我们</h1>
+                        </div>
+                        <div class="p-4 mt-4 text-gray-600 space-y-4">
+                            <p>Zenith Sprint is dedicated to helping professionals enhance their cognitive abilities, specifically mental math skills under pressure.</p>
+                            <p>Our mission is to turn calculation from a conscious effort into an unconscious instinct, empowering our users to perform at their peak in high-stakes environments.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. 用户协议 (User Agreement) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">D2. 用户协议</h2>
+                <div id="agreement-screen" class="mobile-screen bg-gray-50 text-gray-800 overflow-y-auto">
+                    <script>document.getElementById('agreement-screen').innerHTML += StatusBar(true);</script>
+                    <div class="p-4 pt-20">
+                        <div class="flex items-center">
+                            <button class="w-10 h-10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                            <h1 class="text-xl font-bold flex-grow text-center pr-10">用户协议</h1>
+                        </div>
+                        <div class="p-4 mt-4 text-gray-600 space-y-4 text-sm">
+                            <h3 class="font-bold text-gray-800">1. Introduction</h3>
+                            <p>Welcome to Zenith Sprint. By using our app, you agree to these terms. Please read them carefully.</p>
+                            <h3 class="font-bold text-gray-800 mt-4">2. Using Our Services</h3>
+                            <p>You must follow any policies made available to you within the Services. Don't misuse our Services. For example, don't interfere with our Services or try to access them using a method other than the interface and the instructions that we provide.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15. 隐私协议 (Privacy Policy) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">D3. 隐私协议</h2>
+                <div id="privacy-screen" class="mobile-screen bg-gray-50 text-gray-800 overflow-y-auto">
+                    <script>document.getElementById('privacy-screen').innerHTML += StatusBar(true);</script>
+                    <div class="p-4 pt-20">
+                        <div class="flex items-center">
+                            <button class="w-10 h-10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                            <h1 class="text-xl font-bold flex-grow text-center pr-10">隐私协议</h1>
+                        </div>
+                        <div class="p-4 mt-4 text-gray-600 space-y-4 text-sm">
+                           <p>Our Privacy Policy explains: What information we collect and why we collect it. How we use that information. The choices we offer, including how to access and update information.</p>
+                           <p>We collect information to provide better services to all our users — from figuring out basic stuff like which language you speak, to more complex things like which training modules you’ll find most useful.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16. 反馈和建议 (Feedback) -->
+            <div class="flex flex-col items-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">D4. 反馈和建议</h2>
+                <div id="feedback-screen" class="mobile-screen bg-gray-50 text-gray-800">
+                    <script>document.getElementById('feedback-screen').innerHTML += StatusBar(true);</script>
+                    <div class="p-4 pt-20">
+                        <div class="flex items-center">
+                            <button class="w-10 h-10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                            <h1 class="text-xl font-bold flex-grow text-center pr-10">反馈和建议</h1>
+                        </div>
+                        <div class="p-4 mt-4">
+                            <textarea class="w-full h-48 p-3 bg-white rounded-lg border border-gray-300" placeholder="Tell us how we can improve..."></textarea>
+                            <button class="mt-6 w-full btn-accent bg-blue-600 hover:bg-blue-700">Submit Feedback</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+```
+
+--- File: /Users/admin/Desktop/Flutter_app/20250818-ZenithSprint/zenithsprint/README.md ---
+```md
+Zenith Sprint - Flutter App 架构与需求文档
+1. 项目概述
+Zenith Sprint 是一款专注于提升用户在压力场景下心算能力的移动应用。它通过模拟高压职业场景（如咨询面试、项目报价等）中的计算任务，帮助用户将计算能力从有意识的负担转变为无意识的直觉。应用的核心是提供快速、专注、高强度的自适应训练，并通过专业级的认知诊断报告，让用户清晰地看到自己的成长。
+
+2. 核心功能
+用户引导流程 (Onboarding)
+
+价值展示: 通过几个引导页向新用户展示应用的核心价值。
+
+目标设定: 允许用户选择他们的主要训练目标（如备战面试、提升工作效率等）。
+
+基准测试: 通过一个简短的测试来评估用户的初始心算水平。
+
+初始报告: 根据测试结果生成一份初始的认知能力图谱。
+
+核心训练模块 (Training)
+
+自适应冲刺 (Adaptive Sprint): App 的主要训练模式，提供可自定义时长的、个性化的心算题组。
+
+压力舱 (The Pressure Chamber): 模拟真实职业场景的挑战模式（原型阶段为入口展示）。
+
+专项训练: 按特定技能（如百分比、估算）进行分类的训练入口。
+
+训练界面: 极简的答题界面，包含题目展示区和为数字输入优化的自定义键盘。
+
+结果反馈: 训练结束后，展示本次训练的准确率、答题数等核心数据，并有几率解锁“认知技巧卡片”。
+
+认知仪表盘 (Insights)
+
+认知档案 (Cognitive Profile): 通过雷达图等多维度可视化图表，展示用户的综合心算能力。
+
+成长趋势: 通过趋势图展示用户在特定指标（如压力下准确率）上的历史进步。
+
+设置与信息 (Settings)
+
+提供“关于我们”、“用户协议”、“隐私协议”、“使用帮助”和“反馈和建议”等静态信息页面的入口。
+
+3. App 架构设计
+为了保持低耦合度和清晰的结构，我们采用 按功能模块组织 (Feature-Driven) 的目录结构。
+
+状态管理: 初期完全使用 StatefulWidget 和 setState 进行状态管理。每个页面或复杂组件负责管理自身的 UI 状态，避免跨页面或跨模块的复杂状态依赖。
+
+数据存储: 使用 shared_preferences 库进行轻量级的本地数据持久化。主要用于存储用户的设置、认知档案数据和训练历史。我们会创建一个服务类来封装其读写操作，以便将数据模型（Dart Class）转换为 JSON 字符串进行存储。
+
+导航: 使用 Flutter 内置的 Navigator 进行页面路由管理。
+
+UI 设计:
+
+主题 (Theme): 在 main.dart 中定义全局的 ThemeData，统一管理应用的颜色（深邃海军蓝、活力翡翠绿等）、字体（使用系统默认字体）和通用组件样式。
+
+响应式布局: 使用 MediaQuery, LayoutBuilder, Flex 等组件确保 UI 在不同尺寸的设备上表现良好。
+
+4. 文件结构与实现计划
+以下是项目 lib 目录下的详细文件结构和每个文件的功能规划。
+
+lib/
+├── main.dart                   # App入口，配置主题和初始路由
+|
+├── core/                       # 核心/共享模块
+│   ├── app_theme.dart          # 定义全局颜色、字体和主题
+│   └── widgets/                # 可复用的UI组件
+│       ├── main_scaffold.dart    # 带有底部导航栏的主页面框架
+│       ├── accent_button.dart    # 绿色的主操作按钮
+│       └── secondary_button.dart # 次要操作按钮
+|
+├── data/                       # 数据处理模块
+│   ├── models/                 # 数据模型定义
+│   │   ├── cognitive_profile.dart # 认知档案模型
+│   │   ├── sprint_session.dart    # 单次冲刺训练的数据模型
+│   │   └── user_settings.dart     # 用户设置模型（如训练目标）
+│   └── services/
+│       └── storage_service.dart  # 封装 shared_preferences 的服务
+|
+├── features/                   # 功能模块目录
+│   ├── onboarding/             # 用户引导流程
+│   │   ├── onboarding_screen.dart # 管理引导页的PageView
+│   │   ├── goal_selection_screen.dart # 目标选择页
+│   │   └── baseline_test_flow.dart  # 基准测试及初始报告流程
+│   │
+│   ├── home/                   # 主页
+│   │   └── home_screen.dart      # 主仪表盘，包含开始冲刺按钮
+│   │
+│   ├── training/               # 训练模块
+│   │   ├── train_screen.dart     # 训练模式选择页
+│   │   ├── sprint_screen.dart    # 核心冲刺训练界面
+│   │   ├── sprint_results_screen.dart # 冲刺结果展示页
+│   │   └── services/
+│   │       └── sprint_logic_service.dart # 生成题目、计时等逻辑
+│   │
+│   ├── insights/               # 洞察/分析模块
+│   │   ├── insights_screen.dart  # 认知仪表盘主页
+│   │   └── widgets/
+│   │       ├── cognitive_radar_chart.dart # 认知能力雷达图
+│   │       └── trend_bar_chart.dart     # 趋势条形图
+│   │
+│   └── settings/               # 设置模块
+│       ├── settings_screen.dart  # 设置主页，包含列表入口
+│       ├── static_page_screen.dart # 用于显示协议、关于我们等静态内容的通用页面
+│       └── feedback_screen.dart  # 反馈与建议页面
+│
+└── utils/                      # 工具类
+    └── constants.dart          # 存放应用内的常量
+
+5. 数据模型 (Data Models)
+所有模型都将是简单的 Dart 类，不依赖任何代码生成包。
+
+cognitive_profile.dart
+
+class CognitiveProfile {
+  final double speed;
+  final double accuracy;
+  final double estimation;
+  final double pressureStability;
+  // ... 其他维度
+  // 构造函数和 toJson/fromJson 方法
+}
+
+sprint_session.dart
+
+class SprintSession {
+  final DateTime startTime;
+  final int durationInSeconds;
+  final int totalQuestions;
+  final int correctAnswers;
+  final double accuracy;
+  // ... 其他会话数据
+  // 构造函数
+}
+
+user_settings.dart
+
+class UserSettings {
+  String trainingGoal; // e.g., "Ace your interviews"
+  bool hasCompletedOnboarding;
+  // ... 其他设置
+  // 构造函数和 toJson/fromJson 方法
+}
+
+6. 关键实现步骤
+项目初始化与基础设置:
+
+创建 Flutter 项目。
+
+在 main.dart 中配置 MaterialApp 和 app_theme.dart 中定义的主题。
+
+创建 main_scaffold.dart，实现带有底部导航栏的基础页面结构。
+
+构建核心训练流程:
+
+优先开发 home_screen.dart 和 sprint_screen.dart。
+
+在 sprint_logic_service.dart 中实现一个简单的题目生成器和计时逻辑。
+
+实现 sprint_results_screen.dart 以展示训练结果。这是应用的核心循环，应最先打通。
+
+开发用户引导流程:
+
+创建 onboarding_screen.dart，让用户可以首次进入应用。
+
+实现 goal_selection_screen.dart 并使用 storage_service.dart 将用户的选择持久化。
+
+完善数据展示与存储:
+
+实现 storage_service.dart，编写将数据模型与 shared_preferences 交互的逻辑（JSON序列化/反序列化）。
+
+开发 insights_screen.dart，并使用 CustomPainter 或简单的容器组合来模拟雷达图和趋势图。
+
+构建设置模块:
+
+创建 settings_screen.dart 列表页。
+
+创建一个通用的 static_page_screen.dart，可以通过传入不同的文本内容来复用于“关于我们”、“用户协议”等多个页面。
+
+实现 feedback_screen.dart 的 UI。
+
+整合与测试:
+
+将所有模块连接起来，确保导航和数据流转正确。
+
+进行全面的功能测试，确保核心体验流畅无误。
+```
+
