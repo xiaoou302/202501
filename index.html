@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rue - Relic. Restore. Remember.</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display (Serif for headings) & Courier Prime (Mono for data) -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vellum: '#F2EAD3',      // Background
+                        shale: '#E6DBC2',       // Card Background
+                        brass: '#C89F5D',       // Primary / Highlight
+                        bronze: '#967241',      // Pressed / Darker Metal
+                        leather: '#5D4037',     // Dark Brown / Nav
+                        teal: '#4B7F76',        // Accent / Verdigris
+                        ink: '#2C2C2C',         // Primary Text
+                        soot: '#66625E',        // Secondary Text
+                        wax: '#A83232'          // Alert / Seal
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        mono: ['"Courier Prime"', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                        'metal-gradient': "linear-gradient(135deg, #C89F5D 0%, #F5D595 50%, #967241 100%)",
+                        'leather-texture': "linear-gradient(to bottom, #5D4037, #4A332C)",
+                    },
+                    boxShadow: {
+                        'skeuo': 'inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.2), 4px 4px 10px rgba(0,0,0,0.3)',
+                        'paper': '1px 1px 0px rgba(0,0,0,0.1), 2px 2px 0px rgba(0,0,0,0.1), 3px 3px 5px rgba(0,0,0,0.2)',
+                        'inner-pressed': 'inset 3px 3px 8px rgba(0,0,0,0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar for inner content */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Noise texture overlay */
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Skeuomorphic Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #F5D595 10%, #C89F5D 90%);
+            border: 2px solid #5D4037;
+            cursor: pointer;
+            margin-top: -14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #5D4037;
+            border-radius: 2px;
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stamp-animation {
+            animation: stamp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes stamp {
+            0% { transform: scale(3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-200 h-screen flex items-center justify-center font-serif text-ink selection:bg-brass selection:text-white">
+
+    <!-- Phone Frame (iPhone 15 Pro Simulator) -->
+    <div class="relative w-[393px] h-[852px] bg-black rounded-[55px] shadow-[0_0_0_12px_#333,0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden border-8 border-gray-800 ring-1 ring-gray-600">
+        
+        <!-- Dynamic Island / Status Bar Area -->
+        <div class="absolute top-0 w-full h-14 z-50 flex justify-between items-center px-8 pt-3 text-white text-sm font-medium">
+            <span>9:41</span>
+            <div class="w-[120px] h-[35px] bg-black rounded-3xl absolute left-1/2 transform -translate-x-1/2 top-2"></div>
+            <div class="flex gap-2">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- App Container -->
+        <div class="w-full h-full bg-vellum relative flex flex-col pt-14 pb-24 overflow-hidden">
+            <div class="noise-overlay"></div> <!-- Global Paper Texture -->
+
+            <!-- Header -->
+            <header class="relative z-10 px-6 py-4 flex justify-between items-end border-b-2 border-double border-brass/50 bg-vellum/90 backdrop-blur-sm">
+                <div>
+                    <h2 class="text-xs font-mono text-leather tracking-[0.2em] uppercase mb-1">Steampunk Archive</h2>
+                    <h1 class="text-3xl font-bold text-ink tracking-tight flex items-center gap-2">
+                        <i class="fas fa-clock text-brass"></i> Rue
+                    </h1>
+                </div>
+                <button class="w-10 h-10 rounded-full border border-leather/20 flex items-center justify-center text-leather hover:bg-brass/10 transition">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </header>
+
+            <!-- Main Content Area (Scrollable) -->
+            <main id="main-content" class="relative z-10 flex-1 overflow-y-auto hide-scrollbar p-6 space-y-8">
+                
+                <!-- VIEW 1: TIME GALLERY (Default) -->
+                <div id="view-gallery" class="view-section fade-in block">
+                    <!-- Search Bar (Telescope style) -->
+                    <div class="relative mb-8 group">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-leather/50"></i>
+                        </div>
+                        <input type="text" class="w-full bg-shale border-b-2 border-leather/30 text-ink font-mono text-sm py-3 pl-10 pr-4 focus:outline-none focus:border-brass transition-colors placeholder-soot/50" placeholder="Search Archive No. 892...">
+                        <div class="absolute right-2 top-2 text-xs font-mono text-brass border border-brass px-2 py-1 rounded">FILTER</div>
+                    </div>
+
+                    <!-- Categories (Filing Cabinet Drawers) -->
+                    <div class="flex gap-4 overflow-x-auto hide-scrollbar mb-6 pb-2">
+                        <button class="flex-shrink-0 bg-leather text-vellum px-5 py-2 rounded-sm font-mono text-xs tracking-widest shadow-md border-b-4 border-[#3d2219]">WATCHES</button>
+                        <button class="flex-shrink-0 bg-shale text-soot px-5 py-2 rounded-sm font-mono text-xs tracking-widest border border-leather/20">CAMERAS</button>
+                        <button class="flex-shrink-0 bg-shale text-soot px-5 py-2 rounded-sm font-mono text-xs tracking-widest border border-leather/20">JEWELRY</button>
+                    </div>
+
+                    <!-- Waterfall Grid -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- Item Card 1 -->
+                        <div class="bg-shale p-1 shadow-paper rotate-[0.5deg]">
+                            <div class="border border-leather/10 p-3 h-full flex flex-col">
+                                <div class="relative h-48 mb-3 overflow-hidden border border-leather/20 sepia-[0.3]">
+                                    <img src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=800&auto=format&fit=crop" alt="Pocket Watch" class="w-full h-full object-cover">
+                                    <div class="absolute top-2 right-2 bg-black/70 text-white text-[10px] font-mono px-2 py-1 backdrop-blur-sm">LATE 19TH</div>
+                                </div>
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-serif font-bold text-lg leading-tight mb-1">Silver Pocket Watch</h3>
+                                        <p class="font-mono text-xs text-soot">Prov: London, 1892</p>
+                                    </div>
+                                    <button class="text-teal hover:text-leather transition"><i class="fas fa-folder-open text-xl"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item Card 2 -->
+                        <div class="bg-shale p-1 shadow-paper -rotate-[0.5deg]">
+                            <div class="border border-leather/10 p-3 h-full flex flex-col">
+                                <div class="relative h-48 mb-3 overflow-hidden border border-leather/20 sepia-[0.3]">
+                                    <img src="https://images.unsplash.com/photo-1520350094754-f0fdcac35c1c?q=80&w=800&auto=format&fit=crop" alt="Typewriter" class="w-full h-full object-cover">
+                                    <div class="absolute top-2 right-2 bg-black/70 text-white text-[10px] font-mono px-2 py-1 backdrop-blur-sm">EARLY 20TH</div>
+                                </div>
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-serif font-bold text-lg leading-tight mb-1">Royal Typewriter</h3>
+                                        <p class="font-mono text-xs text-soot">Prov: New York, 1920</p>
+                                    </div>
+                                    <button class="text-teal hover:text-leather transition"><i class="fas fa-folder-open text-xl"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Spacer -->
+                    <div class="h-12 flex justify-center items-center mt-6">
+                        <i class="fas fa-ellipsis-h text-brass/50 text-xl"></i>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: RELIC RE-ENVISION (AI) -->
+                <div id="view-relic" class="view-section hidden fade-in">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold text-leather">Relic Re-envision</h2>
+                        <p class="text-xs font-mono text-soot mt-1">AI-POWERED RESTORATION ENGINE</p>
+                    </div>
+
+                    <!-- Upload Area / Darkroom Frame -->
+                    <div class="relative bg-[#2a2a2a] p-2 rounded-sm shadow-xl border-4 border-double border-brass mb-8 group cursor-pointer">
+                        <!-- The "Image" Container -->
+                        <div class="relative h-72 w-full bg-black overflow-hidden" id="slider-container">
+                            
+                            <!-- After Image (Restored) -->
+                            <img src="https://images.unsplash.com/photo-1560067663-e3c032609062?q=80&w=800&auto=format&fit=crop" class="absolute top-0 left-0 w-full h-full object-cover" alt="Restored">
+                            
+                            <!-- Before Image (Damaged) - Clipped -->
+                            <div id="before-image" class="absolute top-0 left-0 h-full w-[50%] overflow-hidden border-r-2 border-brass bg-black">
+                                <img src="https://images.unsplash.com/photo-1560067663-e3c032609062?q=80&w=800&auto=format&fit=crop" class="absolute top-0 left-0 w-[200%] max-w-none h-full object-cover grayscale contrast-125 brightness-75 sepia" alt="Original">
+                                <!-- Simulate damage with texture overlay on 'before' only -->
+                                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dust.png')] opacity-50 mix-blend-overlay"></div>
+                            </div>
+
+                            <!-- Slider Handle -->
+                            <div id="slider-handle" class="absolute top-0 bottom-0 left-[50%] w-1 bg-brass cursor-ew-resize flex items-center justify-center -ml-0.5 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                                <div class="w-8 h-8 bg-brass rounded-full border-2 border-vellum flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-arrows-alt-h text-leather text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Darkroom Label -->
+                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/80 px-3 py-1 rounded text-[10px] font-mono text-brass border border-brass/30">
+                            DRAG TO COMPARE
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-xs font-mono text-soot px-1">
+                            <span>CURRENT STATE</span>
+                            <span>RESTORED PREVIEW</span>
+                        </div>
+                        
+                        <!-- Slider Control Input (Invisible but functional overlay logic would go here in real app, using visual slider for now) -->
+                        <input type="range" min="0" max="100" value="50" class="w-full opacity-0 absolute top-[180px] h-72 z-20 cursor-ew-resize" id="interaction-slider">
+
+                        <!-- Main Action Button -->
+                        <button onclick="startRestoration()" class="w-full h-14 bg-metal-gradient rounded-sm shadow-skeuo flex items-center justify-center gap-3 active:scale-[0.98] transition-transform relative overflow-hidden group">
+                            <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                            <i class="fas fa-magic text-leather text-lg animate-pulse"></i>
+                            <span class="text-leather font-bold tracking-widest uppercase">Generate Restoration</span>
+                        </button>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <button class="py-3 border-2 border-leather/20 rounded-sm text-leather font-mono text-xs hover:bg-leather/5">
+                                <i class="fas fa-file-download mr-2"></i>EXPORT PDF
+                            </button>
+                            <button class="py-3 border-2 border-leather/20 rounded-sm text-leather font-mono text-xs hover:bg-leather/5">
+                                <i class="fas fa-history mr-2"></i>HISTORY
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ARTISAN'S GUIDE -->
+                <div id="view-guide" class="view-section hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-leather">Artisan's Guide</h2>
+                            <p class="text-xs font-mono text-soot mt-1">METHOD: BRASS POLISHING</p>
+                        </div>
+                        <div class="w-10 h-10 bg-shale border border-leather/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-book text-leather"></i>
+                        </div>
+                    </div>
+
+                    <!-- Guide Content -->
+                    <div class="bg-white/60 p-6 rounded shadow-paper border border-leather/10 relative">
+                        <!-- Notebook Binding visual -->
+                        <div class="absolute left-0 top-4 bottom-4 w-4 border-r-2 border-dashed border-leather/20"></div>
+
+                        <div class="ml-4 space-y-6">
+                            <!-- Step 1 -->
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-leather text-vellum flex items-center justify-center font-mono font-bold text-sm">1</div>
+                                <div>
+                                    <h4 class="font-bold text-ink mb-1">Assess Oxidation</h4>
+                                    <p class="text-sm text-soot leading-relaxed">Examine the surface for green verdigris. Use a soft horsehair brush to remove loose dust.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-leather text-vellum flex items-center justify-center font-mono font-bold text-sm">2</div>
+                                <div>
+                                    <h4 class="font-bold text-ink mb-1">Apply Solution</h4>
+                                    <p class="text-sm text-soot leading-relaxed">Apply a pea-sized amount of restoration polish. Use circular motions.</p>
+                                    <div class="mt-2 p-3 bg-shale border border-leather/10 rounded">
+                                        <div class="flex items-center gap-2 text-xs font-mono text-leather">
+                                            <i class="fas fa-exclamation-triangle text-wax"></i>
+                                            <span>DO NOT USE ACIDIC CLEANERS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Step 3 (Interactive) -->
+                             <div class="flex gap-4 opacity-50">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-shale border border-leather text-leather flex items-center justify-center font-mono font-bold text-sm">3</div>
+                                <div>
+                                    <h4 class="font-bold text-ink mb-1">Buff & Seal</h4>
+                                    <p class="text-sm text-soot leading-relaxed">Buff with a microfiber cloth until reflective.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completion Stamp Area -->
+                        <div class="mt-8 border-t-2 border-dashed border-leather/20 pt-6 text-center relative h-32 flex items-center justify-center">
+                            <button onclick="stampPass()" id="stamp-btn" class="text-sm font-mono text-leather border border-leather px-4 py-2 rounded hover:bg-leather hover:text-vellum transition">
+                                MARK AS COMPLETE
+                            </button>
+                            <!-- Hidden Stamp -->
+                            <div id="restored-stamp" class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-wax rounded-full flex items-center justify-center text-wax font-bold uppercase tracking-widest text-xs rotate-[-15deg] mix-blend-multiply opacity-80" style="background: url('https://www.transparenttextures.com/patterns/grunge-wall.png'); box-shadow: 0 0 0 2px #A83232 inset;">
+                                <div class="text-center">
+                                    <i class="fas fa-check-circle text-2xl mb-1"></i><br>
+                                    Restored<br>
+                                    <span class="text-[8px]">FEB 08 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: WORKSHOP SETTINGS -->
+                <div id="view-settings" class="view-section hidden fade-in">
+                    <!-- Profile Card -->
+                    <div class="bg-shale border-2 border-leather/80 p-6 rounded-sm relative shadow-paper mb-8">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-leather text-vellum px-3 py-1 text-[10px] font-mono tracking-widest uppercase">ID CARD</div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-full border-2 border-brass overflow-hidden bg-gray-300">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop" alt="User" class="w-full h-full object-cover grayscale">
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold font-serif text-ink">Arthur Pendelton</h3>
+                                <p class="text-xs font-mono text-teal">MASTER RESTORER</p>
+                                <p class="text-[10px] font-mono text-soot mt-1">MEMBER SINCE 1924</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-dashed border-leather/30 flex justify-between text-center">
+                            <div>
+                                <div class="text-lg font-bold text-leather">12</div>
+                                <div class="text-[8px] uppercase tracking-wider text-soot">Relics</div>
+                            </div>
+                            <div>
+                                <div class="text-lg font-bold text-leather">89%</div>
+                                <div class="text-[8px] uppercase tracking-wider text-soot">Accuracy</div>
+                            </div>
+                            <div>
+                                <div class="text-lg font-bold text-leather">4</div>
+                                <div class="text-[8px] uppercase tracking-wider text-soot">Badges</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Toggles -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-white/50 border border-leather/10 rounded shadow-sm">
+                            <span class="font-serif text-ink">Haptic Feedback</span>
+                            <!-- Toggle Switch Visual -->
+                            <div class="w-12 h-6 bg-leather rounded-full relative cursor-pointer">
+                                <div class="absolute right-1 top-1 w-4 h-4 bg-brass rounded-full shadow-md"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-white/50 border border-leather/10 rounded shadow-sm">
+                            <span class="font-serif text-ink">Mechanical Sounds</span>
+                            <div class="w-12 h-6 bg-leather rounded-full relative cursor-pointer">
+                                <div class="absolute right-1 top-1 w-4 h-4 bg-brass rounded-full shadow-md"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-white/50 border border-leather/10 rounded shadow-sm">
+                            <span class="font-serif text-ink">Darkroom Mode</span>
+                            <div class="w-12 h-6 bg-gray-300 rounded-full relative cursor-pointer">
+                                <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-md"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center">
+                        <p class="font-mono text-[10px] text-soot/50">Rue v2.0.4 • EST 2026</p>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- Bottom Navigation (Brass Panel) -->
+            <nav class="absolute bottom-0 w-full h-24 bg-leather-texture z-50 flex justify-around items-start pt-4 px-2 shadow-[0_-5px_15px_rgba(0,0,0,0.3)]">
+                <!-- Nav Item 1: Gallery (Active) -->
+                <button onclick="switchTab('gallery', this)" class="nav-btn group flex flex-col items-center gap-1 w-16 text-brass active">
+                    <div class="w-12 h-12 rounded-full border-2 border-brass/30 flex items-center justify-center bg-gradient-to-b from-[#4A332C] to-[#2e1d18] shadow-inner-pressed group-[.active]:border-brass group-[.active]:bg-gradient-to-b group-[.active]:from-[#5D4037] group-[.active]:to-[#4A332C] group-[.active]:shadow-none transition-all relative">
+                        <i class="fas fa-compass text-xl opacity-50 group-[.active]:opacity-100 group-[.active]:text-brass group-[.active]:drop-shadow-[0_0_5px_rgba(200,159,93,0.8)] transition-all"></i>
+                    </div>
+                    <span class="text-[9px] font-mono tracking-widest opacity-50 group-[.active]:opacity-100 uppercase">Gallery</span>
+                </button>
+
+                <!-- Nav Item 2: Relic -->
+                <button onclick="switchTab('relic', this)" class="nav-btn group flex flex-col items-center gap-1 w-16 text-shale">
+                    <div class="w-12 h-12 rounded-full border-2 border-shale/10 flex items-center justify-center bg-gradient-to-b from-[#4A332C] to-[#2e1d18] shadow-inner-pressed transition-all relative">
+                        <i class="fas fa-eye text-xl opacity-50 group-hover:opacity-80 transition-all"></i>
+                    </div>
+                    <span class="text-[9px] font-mono tracking-widest opacity-50 uppercase">Relic</span>
+                </button>
+
+                <!-- Nav Item 3: Guide -->
+                <button onclick="switchTab('guide', this)" class="nav-btn group flex flex-col items-center gap-1 w-16 text-shale">
+                    <div class="w-12 h-12 rounded-full border-2 border-shale/10 flex items-center justify-center bg-gradient-to-b from-[#4A332C] to-[#2e1d18] shadow-inner-pressed transition-all relative">
+                        <i class="fas fa-scroll text-xl opacity-50 group-hover:opacity-80 transition-all"></i>
+                    </div>
+                    <span class="text-[9px] font-mono tracking-widest opacity-50 uppercase">Guide</span>
+                </button>
+
+                <!-- Nav Item 4: Settings -->
+                <button onclick="switchTab('settings', this)" class="nav-btn group flex flex-col items-center gap-1 w-16 text-shale">
+                    <div class="w-12 h-12 rounded-full border-2 border-shale/10 flex items-center justify-center bg-gradient-to-b from-[#4A332C] to-[#2e1d18] shadow-inner-pressed transition-all relative">
+                        <i class="fas fa-cogs text-xl opacity-50 group-hover:opacity-80 transition-all"></i>
+                    </div>
+                    <span class="text-[9px] font-mono tracking-widest opacity-50 uppercase">Workshop</span>
+                </button>
+            </nav>
+
+            <!-- Home Indicator -->
+            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-50 pointer-events-none"></div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Logic
+        function switchTab(viewId, btn) {
+            // Hide all sections
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected section
+            const target = document.getElementById('view-' + viewId);
+            target.classList.remove('hidden');
+            
+            // Reset Nav Styles
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('active', 'text-brass');
+                b.classList.add('text-shale');
+                const iconContainer = b.querySelector('div');
+                iconContainer.classList.remove('border-brass', 'group-[.active]:shadow-none');
+                iconContainer.classList.add('border-shale/10', 'shadow-inner-pressed');
+                const icon = b.querySelector('i');
+                icon.classList.remove('text-brass', 'drop-shadow-[0_0_5px_rgba(200,159,93,0.8)]');
+            });
+
+            // Set Active Nav Style
+            btn.classList.add('active', 'text-brass');
+            btn.classList.remove('text-shale');
+            const activeContainer = btn.querySelector('div');
+            activeContainer.classList.remove('border-shale/10', 'shadow-inner-pressed');
+            activeContainer.classList.add('border-brass', 'bg-gradient-to-b', 'from-[#5D4037]', 'to-[#4A332C]');
+            const activeIcon = btn.querySelector('i');
+            activeIcon.classList.add('text-brass', 'drop-shadow-[0_0_5px_rgba(200,159,93,0.8)]');
+        }
+
+        // Slider Logic
+        const sliderInput = document.getElementById('interaction-slider');
+        const beforeImage = document.getElementById('before-image');
+        const sliderHandle = document.getElementById('slider-handle');
+
+        sliderInput.addEventListener('input', function(e) {
+            const val = e.target.value;
+            beforeImage.style.width = val + '%';
+            sliderHandle.style.left = val + '%';
+        });
+
+        // Stamp Animation Logic
+        function stampPass() {
+            const btn = document.getElementById('stamp-btn');
+            const stamp = document.getElementById('restored-stamp');
+            
+            btn.style.display = 'none';
+            stamp.classList.remove('hidden');
+            stamp.classList.add('stamp-animation');
+            
+            // Play sound effect placeholder
+            console.log("*CLUNK* Stamp applied");
+        }
+
+        function startRestoration() {
+            const btn = document.querySelector('button[onclick="startRestoration()"]');
+            const icon = btn.querySelector('.fa-magic');
+            const text = btn.querySelector('span:last-child');
+            
+            icon.classList.add('animate-spin');
+            text.innerText = "POLISHING LENS...";
+            
+            setTimeout(() => {
+                icon.classList.remove('animate-spin');
+                text.innerText = "RESTORATION COMPLETE";
+                btn.classList.add('bg-teal', 'text-white');
+                // Auto move slider to 0 to show full restored image
+                let val = 50;
+                const interval = setInterval(() => {
+                    val--;
+                    beforeImage.style.width = val + '%';
+                    sliderHandle.style.left = val + '%';
+                    if(val <= 0) clearInterval(interval);
+                }, 10);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
