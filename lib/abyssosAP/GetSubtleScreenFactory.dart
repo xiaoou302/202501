@@ -1,0 +1,155 @@
+class GetSemanticStrengthDelegate {
+  final String itemId;
+  final String name;
+  final String type;
+  final int coinAmount;
+  final String price;
+  final String description;
+  final String locale;
+  final String category;
+
+  const GetSemanticStrengthDelegate({
+    required this.itemId,
+    required this.name,
+    required this.type,
+    required this.coinAmount,
+    required this.price,
+    required this.description,
+    required this.locale,
+    required this.category,
+  });
+}
+
+const List<GetSemanticStrengthDelegate> shopInventory =
+    <GetSemanticStrengthDelegate>[
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10000',
+        name: 'glim Package',
+        type: 'basic',
+        coinAmount: 200,
+        price: '0.99',
+        description: 'glim Package',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10001',
+        name: 'glim Package 1',
+        type: 'basic',
+        coinAmount: 500,
+        price: '4.99',
+        description: 'glim Package 1',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10002',
+        name: 'glim Package 2',
+        type: 'basic',
+        coinAmount: 1200,
+        price: '9.99',
+        description: 'glim Package 2',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10003',
+        name: 'glim Package 3',
+        type: 'basic',
+        coinAmount: 2500,
+        price: '19.99',
+        description: 'glim Package 3',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10004',
+        name: 'glim Package 4',
+        type: 'basic',
+        coinAmount: 7000,
+        price: '49.99',
+        description: 'glim Package 4',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10005',
+        name: 'glim Package 5',
+        type: 'basic',
+        coinAmount: 15000,
+        price: '99.99',
+        description: 'glim Package 5',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10006',
+        name: 'glim Package 1 (Big Off)',
+        type: 'basic',
+        coinAmount: 500,
+        price: '1.99',
+        description: 'glim Package 1 (Big Off)',
+        locale: 'en_US',
+        category: 'promotion',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10007',
+        name: 'glim Package 2 (Big Off)',
+        type: 'basic',
+        coinAmount: 1200,
+        price: '4.99',
+        description: 'glim Package 2 (Big Off)',
+        locale: 'en_US',
+        category: 'promotion',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10008',
+        name: 'glim Package 3 (Big Off)',
+        type: 'basic',
+        coinAmount: 2500,
+        price: '11.99',
+        description: 'glim Package 3 (Big Off)',
+        locale: 'en_US',
+        category: 'promotion',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10009',
+        name: 'glim Package 4 (Big Off)',
+        type: 'basic',
+        coinAmount: 7000,
+        price: '34.99',
+        description: 'glim Package 4 (Big Off)',
+        locale: 'en_US',
+        category: 'promotion',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10013',
+        name: 'glim Package 5 (Big Off)',
+        type: 'basic',
+        coinAmount: 15000,
+        price: '79.99',
+        description: 'glim Package 5 (Big Off)',
+        locale: 'en_US',
+        category: 'promotion',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10011',
+        name: 'glim Small Package',
+        type: 'basic',
+        coinAmount: 200,
+        price: '3.99',
+        description: 'glim Small Package',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+      GetSemanticStrengthDelegate(
+        itemId: 'glim10012',
+        name: 'glim Big Package',
+        type: 'basic',
+        coinAmount: 350,
+        price: '6.99',
+        description: 'glim Big Package',
+        locale: 'en_US',
+        category: 'basic',
+      ),
+    ];

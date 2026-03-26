@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glim - Professional Aquascaping Console</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#080A0C',
+                        teal: '#0E1C22',
+                        trench: '#1C3038',
+                        flora: '#00E676',
+                        alien: '#B388FF',
+                        aqua: '#18FFFF',
+                        starlight: '#F0FDFB',
+                        moss: '#85A3A6',
+                        warn: '#FFAB00',
+                        danger: '#FF1744',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow-flora': '0 0 15px rgba(0, 230, 118, 0.4)',
+                        'glow-alien': '0 0 15px rgba(179, 136, 255, 0.4)',
+                        'glow-aqua': '0 0 15px rgba(24, 255, 255, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050608;
+            color: #F0FDFB;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #1C3038; border-radius: 10px; }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        @keyframes wave-shift {
+            0% { transform: translateX(0) scaleY(1); }
+            50% { transform: translateX(-2%) scaleY(1.05); }
+            100% { transform: translateX(0) scaleY(1); }
+        }
+        .animate-wave { animation: wave-shift 8s ease-in-out infinite; }
+
+        @keyframes scan-line {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .animate-scan { animation: scan-line 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+        /* Phone Shell Settings */
+        .iphone-shell {
+            width: 393px;
+            height: 852px;
+            border-radius: 55px;
+            border: 12px solid #1a1a1a;
+            box-shadow: 0 0 0 2px #333, 0 25px 50px -12px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+            background-color: var(--color-bg-void, #080A0C);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 35px;
+            background-color: #000;
+            border-radius: 20px;
+            z-index: 100;
+        }
+
+        .status-bar {
+            height: 54px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 90;
+            position: relative;
+            color: #F0FDFB;
+        }
+
+        .glass-panel {
+            background: rgba(14, 28, 34, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(133, 163, 166, 0.15);
+        }
+
+        .bottom-home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background-color: rgba(240, 253, 251, 0.8);
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        /* Gradient slider */
+        input[type=range].density-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range].density-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #00E676, #FFAB00, #FF1744);
+            border-radius: 4px;
+        }
+        input[type=range].density-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #F0FDFB;
+            border: 2px solid #0E1C22;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="p-8 md:p-12 min-h-screen">
+
+    <!-- Header for Presentation -->
+    <header class="mb-12 text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl font-bold mb-4 tracking-tight flex justify-center items-center gap-3">
+            <span class="text-aqua"><i class="fa-solid fa-water"></i></span>
+            Glim 
+            <span class="text-sm px-3 py-1 bg-teal border border-trench rounded-full text-moss font-normal align-middle ml-2">App Prototype</span>
+        </h1>
+        <p class="text-moss text-lg">Professional Aquascaping & Micro-Ecological Control Suite</p>
+    </header>
+
+    <!-- Canvas for Screens -->
+    <div class="flex flex-wrap justify-center gap-10 pb-20 items-start">
+
+        <!-- ========================================== -->
+        <!-- SCREEN 1: THE ABYSSAL DASHBOARD            -->
+        <!-- ========================================== -->
+        <div class="iphone-shell bg-gradient-to-b from-teal/30 to-void">
+            <div class="dynamic-island"></div>
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>10:39</span>
+                <div class="flex gap-2 text-xs">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-full"></i>
+                </div>
+            </div>
+
+            <div class="px-6 flex-1 overflow-y-auto no-scrollbar pb-24 relative z-10">
+                <!-- Header -->
+                <div class="mt-4 mb-8">
+                    <h2 class="text-moss text-sm font-medium mb-1 tracking-wider uppercase">Active Ecosystem</h2>
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-2xl font-bold text-starlight">Iwagumi 90P</h1>
+                        <div class="w-10 h-10 rounded-full bg-trench flex items-center justify-center border border-aqua/30 shadow-glow-aqua">
+                            <i class="fa-solid fa-droplet text-aqua"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Living Water Graph -->
+                <div class="mb-8 relative h-40 flex items-end rounded-3xl overflow-hidden glass-panel p-4">
+                    <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&q=80')] bg-cover mix-blend-overlay"></div>
+                    <div class="absolute top-4 left-4 z-10">
+                        <p class="text-xs text-moss">Stability Index</p>
+                        <p class="text-3xl font-light text-flora tracking-tighter">98.4<span class="text-lg text-moss">%</span></p>
+                    </div>
+                    <!-- SVG Wave -->
+                    <svg class="w-full h-24 animate-wave text-aqua opacity-80 drop-shadow-[0_0_8px_rgba(24,255,255,0.5)] z-10" viewBox="0 0 300 100" preserveAspectRatio="none">
+                        <path d="M0,50 C60,10 120,90 180,50 C240,10 300,50 300,50 L300,100 L0,100 Z" fill="none" stroke="currentColor" stroke-width="3"></path>
+                        <path d="M0,60 C70,30 140,80 200,60 C260,40 300,70 300,70" fill="none" stroke="currentColor" stroke-width="1" class="opacity-50"></path>
+                    </svg>
+                </div>
+
+                <!-- Orbital Data Rings (Grid) -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <!-- pH -->
+                    <div class="glass-panel p-4 rounded-2xl flex flex-col items-start relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-flora/10 rounded-full blur-xl"></div>
+                        <p class="text-moss text-xs mb-2"><i class="fa-solid fa-vial mr-1"></i> pH Level</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-bold text-starlight">6.5</span>
+                            <span class="text-xs text-flora"><i class="fa-solid fa-caret-down"></i> 0.1</span>
+                        </div>
+                        <div class="w-full h-1 bg-void mt-3 rounded-full overflow-hidden">
+                            <div class="w-2/3 h-full bg-flora rounded-full shadow-glow-flora"></div>
+                        </div>
+                    </div>
+                    <!-- Temp -->
+                    <div class="glass-panel p-4 rounded-2xl flex flex-col items-start">
+                        <p class="text-moss text-xs mb-2"><i class="fa-solid fa-temperature-half mr-1"></i> Temp</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-bold text-starlight">24.5</span>
+                            <span class="text-xs text-moss">°C</span>
+                        </div>
+                        <div class="w-full h-1 bg-void mt-3 rounded-full overflow-hidden">
+                            <div class="w-1/2 h-full bg-starlight rounded-full"></div>
+                        </div>
+                    </div>
+                    <!-- CO2 -->
+                    <div class="glass-panel p-4 rounded-2xl flex flex-col items-start relative border-alien/30">
+                        <p class="text-moss text-xs mb-2"><i class="fa-solid fa-wind mr-1"></i> CO₂ Inj.</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-bold text-alien shadow-[0_0_10px_rgba(179,136,255,0.2)]">3.0</span>
+                            <span class="text-xs text-moss">bps</span>
+                        </div>
+                        <p class="text-[10px] text-alien mt-2 bg-alien/10 px-2 py-0.5 rounded-md">Optimal Range</p>
+                    </div>
+                    <!-- TDS -->
+                    <div class="glass-panel p-4 rounded-2xl flex flex-col items-start border-warn/30">
+                        <p class="text-moss text-xs mb-2"><i class="fa-solid fa-cubes-stacked mr-1"></i> TDS</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-bold text-warn">185</span>
+                            <span class="text-xs text-moss">ppm</span>
+                        </div>
+                        <p class="text-[10px] text-warn mt-2 bg-warn/10 px-2 py-0.5 rounded-md"><i class="fa-solid fa-circle-exclamation mr-1"></i> Rising</p>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button class="w-full bg-trench border border-flora/50 text-flora font-medium py-4 rounded-2xl flex justify-center items-center gap-3 transition-transform active:scale-95 hover:bg-teal hover:shadow-glow-flora group">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-flora opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-flora"></span>
+                    </span>
+                    Run Weekly Maintenance
+                </button>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="absolute bottom-0 w-full h-24 glass-panel border-t-0 rounded-b-[55px] px-8 flex justify-between items-center pb-6">
+                <div class="flex flex-col items-center gap-1 text-flora">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <span class="text-[10px] font-medium">Dash</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-starlight transition-colors">
+                    <i class="fa-regular fa-compass text-xl"></i>
+                    <span class="text-[10px] font-medium">Gallery</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-alien transition-colors relative">
+                    <i class="fa-solid fa-stethoscope text-xl"></i>
+                    <div class="absolute -top-1 -right-1 w-2 h-2 bg-warn rounded-full"></div>
+                    <span class="text-[10px] font-medium">Diag</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-aqua transition-colors">
+                    <i class="fa-solid fa-flask text-xl"></i>
+                    <span class="text-[10px] font-medium">Dose</span>
+                </div>
+            </div>
+            
+            <div class="bottom-home-indicator"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SCREEN 2: THE GALLERY DECK                 -->
+        <!-- ========================================== -->
+        <div class="iphone-shell bg-void relative">
+            <!-- Background Full Bleed Image -->
+            <img src="https://images.unsplash.com/photo-1543350109-17366184a4c1?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Aquascape">
+            
+            <!-- Top Dark Gradient Overlay -->
+            <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-void/90 to-transparent z-10"></div>
+            <!-- Bottom Dark Gradient Overlay -->
+            <div class="absolute bottom-0 left-0 w-full h-80 bg-gradient-to-t from-void via-void/80 to-transparent z-10"></div>
+
+            <div class="dynamic-island"></div>
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>10:39</span>
+                <div class="flex gap-2 text-xs">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-full"></i>
+                </div>
+            </div>
+
+            <div class="relative z-20 flex-1 flex flex-col justify-between px-6 pb-28 pt-4">
+                <!-- Header -->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-starlight font-medium tracking-widest text-sm drop-shadow-md">AQUASCAPE GALLERY</h2>
+                    <button class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-starlight">
+                        <i class="fa-solid fa-filter text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Content Bottom -->
+                <div class="animate-float">
+                    <div class="glass-panel rounded-3xl p-5 border border-white/10 shadow-2xl relative overflow-hidden">
+                        <!-- Blur flair behind card text -->
+                        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-flora/20 rounded-full blur-3xl"></div>
+                        
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h1 class="text-2xl font-bold text-starlight mb-1">Crimson Forest</h1>
+                                <p class="text-sm text-moss">by <span class="text-aqua">Takashi A.</span></p>
+                            </div>
+                            <div class="bg-void/60 px-3 py-1 rounded-full border border-trench">
+                                <span class="text-xs text-warn"><i class="fa-solid fa-star mr-1"></i>9.8</span>
+                            </div>
+                        </div>
+
+                        <!-- Ecological DNA -->
+                        <div class="flex gap-2 mt-4 mb-6 flex-wrap">
+                            <span class="bg-trench/80 px-3 py-1.5 rounded-lg text-xs font-mono text-starlight border border-white/5">90P Tank</span>
+                            <span class="bg-trench/80 px-3 py-1.5 rounded-lg text-xs font-mono text-starlight border border-white/5">RGB 8hrs</span>
+                            <span class="bg-trench/80 px-3 py-1.5 rounded-lg text-xs font-mono text-starlight border border-white/5">CO₂ 3bps</span>
+                            <span class="bg-trench/80 px-3 py-1.5 rounded-lg text-xs font-mono text-starlight border border-white/5">Dutch Style</span>
+                        </div>
+
+                        <!-- Action -->
+                        <button class="w-full bg-flora text-void font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-glow-flora">
+                            <i class="fa-solid fa-dna"></i> Clone Ecosystem
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="absolute bottom-0 w-full h-24 glass-panel border-t-0 rounded-b-[55px] px-8 flex justify-between items-center pb-6 z-30">
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-flora transition-colors">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <span class="text-[10px] font-medium">Dash</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-starlight">
+                    <i class="fa-solid fa-compass text-xl drop-shadow-[0_0_8px_rgba(240,253,251,0.5)]"></i>
+                    <span class="text-[10px] font-medium">Gallery</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-alien transition-colors">
+                    <i class="fa-solid fa-stethoscope text-xl"></i>
+                    <span class="text-[10px] font-medium">Diag</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-aqua transition-colors">
+                    <i class="fa-solid fa-flask text-xl"></i>
+                    <span class="text-[10px] font-medium">Dose</span>
+                </div>
+            </div>
+            
+            <div class="bottom-home-indicator"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SCREEN 3: DIAGNOSTIC LAB (AI VET)          -->
+        <!-- ========================================== -->
+        <div class="iphone-shell bg-void">
+            <div class="dynamic-island"></div>
+            <div class="status-bar">
+                <span>10:39</span>
+                <div class="flex gap-2 text-xs">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-full"></i>
+                </div>
+            </div>
+
+            <div class="px-6 flex-1 overflow-y-auto no-scrollbar pb-24 relative z-10 pt-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-starlight"><i class="fa-solid fa-microchip text-alien mr-2"></i>AI Botanist</h1>
+                    <button class="text-moss"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                </div>
+
+                <!-- Viewfinder -->
+                <div class="w-full h-64 rounded-3xl bg-trench relative overflow-hidden mb-6 border-2 border-alien/20">
+                    <img src="https://images.unsplash.com/photo-1620054230283-0599c9288e0a?q=80&w=800&auto=format&fit=crop" alt="Sick Plant" class="w-full h-full object-cover opacity-60 mix-blend-luminosity">
+                    
+                    <!-- Viewfinder Corners -->
+                    <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-alien"></div>
+                    <div class="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-alien"></div>
+                    <div class="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-alien"></div>
+                    <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-alien"></div>
+
+                    <!-- Scan Line -->
+                    <div class="absolute left-0 w-full h-[2px] bg-alien shadow-glow-alien animate-scan z-10"></div>
+                    
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="bg-void/80 backdrop-blur text-alien text-xs px-3 py-1 rounded-full border border-alien/30 font-mono tracking-wider">
+                            ANALYZING TISSUE...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnosis Card -->
+                <div class="glass-panel border-alien/40 rounded-3xl p-5 shadow-[0_4px_30px_rgba(179,136,255,0.1)]">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-semibold text-starlight">Iron Deficiency <span class="text-sm font-normal text-moss block mt-1">(Chlorosis)</span></h2>
+                        <div class="bg-alien/20 text-alien px-2 py-1 rounded-md text-xs font-mono font-bold">94% MATCH</div>
+                    </div>
+                    
+                    <p class="text-sm text-moss mb-5 leading-relaxed">
+                        Yellowing of new leaves with veins remaining green. Indicates a lack of bio-available Iron (Fe) in the water column.
+                    </p>
+
+                    <!-- Mini Log Chart (Fake) -->
+                    <div class="mb-5 bg-void rounded-xl p-3 border border-trench">
+                        <p class="text-[10px] text-moss mb-2 uppercase tracking-wide">Recent Fe Log</p>
+                        <div class="flex items-end gap-2 h-12">
+                            <div class="w-1/6 bg-aqua/50 h-[80%] rounded-t-sm"></div>
+                            <div class="w-1/6 bg-aqua/50 h-[70%] rounded-t-sm"></div>
+                            <div class="w-1/6 bg-warn/80 h-[40%] rounded-t-sm"></div>
+                            <div class="w-1/6 bg-danger/80 h-[20%] rounded-t-sm"></div>
+                            <div class="w-1/6 bg-danger shadow-glow-alien h-[10%] rounded-t-sm relative">
+                                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 text-[10px] text-danger font-bold">0.05</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-alien/10 border border-alien text-alien font-medium py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-alien hover:text-void transition-colors">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Treatment Plan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="absolute bottom-0 w-full h-24 glass-panel border-t-0 rounded-b-[55px] px-8 flex justify-between items-center pb-6">
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-flora transition-colors">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <span class="text-[10px] font-medium">Dash</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-starlight transition-colors">
+                    <i class="fa-regular fa-compass text-xl"></i>
+                    <span class="text-[10px] font-medium">Gallery</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-alien">
+                    <i class="fa-solid fa-stethoscope text-xl drop-shadow-glow-alien"></i>
+                    <span class="text-[10px] font-medium">Diag</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-aqua transition-colors">
+                    <i class="fa-solid fa-flask text-xl"></i>
+                    <span class="text-[10px] font-medium">Dose</span>
+                </div>
+            </div>
+            
+            <div class="bottom-home-indicator"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SCREEN 4: TITRATION ENGINE                 -->
+        <!-- ========================================== -->
+        <div class="iphone-shell bg-void">
+            <div class="dynamic-island"></div>
+            <div class="status-bar">
+                <span>10:39</span>
+                <div class="flex gap-2 text-xs">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-full"></i>
+                </div>
+            </div>
+
+            <div class="px-6 flex-1 overflow-y-auto no-scrollbar pb-24 relative z-10 pt-4">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-starlight"><i class="fa-solid fa-flask text-aqua mr-2"></i>Titration Engine</h1>
+                    <p class="text-xs text-moss mt-1">Precision Nutrient Calculator</p>
+                </div>
+
+                <!-- 3D Tank Wireframe -->
+                <div class="relative w-full h-48 border border-aqua/30 bg-teal/30 rounded-lg mb-6 flex items-end overflow-hidden glass-panel">
+                    <!-- Grid background -->
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(24,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(24,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                    
+                    <!-- Hardscape block -->
+                    <div class="absolute bottom-0 left-10 w-32 h-20 bg-trench/80 border-t border-r border-moss/50 rounded-tr-[40px]"></div>
+                    
+                    <!-- Water Level (Animated) -->
+                    <div class="w-full h-[80%] bg-gradient-to-t from-aqua/20 to-transparent border-t border-aqua/50 relative">
+                        <div class="absolute top-2 left-4 bg-void/80 px-2 py-1 rounded text-[10px] text-aqua font-mono border border-aqua/20">
+                            NET VOL: 145L (Gross 182L)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="space-y-6 mb-8">
+                    <!-- Hardscape Input -->
+                    <div>
+                        <div class="flex justify-between text-xs mb-2">
+                            <span class="text-moss">Hardscape Displacement</span>
+                            <span class="text-starlight font-mono">15%</span>
+                        </div>
+                        <div class="h-2 w-full bg-void rounded-full overflow-hidden border border-trench">
+                            <div class="h-full bg-moss w-[15%]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Density Slider -->
+                    <div>
+                        <div class="flex justify-between text-xs mb-3">
+                            <span class="text-moss">Flora Density Demand</span>
+                            <span class="text-warn font-mono">High</span>
+                        </div>
+                        <input type="range" min="1" max="100" value="75" class="density-slider">
+                        <div class="flex justify-between text-[10px] text-moss/60 mt-2">
+                            <span>Sparse</span>
+                            <span>Moderate</span>
+                            <span>Dense</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dosing Prescription -->
+                <div class="border border-dashed border-aqua/40 bg-aqua/5 rounded-2xl p-5">
+                    <h3 class="text-aqua text-xs font-mono mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-file-prescription"></i> DOSING PRESCRIPTION
+                    </h3>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between items-center bg-void/50 p-3 rounded-lg border border-white/5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-trench flex items-center justify-center text-starlight font-bold text-xs">NPK</div>
+                                <span class="text-sm text-starlight">Macros (ADA)</span>
+                            </div>
+                            <span class="text-lg font-mono text-flora">+12.5<span class="text-xs text-moss ml-1">ml</span></span>
+                        </div>
+                        <div class="flex justify-between items-center bg-void/50 p-3 rounded-lg border border-white/5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-alien/20 flex items-center justify-center text-alien font-bold text-xs">Fe</div>
+                                <span class="text-sm text-starlight">Iron (Seachem)</span>
+                            </div>
+                            <span class="text-lg font-mono text-alien">+4.0<span class="text-xs text-moss ml-1">ml</span></span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-aqua text-void font-bold py-3.5 rounded-xl flex justify-center items-center gap-2 shadow-glow-aqua active:scale-95 transition-transform">
+                        <i class="fa-solid fa-clock"></i> Dispense & Schedule
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="absolute bottom-0 w-full h-24 glass-panel border-t-0 rounded-b-[55px] px-8 flex justify-between items-center pb-6">
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-flora transition-colors">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <span class="text-[10px] font-medium">Dash</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-starlight transition-colors">
+                    <i class="fa-regular fa-compass text-xl"></i>
+                    <span class="text-[10px] font-medium">Gallery</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-moss hover:text-alien transition-colors">
+                    <i class="fa-solid fa-stethoscope text-xl"></i>
+                    <span class="text-[10px] font-medium">Diag</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 text-aqua">
+                    <i class="fa-solid fa-flask text-xl drop-shadow-glow-aqua"></i>
+                    <span class="text-[10px] font-medium">Dose</span>
+                </div>
+            </div>
+            
+            <div class="bottom-home-indicator"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>
