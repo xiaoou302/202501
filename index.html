@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PetShape · UI Prototype</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome 6 for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Custom styles & color palette -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --peach-fuzz: #E88D74;
+      --morning-peach: #F7D5CC;
+      --seafoam: #6BBFB8;
+      --misty-foam: #D2F0EC;
+      --warm-sun: #F6CB7D;
+      --oat-milk: #FCF7F3;
+      --cream-white: #FFFFFF;
+      --cocoa-brown: #4A3C38;
+      --chestnut-gray: #8E827C;
+      --warm-gauze: #EDE3DC;
+      --mint-grass: #9CC5A3;
+      --apricot-preserve: #F0B187;
+      --deep-cocoa: #352C28;
+      --dark-surface: #4B3E39;
+      --light-oat: #F0E4DA;
+    }
+    body {
+      background-color: #F5F0EB; /* slightly warmer than oat milk for page background */
+      font-family: 'Nunito', 'Quicksand', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2.5rem;
+      padding: 2.5rem 1.5rem;
+    }
+    /* iPhone 15 Pro frame */
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background: var(--oat-milk);
+      border-radius: 48px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.5);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    /* status bar mock */
+    .status-bar {
+      background: transparent;
+      padding: 12px 24px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--cocoa-brown);
+      background-color: var(--oat-milk);
+      z-index: 10;
+    }
+    .status-bar .time {
+      font-weight: 600;
+    }
+    .status-icons i {
+      margin-left: 4px;
+      font-size: 12px;
+    }
+    /* bottom tab bar */
+    .tab-bar {
+      background: var(--cream-white);
+      border-top: 1px solid var(--warm-gauze);
+      padding: 8px 16px 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.85);
+      border-radius: 32px 32px 0 0;
+      margin-top: auto;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--chestnut-gray);
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .tab-item.active {
+      color: var(--peach-fuzz);
+    }
+    .tab-item i {
+      font-size: 20px;
+    }
+    /* central scan button elevated */
+    .scan-center {
+      background: var(--peach-fuzz);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(232,141,116,0.5);
+      margin-top: -16px;
+    }
+    .scan-center i {
+      font-size: 24px;
+    }
+    /* card styles */
+    .card {
+      background: var(--cream-white);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border: 1px solid var(--warm-gauze);
+    }
+    .contour-highlight {
+      position: absolute;
+      background: rgba(232,141,116,0.25);
+      border: 2px dashed var(--peach-fuzz);
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+    button.primary {
+      background: var(--peach-fuzz);
+      color: white;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-weight: 600;
+      border: none;
+      box-shadow: 0 4px 12px rgba(232,141,116,0.3);
+      transition: all 0.2s;
+    }
+    button.secondary {
+      background: transparent;
+      border: 1.5px solid var(--seafoam);
+      color: var(--seafoam);
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 600;
+    }
+    .tag {
+      background: var(--morning-peach);
+      color: var(--peach-fuzz);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .visual-label {
+      background: var(--misty-foam);
+      color: var(--seafoam);
+      border-radius: 12px;
+      padding: 6px 14px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    /* polaroid style */
+    .polaroid {
+      background: white;
+      padding: 12px 12px 30px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      transform: rotate(0.5deg);
+    }
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--seafoam);
+      border-radius: 10px;
+      margin-left: -5px;
+    }
+    /* game light dot */
+    .light-dot {
+      background: var(--warm-sun);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 0 30px var(--warm-sun);
+      filter: blur(2px);
+    }
+    /* hide scrollbar for inner scrolling */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-[#F5F0EB]">
+  
+  <!-- ========== SCAN SCREEN ========== -->
+  <div class="phone-frame">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="status-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </span>
+    </div>
+    
+    <!-- Scan Content -->
+    <div class="flex-1 flex flex-col px-4 pt-2 overflow-y-auto hide-scrollbar">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-xl font-bold" style="color: var(--cocoa-brown);">Body Scan</h2>
+        <i class="fas fa-question-circle text-lg" style="color: var(--chestnut-gray);"></i>
+      </div>
+      
+      <!-- Instructional card -->
+      <div class="card flex items-center gap-3 mb-4 p-3" style="background: var(--cream-white); border: 1px solid var(--seafoam);">
+        <i class="fas fa-camera-retro text-2xl" style="color: var(--seafoam);"></i>
+        <span style="color: var(--cocoa-brown); font-size: 14px; font-weight: 500;">Take a top-view & side-view photo of your pet</span>
+      </div>
+      
+      <!-- Photo with contour overlay (simulated top-view dog) -->
+      <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4" style="background: #EAE2D7;">
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=450&fit=crop" 
+             alt="Pet top view" class="w-full h-full object-cover opacity-90">
+        <!-- Contour lines overlay (SVG) -->
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+          <!-- waistline curve (seafoam) -->
+          <path d="M100,180 Q200,140 300,180" stroke="#6BBFB8" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+          <!-- belly arc (side simulation placed here) -->
+          <path d="M120,210 Q200,240 280,210" stroke="#6BBFB8" stroke-width="2.5" fill="none" stroke-dasharray="6,4" opacity="0.9"/>
+          <!-- ribcage boundary -->
+          <path d="M80,150 Q200,130 320,150" stroke="#6BBFB8" stroke-width="2" fill="none" stroke-dasharray="4,4" opacity="0.8"/>
+          <!-- highlight zone (waist area) -->
+          <ellipse cx="200" cy="160" rx="60" ry="30" fill="rgba(232,141,116,0.25)" stroke="#E88D74" stroke-width="2" stroke-dasharray="5,3" filter="url(#blurHighlight)"/>
+          <defs>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+              <feMerge>
+                <feMergeNode in="offsetBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="blurHighlight">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+          </defs>
+        </svg>
+        <!-- draggable control point (Warm Sun) -->
+        <div class="absolute" style="top: 140px; left: 185px; width: 16px; height: 16px; background: #F6CB7D; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);"></div>
+        <div class="absolute" style="top: 175px; left: 280px; width: 12px; height: 12px; background: #F6CB7D; border-radius: 50%; border: 2px solid white;"></div>
+      </div>
+      
+      <!-- Visual labels -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="visual-label"><i class="fas fa-ruler-combined mr-1"></i> Waist curve: defined</span>
+        <span class="visual-label"><i class="fas fa-arrows-alt-v mr-1"></i> Belly: tucked</span>
+        <span class="visual-label"><i class="fas fa-border-all mr-1"></i> Ribs: smooth contour</span>
+      </div>
+      
+      <!-- Save button -->
+      <button class="primary w-full py-3 text-base mt-2">Save scan & go to journal</button>
+      <p class="text-xs text-center mt-2" style="color: var(--chestnut-gray);">You can adjust control points for accuracy</p>
+    </div>
+    
+    <!-- Bottom Tab Bar (Scan active) -->
+    <div class="tab-bar">
+      <div class="tab-item active"><i class="fas fa-camera"></i><span>Scan</span></div>
+      <div class="tab-item"><i class="fas fa-book-open"></i><span>Journal</span></div>
+      <div class="tab-item scan-center"><i class="fas fa-camera-retro"></i></div>
+      <div class="tab-item"><i class="fas fa-star"></i><span>Play</span></div>
+      <div class="tab-item"><i class="fas fa-heart"></i><span>Moments</span></div>
+    </div>
+  </div>
+
+  <!-- ========== JOURNAL SCREEN ========== -->
+  <div class="phone-frame">
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="status-icons"><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+    </div>
+    
+    <div class="flex-1 flex flex-col px-4 pt-2 overflow-y-auto hide-scrollbar">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold" style="color: var(--cocoa-brown);">Body Diary</h2>
+        <i class="fas fa-chart-line text-lg" style="color: var(--seafoam);"></i>
+      </div>
+      
+      <!-- Timeline card 1 -->
+      <div class="card mb-4 relative">
+        <div class="flex gap-3">
+          <div class="w-20 h-20 rounded-xl overflow-hidden relative flex-shrink-0">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop" class="w-full h-full object-cover">
+            <div class="absolute inset-0 border-2 border-[#6BBFB8] rounded-xl opacity-70"></div>
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between items-start">
+              <span class="font-semibold" style="color: var(--cocoa-brown);">May 18, 2026</span>
+              <span class="tag">walk 30 min</span>
+            </div>
+            <div class="mt-2 text-sm" style="color: var(--chestnut-gray);">
+              <input type="text" value="4.2 kg" class="bg-transparent border-b border-dashed border-[#EDE3DC] w-16 text-sm font-medium" style="color: var(--cocoa-brown);">
+              <span class="ml-2">• salmon recipe 80g</span>
+            </div>
+            <div class="flex gap-2 mt-2">
+              <span class="tag" style="background: #F7D5CC;">🐾 play</span>
+              <span class="tag" style="background: #D2F0EC; color: #6BBFB8;">🍗 meal</span>
+            </div>
+          </div>
+        </div>
+        <!-- long press hint -->
+        <div class="absolute right-3 bottom-2 text-xs" style="color: var(--chestnut-gray);"><i class="far fa-hand-pointer"></i> hold to export</div>
+      </div>
+      
+      <!-- Timeline card 2 -->
+      <div class="card mb-4">
+        <div class="flex gap-3">
+          <div class="w-20 h-20 rounded-xl overflow-hidden relative flex-shrink-0">
+            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200&h=200&fit=crop" class="w-full h-full object-cover">
+            <div class="absolute inset-0 border-2 border-[#6BBFB8] rounded-xl opacity-70"></div>
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="font-semibold" style="color: var(--cocoa-brown);">May 16, 2026</span>
+              <span class="tag">snuffle 15 min</span>
+            </div>
+            <div class="mt-2 text-sm" style="color: var(--chestnut-gray);">
+              <span>4.3 kg • chicken & rice</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Chart toggle area -->
+      <div class="card p-3 mb-4">
+        <div class="flex items-center gap-3 text-sm font-medium" style="color: var(--cocoa-brown);">
+          <span><i class="far fa-chart-bar mr-1"></i> Trends</span>
+          <label class="flex items-center gap-1 text-xs"><input type="checkbox" checked class="accent-[#E88D74]"> weight</label>
+          <label class="flex items-center gap-1 text-xs"><input type="checkbox" class="accent-[#6BBFB8]"> waist score</label>
+          <label class="flex items-center gap-1 text-xs"><input type="checkbox" class="accent-[#F6CB7D]"> activity</label>
+        </div>
+        <!-- simple chart representation -->
+        <div class="h-16 mt-2 flex items-end gap-2">
+          <div class="w-4 bg-[#E88D74] h-8 rounded-sm"></div>
+          <div class="w-4 bg-[#E88D74] h-9 rounded-sm"></div>
+          <div class="w-4 bg-[#E88D74] h-7 rounded-sm"></div>
+          <div class="w-4 bg-[#6BBFB8] h-6 rounded-sm"></div>
+          <div class="w-4 bg-[#6BBFB8] h-8 rounded-sm"></div>
+          <div class="w-4 bg-[#F6CB7D] h-10 rounded-sm"></div>
+        </div>
+        <p class="text-xs mt-1" style="color: var(--chestnut-gray);">pure data, no warnings</p>
+      </div>
+    </div>
+    
+    <div class="tab-bar">
+      <div class="tab-item"><i class="fas fa-camera"></i><span>Scan</span></div>
+      <div class="tab-item active"><i class="fas fa-book-open"></i><span>Journal</span></div>
+      <div class="tab-item scan-center"><i class="fas fa-camera-retro"></i></div>
+      <div class="tab-item"><i class="fas fa-star"></i><span>Play</span></div>
+      <div class="tab-item"><i class="fas fa-heart"></i><span>Moments</span></div>
+    </div>
+  </div>
+
+  <!-- ========== PLAY SCREEN ========== -->
+  <div class="phone-frame">
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="status-icons"><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+    </div>
+    
+    <div class="flex-1 flex flex-col px-4 pt-2 overflow-y-auto hide-scrollbar">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--cocoa-brown);">Play Library</h2>
+      
+      <!-- Game card: Light Chaser -->
+      <div class="card mb-4 flex items-center gap-4" style="background: linear-gradient(135deg, #352C28 0%, #4B3E39 100%); color: white;">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: rgba(246,203,125,0.2);">
+          <div class="light-dot w-10 h-10"></div>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">Light Chaser</h3>
+          <p class="text-xs opacity-80">chase the glowing dot on screen</p>
+        </div>
+        <i class="fas fa-chevron-right" style="color: var(--warm-sun);"></i>
+      </div>
+      
+      <!-- Snuffle Mat DIY -->
+      <div class="card mb-4 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: #F7D5CC;">
+          <i class="fas fa-cut text-2xl" style="color: var(--peach-fuzz);"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg" style="color: var(--cocoa-brown);">Snuffle Mat DIY</h3>
+          <p class="text-xs" style="color: var(--chestnut-gray);">step-by-step guide + timer</p>
+        </div>
+        <i class="fas fa-chevron-right" style="color: var(--peach-fuzz);"></i>
+      </div>
+      
+      <!-- Indoor Treasure Hunt -->
+      <div class="card mb-4 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: #D2F0EC;">
+          <i class="fas fa-search text-2xl" style="color: var(--seafoam);"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg" style="color: var(--cocoa-brown);">Treasure Hunt</h3>
+          <p class="text-xs" style="color: var(--chestnut-gray);">hide treats & start timer</p>
+        </div>
+        <i class="fas fa-chevron-right" style="color: var(--seafoam);"></i>
+      </div>
+      
+      <!-- Quick timer demo -->
+      <div class="card p-4 text-center">
+        <p class="text-sm font-medium" style="color: var(--cocoa-brown);">last session: <span class="font-bold" style="color: var(--seafoam);">12:34</span></p>
+        <div class="flex justify-center gap-3 mt-2">
+          <span class="tag">5 min</span><span class="tag">10 min</span><span class="tag">15 min</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-bar">
+      <div class="tab-item"><i class="fas fa-camera"></i><span>Scan</span></div>
+      <div class="tab-item"><i class="fas fa-book-open"></i><span>Journal</span></div>
+      <div class="tab-item scan-center"><i class="fas fa-camera-retro"></i></div>
+      <div class="tab-item active"><i class="fas fa-star"></i><span>Play</span></div>
+      <div class="tab-item"><i class="fas fa-heart"></i><span>Moments</span></div>
+    </div>
+  </div>
+
+  <!-- ========== MOMENTS SCREEN ========== -->
+  <div class="phone-frame">
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="status-icons"><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+    </div>
+    
+    <div class="flex-1 flex flex-col px-4 pt-2 overflow-y-auto hide-scrollbar">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--cocoa-brown);">Cherished Moments</h2>
+      
+      <!-- Polaroid timeline -->
+      <div class="relative pl-6 border-l-2 border-[#6BBFB8]">
+        <div class="polaroid mb-6 relative">
+          <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=300&fit=crop" class="w-full h-36 object-cover rounded">
+          <div class="mt-2 flex items-center justify-between">
+            <span class="text-sm font-semibold" style="color: var(--cocoa-brown);">🏃‍♂️ park zoomies</span>
+            <span class="text-xs" style="color: var(--chestnut-gray);">May 18</span>
+          </div>
+          <div class="absolute -left-10 top-10 w-4 h-4 bg-[#6BBFB8] rounded-full border-2 border-white"></div>
+        </div>
+        <div class="polaroid mb-6 relative">
+          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=300&fit=crop" class="w-full h-36 object-cover rounded">
+          <div class="mt-2 flex items-center justify-between">
+            <span class="text-sm font-semibold" style="color: var(--cocoa-brown);">🍗 dinner time</span>
+            <span class="text-xs" style="color: var(--chestnut-gray);">May 16</span>
+          </div>
+          <div class="absolute -left-10 top-10 w-4 h-4 bg-[#E88D74] rounded-full border-2 border-white"></div>
+        </div>
+      </div>
+      
+      <!-- Today's Cute generator -->
+      <div class="card flex items-center gap-3 mb-4 cursor-pointer" style="background: linear-gradient(135deg, #F7D5CC, #D2F0EC);">
+        <i class="fas fa-random text-2xl" style="color: var(--peach-fuzz);"></i>
+        <div>
+          <span class="font-bold" style="color: var(--cocoa-brown);">Today's Cute ✨</span>
+          <p class="text-xs" style="color: var(--chestnut-gray);">generate a funny meme</p>
+        </div>
+      </div>
+      
+      <!-- Similarity & GIF -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="card text-center p-3">
+          <i class="fas fa-paw text-2xl mb-1" style="color: var(--warm-sun);"></i>
+          <p class="text-xs font-medium" style="color: var(--cocoa-brown);">Similarity</p>
+        </div>
+        <div class="card text-center p-3">
+          <i class="fas fa-film text-2xl mb-1" style="color: var(--seafoam);"></i>
+          <p class="text-xs font-medium" style="color: var(--cocoa-brown);">GIF maker</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-bar">
+      <div class="tab-item"><i class="fas fa-camera"></i><span>Scan</span></div>
+      <div class="tab-item"><i class="fas fa-book-open"></i><span>Journal</span></div>
+      <div class="tab-item scan-center"><i class="fas fa-camera-retro"></i></div>
+      <div class="tab-item"><i class="fas fa-star"></i><span>Play</span></div>
+      <div class="tab-item active"><i class="fas fa-heart"></i><span>Moments</span></div>
+    </div>
+  </div>
+
+</body>
+</html>
